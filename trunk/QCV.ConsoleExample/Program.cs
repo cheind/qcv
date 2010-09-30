@@ -26,7 +26,7 @@ namespace QCV.ConsoleExample {
       bool list_examples = false;
 
       OptionSet opts = new OptionSet() {
-        { "l|list=", "list all examples.", v => list_examples = v != null},
+        { "l|list", "list all examples.", v => list_examples = v != null},
         { "e|example=", "{EXAMPLE} class to execute", v => example_name = v},
         { "h|help", "print this help message", v => help = v != null }
       };
