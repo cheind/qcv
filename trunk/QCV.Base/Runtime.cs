@@ -32,7 +32,7 @@ namespace QCV.Base {
     public void Run(FilterList filters, double frame_rate, int wait) {
       Pipeline p = new Pipeline();
       p.FrameRate = frame_rate;
-      p.Play(filters, this, wait);
+      p.Run(filters, this, wait);
     }
   }
 }
