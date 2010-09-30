@@ -27,6 +27,7 @@ namespace QCV.Sources {
   /// Represents a camera source
   /// </summary>
   [Serializable]
+  [Base.Addins.Addin]
   public class Video : Source, ISerializable {
 
     private string _path = null;
@@ -88,10 +89,10 @@ namespace QCV.Sources {
       }
     }
 
-    public bool Frame(QCV.Base.Bundle bundle) {
+    public override void Execute(QCV.Base.Bundle bundle, CancelEventArgs e) {
       Image<Bgr, byte> i = this.Frame();
       bundle.Store(this.Name, i);
-      return i != null;
+      e.Cancel = (i == null);
     }
   }
 }

@@ -10,7 +10,7 @@ using System.ComponentModel;
 namespace QCV.Base {
   
   [Serializable]
-  public class FilterList : List<Action<Bundle, CancelEventArgs>> {
+  public class FilterList : List<IFilter> {
 
     public static FilterList Load(string path) {
       FilterList p = null;

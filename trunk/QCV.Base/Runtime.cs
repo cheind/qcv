@@ -22,7 +22,21 @@ namespace QCV.Base {
     public Runtime() {
       _bw.WorkerSupportsCancellation = true;
       _bw.DoWork += new DoWorkEventHandler(DoWork);
+      _bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(RunWorkerCompleted);
     }
+
+    void RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
+      if (RuntimeFinishedEvent != null) {
+        RuntimeFinishedEvent(this, new EventArgs());
+      }
+    }
+
+    public delegate void RuntimeFinishedEventHandler(object sender, EventArgs e);
+    public event RuntimeFinishedEventHandler RuntimeFinishedEvent;
+
+    public delegate void ShowImageRequestEventHandler(object sender, string id, Emgu.CV.Image<Bgr, byte> image);
+    public event ShowImageRequestEventHandler ShowImageRequestEvent;
+
 
     public double FPS {
       get {
@@ -33,6 +47,10 @@ namespace QCV.Base {
       }
     }
 
+    public bool Running {
+      get { return _bw.IsBusy; }
+    }
+
     /// <summary>
     /// Start frame grabbing asynchronously
     /// </summary>
@@ -40,22 +58,23 @@ namespace QCV.Base {
       if (!_bw.IsBusy) {
         _stopped.Reset();
         _bw.RunWorkerAsync(s);
-        if (wait == 0) {
+        if (wait == -1) {
           _stopped.WaitOne();
         } else if (wait > 0) {
           if (!_stopped.WaitOne(wait * 1000))
-            this.Stop();
+            this.Stop(true);
         }
       }
     }
 
-    public void Stop() {
+    public void Stop(bool wait) {
       _bw.CancelAsync();
-      _stopped.WaitOne();
+      if (wait)
+        _stopped.WaitOne();
     }
 
     protected override void DisposeManaged() {
-      this.Stop();
+      this.Stop(true);
     }
 
     void DoWork(object sender, DoWorkEventArgs e) {
@@ -70,8 +89,8 @@ namespace QCV.Base {
         b.Store("filterlist", filterlist);
         b.Store("runtime", this);
 
-        foreach (Action<Bundle, CancelEventArgs> f in filterlist) {
-          f(b, ev);
+        foreach (IFilter f in filterlist) {
+          f.Execute(b, ev);
           if (ev.Cancel) {
             stop = true;
             break;
@@ -84,14 +103,19 @@ namespace QCV.Base {
       _stopped.Set();
     }
 
-    public void Show(string id, Image<Bgr, byte> image, bool copy_image) {
+    public void Show(string id, Emgu.CV.Image<Bgr, byte> image) {
+      if (ShowImageRequestEvent != null) {
+        ShowImageRequestEvent(this, id, image);
+      }
+
+      /*
       if (!_known_windows.Contains(id)) {
         _known_windows.Add(id);
         CvInvoke.cvNamedWindow(id);
       }
 
       CvInvoke.cvShowImage(id, copy_image ? image.Copy() : image);
-      CvInvoke.cvWaitKey(1);
+      CvInvoke.cvWaitKey(1);*/
     }
   };
 }

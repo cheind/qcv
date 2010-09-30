@@ -15,7 +15,7 @@ using System.Runtime.Serialization;
 namespace QCV.Sources {
 
   [Serializable]
-  public abstract class Source : QCV.Base.Resource {
+  public abstract class Source : QCV.Base.Resource, QCV.Base.IFilter {
     private IntrinsicCameraParameters _intrinsics = null;
     private string _name;
     private bool _loop;
@@ -42,6 +42,6 @@ namespace QCV.Sources {
       set { _intrinsics = value; }
     }
 
-
+    public abstract void Execute(QCV.Base.Bundle b, System.ComponentModel.CancelEventArgs e);
   }
 }
