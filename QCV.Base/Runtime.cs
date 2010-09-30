@@ -10,10 +10,13 @@ using Emgu.CV;
 using Emgu.CV.Structure;
 using System.ComponentModel;
 using System.Threading;
+using log4net;
 
 namespace QCV.Base {
 
   public class Runtime : Resource {
+    private static readonly ILog _logger = LogManager.GetLogger(typeof(Runtime));
+    private Exception _last_error;
     private BackgroundWorker _bw = new BackgroundWorker();
     private FixedTimeStep _fts = new FixedTimeStep();
     private ManualResetEvent _stopped = new ManualResetEvent(false);
@@ -25,6 +28,8 @@ namespace QCV.Base {
     }
 
     void RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
+      _last_error = e.Result as Exception;
+      _stopped.Set();
       if (RuntimeFinishedEvent != null) {
         RuntimeFinishedEvent(this, new EventArgs());
       }
@@ -46,12 +51,21 @@ namespace QCV.Base {
       get { return _bw.IsBusy; }
     }
 
+    public bool HasError {
+      get { return _last_error != null; }
+    }
+
+    public Exception Error {
+      get { return _last_error; }
+    }
+
     /// <summary>
     /// Start frame grabbing asynchronously
     /// </summary>
     public void Run(FilterList s, IInteraction ii, int wait) {
       if (!_bw.IsBusy) {
         _stopped.Reset();
+        _last_error = null;
         _bw.RunWorkerAsync(new object[]{s,ii});
         if (wait == -1) {
           _stopped.WaitOne();
@@ -80,25 +94,27 @@ namespace QCV.Base {
 
       bool stop = bw.CancellationPending;
       CancelEventArgs ev = new CancelEventArgs(false);
-      while (!stop) {
-        _fts.UpdateAndWait();
-        Bundle b = new Bundle();
-        b.Store("filterlist", filterlist);
-        b.Store("runtime", this);
-        b.Store("interaction", ii);
+      try {
+        while (!stop) {
+          _fts.UpdateAndWait();
+          Bundle b = new Bundle();
+          b.Store("filterlist", filterlist);
+          b.Store("runtime", this);
+          b.Store("interaction", ii);
 
-        foreach (IFilter f in filterlist) {
-          f.Execute(b, ev);
-          if (ev.Cancel) {
-            stop = true;
-            break;
+          foreach (IFilter f in filterlist) {
+            f.Execute(b, ev);
+            if (ev.Cancel) {
+              stop = true;
+              break;
+            }
           }
+          stop |= bw.CancellationPending;
         }
-        stop |= bw.CancellationPending;
+      } catch (Exception ex) {
+        _logger.Error(String.Format("Filter raised error: {0}", ex.Message));
+        e.Result = ex;
       }
-
-      e.Cancel = true;
-      _stopped.Set();
     }
   };
 }
