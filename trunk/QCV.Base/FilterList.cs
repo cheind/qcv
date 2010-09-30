@@ -5,11 +5,12 @@ using System.Text;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.ComponentModel;
 
 namespace QCV.Base {
   
   [Serializable]
-  public class FilterList : List<Func<Bundle, bool>> {
+  public class FilterList : List<Action<Bundle, CancelEventArgs>> {
 
     public static FilterList Load(string path) {
       FilterList p = null;

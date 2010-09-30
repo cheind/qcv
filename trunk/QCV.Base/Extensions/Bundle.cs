@@ -12,8 +12,8 @@ namespace QCV.Base.Extensions {
       return b.Fetch<Image<Bgr, byte>>(key);
     }
 
-    public static IRuntime FetchRuntime(this Bundle b) {
-      return b.Fetch<IRuntime>("runtime");
+    public static Runtime FetchRuntime(this Bundle b) {
+      return b.Fetch<Runtime>("runtime");
     }
 
     public static FilterList FetchPlaylist(this Bundle b) {

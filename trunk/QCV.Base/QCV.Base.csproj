@@ -87,7 +87,6 @@
     <Compile Include="Extensions\Bundle.cs" />
     <Compile Include="FixedTimeStep.cs" />
     <Compile Include="FilterList.cs" />
-    <Compile Include="Pipeline.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource.cs" />
     <Compile Include="Runtime.cs" />
