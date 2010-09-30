@@ -29,10 +29,17 @@ namespace QCV.Base.Addins {
     /// </summary>
     public static void Discover() {
       foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies()) {
-        foreach (Type t in a.GetExportedTypes()) {
-          if (IsAddin(t)) {
-            _addins.Add(new AddinInfo(t));
-          }
+        AddinStore.Discover(a);
+      }
+    }
+
+    /// <summary>
+    /// Discovers add-ins from current set of loaded assemblies
+    /// </summary>
+    public static void Discover(Assembly a) {
+      foreach (Type t in a.GetExportedTypes()) {
+        if (IsAddin(t)) {
+          _addins.Add(new AddinInfo(t));
         }
       }
     }

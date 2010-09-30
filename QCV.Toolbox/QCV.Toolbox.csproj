@@ -81,6 +81,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShowFPS.cs" />
+    <Compile Include="ShowImage.cs" />
     <Compile Include="Sources\Camera.cs" />
     <Compile Include="Sources\ImageList.cs" />
     <Compile Include="Sources\Source.cs" />

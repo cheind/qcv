@@ -7,9 +7,10 @@ using Emgu.CV;
 using Emgu.CV.Structure;
 using QCV.Base.Extensions;
 
-namespace QCV {
+namespace QCV.Toolbox {
 
   [Base.Addins.Addin]
+  [Serializable]
   public class ShowImage : Base.IFilter {
 
     private string _bag_name = "source";

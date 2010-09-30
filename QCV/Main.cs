@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using System.IO;
 using Emgu.CV;
 using Emgu.CV.Structure;
+using NDesk.Options;
+using System.CodeDom.Compiler;
 
 namespace QCV {
   public partial class Main : Form {
@@ -19,6 +21,7 @@ namespace QCV {
 
     public Main() {
       InitializeComponent();
+      
       this.AddOwnedForm(_props);
 
       Base.Addins.AddinStore.Discover();
@@ -28,11 +31,67 @@ namespace QCV {
       _props.FormClosing += new FormClosingEventHandler(AnyFormClosing);
       _runtime.RuntimeFinishedEvent += new QCV.Base.Runtime.RuntimeFinishedEventHandler(RuntimeFinishedEvent);
       _runtime.ShowImageRequestEvent += new QCV.Base.Runtime.ShowImageRequestEventHandler(ShowImageRequestEvent);
-      _filters = CreateFilterList(Environment.GetCommandLineArgs());
+
+      // Parse command line
+      CommandLine cl = new CommandLine();
+      CommandLine.CLIArgs args = cl.Args;
+
+      if (args.script_paths.Count > 0) {
+        CompilerResults results = Base.Scripting.Compile(
+          args.script_paths,
+          new string[] { 
+            "mscorlib.dll",
+            "System.dll", 
+            "System.Drawing.dll", 
+            "QCV.Base.dll",
+            "QCV.Toolbox.dll", 
+            "Emgu.CV.dll", 
+            "Emgu.Util.dll"}
+        );
+        
+        foreach (CompilerError err in results.Errors)
+				{
+          System.Console.WriteLine(err.ErrorText + err.Line.ToString() + err.FileName);
+				}
+
+        if (results.Errors.Count == 0) {
+          Base.Addins.AddinStore.Discover(results.CompiledAssembly);
+        }
+      }
+
+
+      _filters.AddRange(LoadAndCombineFilterLists(args.load_paths));
+      _filters.AddRange(CreateFilterListFromNames(args.filter_names));
+
+      _lb_status.Text = String.Format("Created {0} filters", _filters.Count);
       PreprocessFilter(_filters);
       _props.Filters = _filters;
+
+      if (args.immediate_execute) {
+        RunOrStopRuntime();
+      }
     }
 
+    private Base.FilterList LoadAndCombineFilterLists(List<string> list) {
+      Base.FilterList fl = new QCV.Base.FilterList();
+      foreach (string path in list) {
+        fl.AddRange(Base.FilterList.Load(path));
+      }
+      return fl;
+    }
+
+
+    class CLIArgs {
+      public bool help = false;
+      public bool immediate_execute = false;
+      public List<string> filter_names = new List<string>();
+      public List<string> load_paths = new List<string>();
+      public List<string> script_paths = new List<string>();
+    };
+
+
+    
+    
     void ShowImageRequestEvent(object sender, string id, Image<Bgr, byte> image) {
       Image<Bgr, byte> copy = image.Copy();
       this.Invoke(new MethodInvoker(delegate {
@@ -53,12 +112,12 @@ namespace QCV {
     }
 
     private void PreprocessFilter(QCV.Base.FilterList filters) {
-      ShowFPS fps = filters.FirstOrDefault(
-        (f) => { return f is ShowFPS; }
-      ) as ShowFPS;
+      Toolbox.ShowFPS fps = filters.FirstOrDefault(
+        (f) => { return f is Toolbox.ShowFPS; }
+      ) as Toolbox.ShowFPS;
 
       if (fps != null) {
-        fps.FPSUpdateEvent += new ShowFPS.FPSUpdateEventHandler(FPSUpdateEvent);
+        fps.FPSUpdateEvent += new Toolbox.ShowFPS.FPSUpdateEventHandler(FPSUpdateEvent);
       }
     }
 
@@ -91,7 +150,7 @@ namespace QCV {
       }
     }
 
-    Base.FilterList CreateFilterList(IEnumerable<string> filter_names) {
+    Base.FilterList CreateFilterListFromNames(IEnumerable<string> filter_names) {
       Base.FilterList fl = new QCV.Base.FilterList();
       foreach (string filter_name in filter_names) {
         IEnumerable<Base.Addins.AddinInfo> e = Base.Addins.AddinStore.FindAddins(
@@ -111,12 +170,16 @@ namespace QCV {
     }
 
     private void _btn_play_Click(object sender, EventArgs e) {
+      RunOrStopRuntime();
+    }
+
+    private void RunOrStopRuntime() {
       if (_runtime.Running) {
         _runtime.Stop(false);
       } else {
         _btn_run.Text = "Stop";
         _lb_status.BackColor = Color.LightGreen;
-        
+
         _runtime.Run(_filters, 0);
       }
     }
@@ -125,6 +188,17 @@ namespace QCV {
       if (_runtime.Running) {
         _runtime.Stop(false);
         e.Cancel = true;
+      }
+    }
+
+    private void _mnu_help_arguments_Click(object sender, EventArgs e) {
+      CommandLine cl = new CommandLine();
+      MessageBox.Show(cl.GetHelp(), "qcv.exe", MessageBoxButtons.OK, MessageBoxIcon.Information);
+    }
+
+    private void _mnu_save_filter_list_Click(object sender, EventArgs e) {
+      if (this.saveFileDialog1.ShowDialog() == DialogResult.OK) {
+        Base.FilterList.Save(this.saveFileDialog1.FileName, _filters);
       }
     }
   }
