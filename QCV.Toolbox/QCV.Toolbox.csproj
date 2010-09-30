@@ -8,8 +8,8 @@
     <ProjectGuid>{96DFF61A-A988-4F7D-977D-634EFC2E6BF1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>QCV.Sources</RootNamespace>
-    <AssemblyName>QCV.Sources</AssemblyName>
+    <RootNamespace>QCV.Toolbox</RootNamespace>
+    <AssemblyName>QCV.Toolbox</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -80,11 +80,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Camera.cs" />
-    <Compile Include="ImageList.cs" />
-    <Compile Include="Video.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Source.cs" />
+    <Compile Include="Sources\Camera.cs" />
+    <Compile Include="Sources\ImageList.cs" />
+    <Compile Include="Sources\Source.cs" />
+    <Compile Include="Sources\Video.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QCV.Base\QCV.Base.csproj">

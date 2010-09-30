@@ -23,7 +23,7 @@ using System.Xml.Serialization;
 using System.Runtime.Serialization;
 using System.Drawing;
 
-namespace QCV.Sources {
+namespace QCV.Toolbox.Sources {
   
   /// <summary>
   /// Represents a camera source

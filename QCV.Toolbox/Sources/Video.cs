@@ -21,7 +21,7 @@ using Emgu.CV.Structure;
 using System.IO;
 using System.Runtime.Serialization;
 
-namespace QCV.Sources {
+namespace QCV.Toolbox.Sources {
   
   /// <summary>
   /// Represents a camera source

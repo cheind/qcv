@@ -75,7 +75,7 @@ namespace QCV {
     void AnyFormClosing(object sender, FormClosingEventArgs e) {
       if (e.CloseReason != CloseReason.FormOwnerClosing) {
         e.Cancel = true;
-        _props.Hide();
+        (sender as Form).Hide();
       }
     }
 
