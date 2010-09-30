@@ -16,7 +16,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
-namespace RDV.Base {
+namespace QCV.Base {
 
   /// <summary>
   /// A resource is a disposable object. 

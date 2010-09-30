@@ -17,7 +17,7 @@ using System.Text;
 using System.ComponentModel;
 using System.Globalization;
 
-namespace RDV.Base.Addins {
+namespace QCV.Base.Addins {
 
   /// <summary>
   /// Used as TypeConverter in a PropertyGrid to populate drop-down with
@@ -29,7 +29,7 @@ namespace RDV.Base.Addins {
   public class ReflectionTypeConverter : ExpandableObjectConverter {
 
     private Type _type_of;
-    private Dictionary<string, RDV.Base.Addins.AddinInfo> _addin_dict;
+    private Dictionary<string, QCV.Base.Addins.AddinInfo> _addin_dict;
 
     /// <summary>
     /// Initialize with type to reflect

@@ -17,7 +17,7 @@ using System.Text;
 using System.ComponentModel;
 using System.Threading;
 
-namespace RDV.Base {
+namespace QCV.Base {
 
   public class Pipeline : Resource {
     private BackgroundWorker _bw = new BackgroundWorker();

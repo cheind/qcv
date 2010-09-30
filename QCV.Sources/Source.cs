@@ -12,24 +12,16 @@ using System.Text;
 using Emgu.CV;
 using System.Runtime.Serialization;
 
-namespace RDV.Sources {
+namespace QCV.Sources {
 
   [Serializable]
-  public abstract class Source : RDV.Base.Resource, ISerializable {
+  public abstract class Source : QCV.Base.Resource {
     private IntrinsicCameraParameters _intrinsics = null;
     private string _name;
     private bool _loop;
 
     public Source() {
       this.Name = "source";
-    }
-
-    public Source(SerializationInfo info, StreamingContext context) {
-      _intrinsics = (IntrinsicCameraParameters)info.GetValue("intrinsics", typeof(IntrinsicCameraParameters));
-    }
-
-    public virtual void GetObjectData(SerializationInfo info, StreamingContext context) {
-      info.AddValue("intrinsics", _intrinsics);
     }
 
     public string Name {

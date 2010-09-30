@@ -8,8 +8,8 @@
     <ProjectGuid>{3B845908-9A44-4907-81C2-BCA17C462A19}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RDV.Base</RootNamespace>
-    <AssemblyName>RDV.Base</AssemblyName>
+    <RootNamespace>QCV.Base</RootNamespace>
+    <AssemblyName>QCV.Base</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
