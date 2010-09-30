@@ -19,11 +19,14 @@ namespace QCV.ConsoleExample {
       Camera c = new Camera();
       c.Name = "input 1";
       c.DeviceIndex = 0;
+      c.FrameWidth = 320;
 
       Video v = new Video();
       v.Name = "input 2";
       v.VideoPath = "Wildlife.wmv";
       v.Loop = true;
+      c.FrameWidth = 320;
+      c.FrameHeight = 200;
 
       ImageList img = new ImageList();
       img.Name = "input 3";
@@ -36,32 +39,31 @@ namespace QCV.ConsoleExample {
 
       FilterList f = new FilterList();
       //f.Add(c.Frame);
-      f.Add(v.Frame);
+      f.Add(v);
       //f.Add(img.Frame);
       /*f.Add(
         (b) => {
           System.Console.WriteLine("Frame received");
           return true;
         }
-      );
-      f.Add(
-        (b) => {
+      );*/
+      /*f.Add(
+        (b, ev) => {
           Image<Bgr, byte> i = b.FetchImage("input 1");
-          
-          IRuntime r = b.FetchRuntime();
+          Runtime r = b.FetchRuntime();
           r.Show("a", i, true);
-          return true;
         }
       );*/
       f.Add(
-        (b) => {
-          Image<Bgr, byte> i = b.FetchImage("input 2");
-          
-          IRuntime r = b.FetchRuntime();
-          r.Show("b", i, false);
-          return true;
-        }
+        new AnonymousFilter(
+          (b, ev) => {
+            Image<Bgr, byte> i = b.FetchImage("input 2");
+            Runtime r = b.FetchRuntime();
+            r.Show("b", i, false);
+          }
+        )
       );
+      /*
       f.Add(
         (b) => {
           watch.Stop();
@@ -83,8 +85,9 @@ namespace QCV.ConsoleExample {
       );*/
 
 
-      IRuntime runtime = new ConsoleRuntime();
-      runtime.Run(f, 20.0, 80);
+      Runtime runtime = new Runtime();
+      runtime.FPS = 25.0;
+      runtime.Run(f, 10);
 
     }
   }

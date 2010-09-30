@@ -7,11 +7,13 @@ using System.Runtime.Serialization;
 
 using Emgu.CV;
 using Emgu.CV.Structure;
+using System.ComponentModel;
 
 
 namespace QCV.Sources {
 
   [Serializable]
+  [Base.Addins.Addin]
   public class ImageList : Source, ISerializable {
     private string _directory_path = null;
     private string _pattern = null;
@@ -67,10 +69,10 @@ namespace QCV.Sources {
       }
     }
 
-    public bool Frame(QCV.Base.Bundle bundle) {
+    public override void Execute(QCV.Base.Bundle bundle, CancelEventArgs e) {
       Image<Bgr, byte> i = this.Frame();
       bundle.Store(this.Name, i);
-      return i != null;
+      e.Cancel = (i == null);
     }
 
     void UpdateFiles() {
