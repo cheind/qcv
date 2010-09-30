@@ -18,6 +18,7 @@ namespace QCV.Base {
   /// <remarks>If the cycle-time is not eaten up by code, FixedTimeStep will block the calling thread to
   /// stick with the cylce time. The wait time is calculated by taking the average calculation of the 
   /// last 50 invocations.</remarks>
+  [Serializable]
   public class FixedTimeStep {
     private Stopwatch _sw;
     private double _fps;
