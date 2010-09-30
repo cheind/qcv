@@ -14,7 +14,6 @@ using System.Threading;
 namespace QCV.Base {
 
   public class Runtime : Resource {
-    private HashSet<string> _known_windows = new HashSet<string>();
     private BackgroundWorker _bw = new BackgroundWorker();
     private FixedTimeStep _fts = new FixedTimeStep();
     private ManualResetEvent _stopped = new ManualResetEvent(false);
@@ -34,10 +33,6 @@ namespace QCV.Base {
     public delegate void RuntimeFinishedEventHandler(object sender, EventArgs e);
     public event RuntimeFinishedEventHandler RuntimeFinishedEvent;
 
-    public delegate void ShowImageRequestEventHandler(object sender, string id, Emgu.CV.Image<Bgr, byte> image);
-    public event ShowImageRequestEventHandler ShowImageRequestEvent;
-
-
     public double FPS {
       get {
         return _fts.FPS;
@@ -54,10 +49,10 @@ namespace QCV.Base {
     /// <summary>
     /// Start frame grabbing asynchronously
     /// </summary>
-    public void Run(FilterList s, int wait) {
+    public void Run(FilterList s, IInteraction ii, int wait) {
       if (!_bw.IsBusy) {
         _stopped.Reset();
-        _bw.RunWorkerAsync(s);
+        _bw.RunWorkerAsync(new object[]{s,ii});
         if (wait == -1) {
           _stopped.WaitOne();
         } else if (wait > 0) {
@@ -79,7 +74,9 @@ namespace QCV.Base {
 
     void DoWork(object sender, DoWorkEventArgs e) {
       BackgroundWorker bw = sender as BackgroundWorker;
-      FilterList filterlist = e.Argument as FilterList;
+      object[] args = e.Argument as object[];
+      FilterList filterlist = args[0] as FilterList;
+      IInteraction ii = args[1] as IInteraction;
 
       bool stop = bw.CancellationPending;
       CancelEventArgs ev = new CancelEventArgs(false);
@@ -88,6 +85,7 @@ namespace QCV.Base {
         Bundle b = new Bundle();
         b.Store("filterlist", filterlist);
         b.Store("runtime", this);
+        b.Store("interaction", ii);
 
         foreach (IFilter f in filterlist) {
           f.Execute(b, ev);
@@ -101,21 +99,6 @@ namespace QCV.Base {
 
       e.Cancel = true;
       _stopped.Set();
-    }
-
-    public void Show(string id, Emgu.CV.Image<Bgr, byte> image) {
-      if (ShowImageRequestEvent != null) {
-        ShowImageRequestEvent(this, id, image);
-      }
-
-      /*
-      if (!_known_windows.Contains(id)) {
-        _known_windows.Add(id);
-        CvInvoke.cvNamedWindow(id);
-      }
-
-      CvInvoke.cvShowImage(id, copy_image ? image.Copy() : image);
-      CvInvoke.cvWaitKey(1);*/
     }
   };
 }

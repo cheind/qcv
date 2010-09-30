@@ -22,7 +22,7 @@ namespace QCV {
 
     public CommandLine() {
      _opts = new OptionSet() {
-        { "a|assembly-path", "additional {PATH} to load as assembly", var => _args.assembly_paths.Add(var)},
+        { "a|assembly-path", "{PATH} containing additional filters", var => _args.assembly_paths.Add(var)},
         { "l|load=", "the {PATH} to load the filter list from", v => _args.load_paths.Add(v) },
         { "s|script=", "the {PATH} to a csharp script", v => _args.script_paths.Add(v) },
         { "r|run", "immediately start executing", v => _args.immediate_execute = v != null },

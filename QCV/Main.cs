@@ -13,7 +13,7 @@ using NDesk.Options;
 using System.CodeDom.Compiler;
 
 namespace QCV {
-  public partial class Main : Form {
+  public partial class Main : Form, QCV.Base.IInteraction {
     private Dictionary<string, ShowImageForm> _show_forms = new Dictionary<string, ShowImageForm>();
     private Base.FilterList _filters = new QCV.Base.FilterList();
     private Base.Runtime _runtime = new QCV.Base.Runtime();
@@ -30,7 +30,6 @@ namespace QCV {
 
       _props.FormClosing += new FormClosingEventHandler(AnyFormClosing);
       _runtime.RuntimeFinishedEvent += new QCV.Base.Runtime.RuntimeFinishedEventHandler(RuntimeFinishedEvent);
-      _runtime.ShowImageRequestEvent += new QCV.Base.Runtime.ShowImageRequestEventHandler(ShowImageRequestEvent);
 
       // Parse command line
       CommandLine cl = new CommandLine();
@@ -78,37 +77,6 @@ namespace QCV {
         fl.AddRange(Base.FilterList.Load(path));
       }
       return fl;
-    }
-
-
-    class CLIArgs {
-      public bool help = false;
-      public bool immediate_execute = false;
-      public List<string> filter_names = new List<string>();
-      public List<string> load_paths = new List<string>();
-      public List<string> script_paths = new List<string>();
-    };
-
-
-    
-    
-    void ShowImageRequestEvent(object sender, string id, Image<Bgr, byte> image) {
-      Image<Bgr, byte> copy = image.Copy();
-      this.Invoke(new MethodInvoker(delegate {
-        ShowImageForm f = null;
-        if (!_show_forms.ContainsKey(id)) {
-          f = new ShowImageForm();
-          f.Text = id;
-          this.AddOwnedForm(f);
-          f.FormClosing += new FormClosingEventHandler(AnyFormClosing);
-          f.Show();
-          _show_forms.Add(id, f);
-        } else {
-          f = _show_forms[id];
-        }
-        Rectangle r = f.ClientRectangle;
-        f.Image = copy.Resize(r.Width, r.Height, Emgu.CV.CvEnum.INTER.CV_INTER_NN, true);
-      }));
     }
 
     private void PreprocessFilter(QCV.Base.FilterList filters) {
@@ -180,7 +148,7 @@ namespace QCV {
         _btn_run.Text = "Stop";
         _lb_status.BackColor = Color.LightGreen;
 
-        _runtime.Run(_filters, 0);
+        _runtime.Run(_filters, this, 0);
       }
     }
 
@@ -201,5 +169,28 @@ namespace QCV {
         Base.FilterList.Save(this.saveFileDialog1.FileName, _filters);
       }
     }
+
+    #region IInteraction Members
+
+    public void ShowImage(string id, Image<Bgr, byte> image) {
+      Image<Bgr, byte> copy = image.Copy();
+      this.Invoke(new MethodInvoker(delegate {
+        ShowImageForm f = null;
+        if (!_show_forms.ContainsKey(id)) {
+          f = new ShowImageForm();
+          f.Text = id;
+          this.AddOwnedForm(f);
+          f.FormClosing += new FormClosingEventHandler(AnyFormClosing);
+          f.Show();
+          _show_forms.Add(id, f);
+        } else {
+          f = _show_forms[id];
+        }
+        Rectangle r = f.ClientRectangle;
+        f.Image = copy.Resize(r.Width, r.Height, Emgu.CV.CvEnum.INTER.CV_INTER_NN, true);
+      }));
+    }
+
+    #endregion
   }
 }

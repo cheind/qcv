@@ -27,8 +27,8 @@ namespace QCV.Toolbox {
 
     public void Execute(QCV.Base.Bundle b, System.ComponentModel.CancelEventArgs e) {
       Image<Bgr, byte> i = b.FetchImage(_bag_name);
-      Base.Runtime r = b.FetchRuntime();
-      r.Show(_show_name, i);
+      Base.IInteraction ii = b.FetchInteraction();
+      ii.ShowImage(_show_name, i);
     }
   }
 }

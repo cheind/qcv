@@ -6,10 +6,11 @@ using System.Text;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using QCV.Base;
-using QCV.Sources;
+using QCV.Toolbox;
 using QCV.Base.Extensions;
 using System.Drawing;
 using System.Diagnostics;
+using QCV.Toolbox.Sources;
 
 namespace QCV.ConsoleExample {
   [Serializable]
@@ -28,66 +29,28 @@ namespace QCV.ConsoleExample {
       c.FrameWidth = 320;
       c.FrameHeight = 200;
 
-      ImageList img = new ImageList();
-      img.Name = "input 3";
-      img.DirectoryPath = ".";
-      img.FilePattern = "*.png";
-      img.Loop = true;
-
-      Stopwatch watch = new Stopwatch();
-      watch.Start();
-
       FilterList f = new FilterList();
-      //f.Add(c.Frame);
+      f.Add(c);
       f.Add(v);
-      //f.Add(img.Frame);
-      /*f.Add(
-        (b) => {
-          System.Console.WriteLine("Frame received");
-          return true;
-        }
-      );*/
-      /*f.Add(
-        (b, ev) => {
-          Image<Bgr, byte> i = b.FetchImage("input 1");
-          Runtime r = b.FetchRuntime();
-          r.Show("a", i, true);
-        }
-      );*/
+      f.Add(
+        new AnonymousFilter(
+          (b, ev) => {
+            Image<Bgr, byte> i = b.FetchImage("input 1");
+            b.FetchInteraction().ShowImage("a", i);
+        })
+      );
+
       f.Add(
         new AnonymousFilter(
           (b, ev) => {
             Image<Bgr, byte> i = b.FetchImage("input 2");
-            Runtime r = b.FetchRuntime();
-            r.Show("b", i, false);
-          }
-        )
+            b.FetchInteraction().ShowImage("b", i);
+          })
       );
-      /*
-      f.Add(
-        (b) => {
-          watch.Stop();
-          Console.Write("FPS {0} \r", 1.0 / watch.Elapsed.TotalSeconds);
-          watch.Reset();
-          watch.Start();
-          return true;
-        }
-      );
-      /*
-      f.Add(
-        (b) => {
-          Image<Bgr, byte> i = b.FetchImage("input 3");
-
-          IRuntime r = b.FetchRuntime();
-          r.Show("c", i, true);
-          return true;
-        }
-      );*/
-
 
       Runtime runtime = new Runtime();
       runtime.FPS = 25.0;
-      runtime.Run(f, 10);
+      runtime.Run(f, new ConsoleInteraction(), 10);
 
     }
   }
