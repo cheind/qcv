@@ -51,7 +51,7 @@ namespace QCV.Toolbox.Sources {
 
     public void GetObjectData(SerializationInfo info, StreamingContext context) {
       info.AddValue("device_index", _device_index);
-      info.AddValue("last_frame_size", new Size(this.FrameWidth, this.FrameHeight));
+      info.AddValue("frame_size", new Size(this.FrameWidth, this.FrameHeight));
     }
 
     public int DeviceIndex {

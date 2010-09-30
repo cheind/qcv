@@ -3,15 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using System.Runtime.Serialization;
 
-namespace QCV {
+namespace QCV.Toolbox {
 
   [Base.Addins.Addin]
-  public class ShowFPS : Base.IFilter {
+  [Serializable]
+  public class ShowFPS : Base.IFilter, ISerializable {
     private Stopwatch _watch = new Stopwatch();
 
     public delegate void FPSUpdateEventHandler(object sender, double fps);
     public event FPSUpdateEventHandler FPSUpdateEvent;
+
+    public ShowFPS() {
+    }
+
+    public ShowFPS(SerializationInfo info, StreamingContext context)
+    {
+      _watch = new Stopwatch();
+    }
 
     public void Execute(QCV.Base.Bundle b, System.ComponentModel.CancelEventArgs e) {
       if (FPSUpdateEvent != null) {
@@ -23,5 +33,7 @@ namespace QCV {
         _watch.Start();
       }
     }
+
+    public void GetObjectData(SerializationInfo info, StreamingContext context) {}
   }
 }
