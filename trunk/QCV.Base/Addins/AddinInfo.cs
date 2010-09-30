@@ -16,7 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 
-namespace RDV.Base.Addins {
+namespace QCV.Base.Addins {
 
   /// <summary>
   /// Info on an addin

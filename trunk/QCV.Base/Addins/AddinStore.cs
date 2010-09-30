@@ -19,7 +19,7 @@ using System.IO;
 //using log4net;
 using System.Reflection;
 
-namespace RDV.Base.Addins {
+namespace QCV.Base.Addins {
   public static class AddinStore {
     private static List<AddinInfo> _addins = new List<AddinInfo>();
     //private static readonly ILog _logger = LogManager.GetLogger(typeof(AddinStore));

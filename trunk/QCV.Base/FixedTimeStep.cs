@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 
-namespace RDV.Base {
+namespace QCV.Base {
 
   /// <summary>
   /// Provides methods to control the cylce time.

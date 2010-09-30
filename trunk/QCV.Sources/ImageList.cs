@@ -9,10 +9,10 @@ using Emgu.CV;
 using Emgu.CV.Structure;
 
 
-namespace RDV.Sources {
+namespace QCV.Sources {
 
   [Serializable]
-  public class ImageList : Source {
+  public class ImageList : Source, ISerializable {
     private string _directory_path = null;
     private string _pattern = null;
     private int _id = 0;
@@ -30,8 +30,7 @@ namespace RDV.Sources {
       this.FilePattern = pattern;
     }
 
-    public override void GetObjectData(SerializationInfo info, StreamingContext context) {
-      base.GetObjectData(info, context);
+    public void GetObjectData(SerializationInfo info, StreamingContext context) {
       info.AddValue("directory_path", _directory_path);
       info.AddValue("pattern", _pattern);
     }
@@ -68,7 +67,7 @@ namespace RDV.Sources {
       }
     }
 
-    public bool Frame(RDV.Base.Bundle bundle) {
+    public bool Frame(QCV.Base.Bundle bundle) {
       Image<Bgr, byte> i = this.Frame();
       bundle.Store(this.Name, i);
       return i != null;

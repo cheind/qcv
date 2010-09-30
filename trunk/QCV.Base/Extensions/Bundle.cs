@@ -6,7 +6,7 @@ using System.Text;
 using Emgu.CV;
 using Emgu.CV.Structure;
 
-namespace RDV.Base.Extensions {
+namespace QCV.Base.Extensions {
   public static class BundleExtensions {
     public static Image<Bgr, byte> FetchImage(this Bundle b, string key) {
       return b.Fetch<Image<Bgr, byte>>(key);

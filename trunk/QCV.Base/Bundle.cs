@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RDV.Base {
+namespace QCV.Base {
 
   /// <summary>
   /// Associative container where items are indexed through a string.

@@ -19,36 +19,34 @@ using System.ComponentModel;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using System.IO;
-using System.Xml.Serialization;
 using System.Runtime.Serialization;
 
-namespace RDV.Sources {
+namespace QCV.Sources {
   
   /// <summary>
   /// Represents a camera source
   /// </summary>
   [Serializable]
-  public class Camera : Source {
+  public class Video : Source, ISerializable {
 
-    private int _device_index = -1;
+    private string _path = null;
     private Emgu.CV.Capture _device = null;
     
-    public Camera() {}
+    public Video() {}
 
-    public Camera(SerializationInfo info, StreamingContext context)
+    public Video(SerializationInfo info, StreamingContext context)
     {
-      _device_index = -1;
-      int dev_id = (int)info.GetValue("device_index", typeof(int));
-      this.DeviceIndex = dev_id;
+      string path = (string)info.GetValue("path", typeof(string));
+      this.VideoPath = path;
     }
 
-    public override void GetObjectData(SerializationInfo info, StreamingContext context) {
-      base.GetObjectData(info, context);
-      info.AddValue("device_index", _device_index);
+    public void GetObjectData(SerializationInfo info, StreamingContext context) {
+      info.AddValue("path", _path);
     }
 
-    public int DeviceIndex {
-      get { lock (this) { return _device_index; } }
+
+    public string VideoPath {
+      get { lock (this) { return _path; } }
       set {
         lock(this) {
           if (_device != null) {
@@ -56,15 +54,15 @@ namespace RDV.Sources {
             _device = null;
           }
           try {
-            if (value >= 0) {
+            if (File.Exists(value)) {
               _device = new Emgu.CV.Capture(value);
-              _device_index = value;
+              _path = value;
             } else {
-              _device_index = -1;
+              _path = null;
               _device = null;
             }
           } catch (NullReferenceException) {
-            _device_index = -1;
+            _path = null;
             _device = null;
           }
         }
@@ -79,13 +77,18 @@ namespace RDV.Sources {
 
     public Image<Bgr, byte> Frame() {
       if (_device != null) {
-        return _device.QueryFrame();
+        Image<Bgr, byte> i = _device.QueryFrame();
+        if (i == null && this.Loop) {
+          this.VideoPath = _path;
+          i = _device.QueryFrame();
+        }
+        return i;
       } else {
         return null;
       }
     }
 
-    public bool Frame(RDV.Base.Bundle bundle) {
+    public bool Frame(QCV.Base.Bundle bundle) {
       Image<Bgr, byte> i = this.Frame();
       bundle.Store(this.Name, i);
       return i != null;

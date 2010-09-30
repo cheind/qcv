@@ -9,7 +9,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using Emgu.CV;
 using Emgu.CV.Structure;
 
-namespace RDV.Base {
+namespace QCV.Base {
 
   public interface IRuntime {
     void Run(FilterList filters, double frame_rate, int wait);

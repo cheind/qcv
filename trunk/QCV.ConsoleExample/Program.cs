@@ -5,13 +5,13 @@ using System.Text;
 
 using Emgu.CV;
 using Emgu.CV.Structure;
-using RDV.Base;
-using RDV.Sources;
-using RDV.Base.Extensions;
+using QCV.Base;
+using QCV.Sources;
+using QCV.Base.Extensions;
 using System.Drawing;
 using System.Diagnostics;
 
-namespace RDV.ConsoleExample {
+namespace QCV.ConsoleExample {
   [Serializable]
   class Program {
 
