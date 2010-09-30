@@ -84,11 +84,12 @@
     <Compile Include="Addins\AddinStore.cs" />
     <Compile Include="AnonymousFilter.cs" />
     <Compile Include="Bundle.cs" />
-    <Compile Include="Addins\ReflectionTypeConverter.cs" />
+    <Compile Include="ConsoleInteraction.cs" />
     <Compile Include="Extensions\Bundle.cs" />
     <Compile Include="FixedTimeStep.cs" />
     <Compile Include="FilterList.cs" />
     <Compile Include="IFilter.cs" />
+    <Compile Include="IInteraction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource.cs" />
     <Compile Include="Runtime.cs" />

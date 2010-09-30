@@ -19,6 +19,10 @@ namespace QCV.Base.Extensions {
     public static FilterList FetchPlaylist(this Bundle b) {
       return b.Fetch<FilterList>("playlist");
     }
+
+    public static IInteraction FetchInteraction(this Bundle b) {
+      return b.Fetch<IInteraction>("interaction");
+    }
   }
 
 }
