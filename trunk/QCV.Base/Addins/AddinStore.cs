@@ -86,6 +86,30 @@ namespace QCV.Base.Addins {
       return Activator.CreateInstance(ai.Type);
     }
 
+    public static object FindAndCreateInstance(Type type_of) {
+      AddinInfo ai = FindAddins(
+        type_of, 
+        (e) => { return e.DefaultConstructible; }
+      ).FirstOrDefault() as AddinInfo;
+      if (ai != null) {
+        return CreateInstance(ai);
+      } else {
+        return null;
+      }
+    }
+
+    public static object FindAndCreateInstance(Type type_of, Func<AddinInfo, bool> predicate) {
+      AddinInfo ai = FindAddins(
+        type_of,
+        (e) => { return e.DefaultConstructible && predicate(e); }
+      ).FirstOrDefault() as AddinInfo;
+      if (ai != null) {
+        return CreateInstance(ai);
+      } else {
+        return null;
+      }
+    }
+
     /// <summary>
     /// Discover exported types in assembly
     /// </summary>
