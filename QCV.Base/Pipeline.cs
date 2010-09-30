@@ -41,7 +41,7 @@ namespace QCV.Base {
     /// <summary>
     /// Start frame grabbing asynchronously
     /// </summary>
-    public void Play(FilterList s, IRuntime r, int wait) {
+    public void Run(FilterList s, IRuntime r, int wait) {
       if (!_bw.IsBusy) {
         _stopped.Reset();
         _bw.RunWorkerAsync(new object[]{s,r});
