@@ -10,7 +10,7 @@ using Emgu.CV.Structure;
 using System.ComponentModel;
 
 
-namespace QCV.Sources {
+namespace QCV.Toolbox.Sources {
 
   [Serializable]
   [Base.Addins.Addin]
