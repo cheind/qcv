@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HelloFPS.cs" />
+    <Compile Include="HelloScripting.cs" />
     <Compile Include="HelloVisualization.cs" />
     <Compile Include="HelloWorld.cs" />
     <Compile Include="IExample.cs" />
