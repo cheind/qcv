@@ -11,47 +11,57 @@ using QCV.Base.Extensions;
 using System.Drawing;
 using System.Diagnostics;
 using QCV.Toolbox.Sources;
+using NDesk.Options;
 
 namespace QCV.ConsoleExample {
   [Serializable]
   class Program {
 
     static void Main(string[] args) {
-      Camera c = new Camera();
-      c.Name = "input 1";
-      c.DeviceIndex = 0;
-      c.FrameWidth = 320;
 
-      Video v = new Video();
-      v.Name = "input 2";
-      v.VideoPath = "Wildlife.wmv";
-      v.Loop = true;
-      c.FrameWidth = 320;
-      c.FrameHeight = 200;
+      Base.Addins.AddinStore.Discover();
 
-      FilterList f = new FilterList();
-      f.Add(c);
-      f.Add(v);
-      f.Add(
-        new AnonymousFilter(
-          (b, ev) => {
-            Image<Bgr, byte> i = b.FetchImage("input 1");
-            b.FetchInteraction().ShowImage("a", i);
-        })
-      );
+      string example_name = "";
+      bool help = false;
+      bool list_examples = false;
 
-      f.Add(
-        new AnonymousFilter(
-          (b, ev) => {
-            Image<Bgr, byte> i = b.FetchImage("input 2");
-            b.FetchInteraction().ShowImage("b", i);
-          })
-      );
+      OptionSet opts = new OptionSet() {
+        { "l|list=", "list all examples.", v => list_examples = v != null},
+        { "e|example=", "{EXAMPLE} class to execute", v => example_name = v},
+        { "h|help", "print this help message", v => help = v != null }
+      };
 
-      Runtime runtime = new Runtime();
-      runtime.FPS = 25.0;
-      runtime.Run(f, new ConsoleInteraction(), 10);
+      try {
+        List<string> extra = opts.Parse(args);
 
+        if (help) {
+          opts.WriteOptionDescriptions(Console.Out);
+        }
+
+        IEnumerable<Base.Addins.AddinInfo> examples = Base.Addins.AddinStore.FindAddins(
+          typeof(IExample),
+          (ai) => { return ai.DefaultConstructible; }
+        );
+
+        if (list_examples) {
+          foreach (Base.Addins.AddinInfo ai in examples) {
+            System.Console.WriteLine(ai.FullName);
+          }
+        }
+
+        Base.Addins.AddinInfo info = examples.FirstOrDefault(
+          (ai) => { return ai.FullName == example_name;  }
+        );
+
+        if (info != null) {
+          IExample example = Base.Addins.AddinStore.CreateInstance(info) as IExample;
+          example.Run(extra.ToArray());
+        }
+      } catch (Exception e) {
+        Console.WriteLine(e.Message);
+        Console.WriteLine();
+        opts.WriteOptionDescriptions(Console.Out);
+      }
     }
   }
 }
