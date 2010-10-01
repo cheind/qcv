@@ -5,6 +5,7 @@ using System.Text;
 
 using Emgu.CV;
 using Emgu.CV.Structure;
+using log4net;
 
 namespace QCV.Base.Extensions {
   public static class BundleExtensions {
@@ -22,6 +23,10 @@ namespace QCV.Base.Extensions {
 
     public static IInteraction FetchInteraction(this Bundle b) {
       return b.Fetch<IInteraction>("interaction");
+    }
+
+    public static ILog FetchLogger(this Bundle b) {
+      return b.Fetch<ILog>("filter_logger");
     }
   }
 
