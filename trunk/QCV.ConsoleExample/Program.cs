@@ -22,8 +22,8 @@ namespace QCV.ConsoleExample {
 
       XmlConfigurator.Configure(new System.IO.FileInfo("QCV.ConsoleExample.log4net"));
 
-      Base.Addins.AddinStore.DiscoverInDomain();
-      Base.Addins.AddinStore.DiscoverInDirectory(Environment.CurrentDirectory);
+      Base.Addins.AddinHost.DiscoverInDomain();
+      Base.Addins.AddinHost.DiscoverInDirectory(Environment.CurrentDirectory);
 
       string example_name = "";
       bool help = false;
@@ -42,7 +42,7 @@ namespace QCV.ConsoleExample {
           opts.WriteOptionDescriptions(Console.Out);
         }
 
-        IEnumerable<Base.Addins.AddinInfo> examples = Base.Addins.AddinStore.FindAddins(
+        IEnumerable<Base.Addins.AddinInfo> examples = Base.Addins.AddinHost.FindAddins(
           typeof(IExample),
           (ai) => { return ai.DefaultConstructible; }
         );
@@ -58,7 +58,7 @@ namespace QCV.ConsoleExample {
         );
 
         if (info != null) {
-          IExample example = Base.Addins.AddinStore.CreateInstance(info) as IExample;
+          IExample example = Base.Addins.AddinHost.CreateInstance(info) as IExample;
           example.Run(extra.ToArray());
         }
       } catch (Exception e) {

@@ -20,16 +20,16 @@ using System.Reflection;
 using log4net;
 
 namespace QCV.Base.Addins {
-  public static class AddinStore {
+  public static class AddinHost {
     private static List<AddinInfo> _addins = new List<AddinInfo>();
-    private static readonly ILog _logger = LogManager.GetLogger(typeof(AddinStore));
+    private static readonly ILog _logger = LogManager.GetLogger(typeof(AddinHost));
 
     /// <summary>
     /// Discovers add-ins from current set of loaded assemblies
     /// </summary>
     public static void DiscoverInDomain() {
       foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies()) {
-        AddinStore.DiscoverInAssembly(a);
+        AddinHost.DiscoverInAssembly(a);
       }
     }
 
