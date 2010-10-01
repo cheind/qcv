@@ -16,6 +16,7 @@ namespace QCV.Base {
 
   public class Runtime : Resource {
     private static readonly ILog _logger = LogManager.GetLogger(typeof(Runtime));
+    private static readonly ILog _filter_logger = LogManager.GetLogger(typeof(IFilter));
     private Exception _last_error;
     private BackgroundWorker _bw = new BackgroundWorker();
     private FixedTimeStep _fts = new FixedTimeStep();
@@ -101,6 +102,7 @@ namespace QCV.Base {
           b.Store("filterlist", filterlist);
           b.Store("runtime", this);
           b.Store("interaction", ii);
+          b.Store("filter_logger", _filter_logger);
 
           foreach (IFilter f in filterlist) {
             f.Execute(b, ev);
