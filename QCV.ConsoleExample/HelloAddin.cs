@@ -22,10 +22,10 @@ namespace QCV.ConsoleExample {
     public void Run(string[] args) {
       
       // Make sure addin framework scans current assembly
-      QCV.Base.Addins.AddinHost.DiscoverInAssembly(Assembly.GetExecutingAssembly());
+      QCV.Base.Addins.AddinHost h = new QCV.Base.Addins.AddinHost();
+      h.DiscoverInAssembly(Assembly.GetExecutingAssembly());
 
-      QCV.Base.IFilter filter =
-        QCV.Base.Addins.AddinHost.FindAndCreateInstance(
+      QCV.Base.IFilter filter = h.FindAndCreateInstance(
         typeof(QCV.Base.IFilter),
         "QCV.ConsoleExample.DemoFilter") as QCV.Base.IFilter;
 

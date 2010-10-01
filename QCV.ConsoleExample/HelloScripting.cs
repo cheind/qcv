@@ -22,9 +22,10 @@ namespace QCV.ConsoleExample {
       if (!success) {
         return;
       }
-          
-      QCV.Base.Addins.AddinHost.DiscoverInAssembly(s.CompiledAssemblies);
-      QCV.Base.IFilter say_hello = QCV.Base.Addins.AddinHost.FindAndCreateInstance(
+
+      QCV.Base.Addins.AddinHost h = new QCV.Base.Addins.AddinHost();
+      h.DiscoverInAssembly(s.CompiledAssemblies);
+      QCV.Base.IFilter say_hello = h.FindAndCreateInstance(
         typeof(QCV.Base.IFilter),
         "Scripts.SayHello") as QCV.Base.IFilter;
 
