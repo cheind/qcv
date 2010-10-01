@@ -11,19 +11,19 @@ namespace QCV.ConsoleExample {
   public class HelloScripting : IExample {
     public void Run(string[] args) {
 
-      QCV.Base.Scripting s = new QCV.Base.Scripting(QCV.Base.Scripting.Language.CSharp);
+      QCV.Base.Scripting s = new QCV.Base.Scripting();
 
-      CompilerResults results = s.Compile(
+      bool success = s.Compile(
         new string[]{ @"..\..\etc\scripts\say_hello.cs" },
         new string[]{"QCV.Base.dll", "System.dll"});
 
-      Console.WriteLine(s.FormatCompilerResults(results));
+      Console.WriteLine(s.FormatCompilerResults(s.CompilerResults));
 
-      if (results.Errors.HasErrors) {
+      if (!success) {
         return;
       }
           
-      QCV.Base.Addins.AddinStore.DiscoverInAssembly(results.CompiledAssembly);
+      QCV.Base.Addins.AddinStore.DiscoverInAssembly(s.CompiledAssemblies);
       QCV.Base.IFilter say_hello = QCV.Base.Addins.AddinStore.FindAndCreateInstance(
         typeof(QCV.Base.IFilter),
         "Scripts.SayHello") as QCV.Base.IFilter;

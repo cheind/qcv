@@ -28,20 +28,21 @@ namespace QCV.Toolbox.Sources {
   /// </summary>
   [Serializable]
   [Base.Addins.Addin]
-  public class Video : Source, ISerializable {
+  public class Video : Source {
 
     private string _path = null;
     private Emgu.CV.Capture _device = null;
     
     public Video() {}
 
-    public Video(SerializationInfo info, StreamingContext context)
+    public Video(SerializationInfo info, StreamingContext context) : base (info, context)
     {
       string path = (string)info.GetValue("path", typeof(string));
       this.VideoPath = path;
     }
 
-    public void GetObjectData(SerializationInfo info, StreamingContext context) {
+    public override void GetObjectData(SerializationInfo info, StreamingContext context) {
+      base.GetObjectData(info, context);
       info.AddValue("path", _path);
     }
 
@@ -73,6 +74,7 @@ namespace QCV.Toolbox.Sources {
     protected override void DisposeManaged() {
       if (_device != null) {
         _device.Dispose();
+        _device = null;
       }
     }
 

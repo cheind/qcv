@@ -83,11 +83,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HelloAddin.cs" />
+    <Compile Include="HelloCamera.cs" />
     <Compile Include="HelloException.cs" />
     <Compile Include="HelloFPS.cs" />
+    <Compile Include="HelloImageList.cs" />
     <Compile Include="HelloLogging.cs" />
+    <Compile Include="HelloPersistedState.cs" />
+    <Compile Include="HelloRecording.cs" />
     <Compile Include="HelloScripting.cs" />
     <Compile Include="HelloScriptingError.cs" />
+    <Compile Include="HelloVideo.cs" />
     <Compile Include="HelloVisualization.cs" />
     <Compile Include="HelloWorld.cs" />
     <Compile Include="IExample.cs" />

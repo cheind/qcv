@@ -30,7 +30,7 @@ namespace QCV.Toolbox.Sources {
   /// </summary>
   [Serializable]
   [Base.Addins.Addin]
-  public class Camera : Source, ISerializable {
+  public class Camera : Source {
 
     private int _device_index = -1;
     private Emgu.CV.Capture _device = null;
@@ -39,7 +39,7 @@ namespace QCV.Toolbox.Sources {
       this.DeviceIndex = 0;
     }
 
-    public Camera(SerializationInfo info, StreamingContext context)
+    public Camera(SerializationInfo info, StreamingContext context) : base(info, context)
     {
       _device_index = -1;
       int dev_id = (int)info.GetValue("device_index", typeof(int));
@@ -49,7 +49,8 @@ namespace QCV.Toolbox.Sources {
       this.FrameHeight = last_frame_size.Height;
     }
 
-    public void GetObjectData(SerializationInfo info, StreamingContext context) {
+    public override void GetObjectData(SerializationInfo info, StreamingContext context) {
+      base.GetObjectData(info, context);
       info.AddValue("device_index", _device_index);
       info.AddValue("frame_size", new Size(this.FrameWidth, this.FrameHeight));
     }
@@ -111,6 +112,7 @@ namespace QCV.Toolbox.Sources {
     protected override void DisposeManaged() {
       if (_device != null) {
         _device.Dispose();
+        _device = null;
       }
     }
 
@@ -132,5 +134,6 @@ namespace QCV.Toolbox.Sources {
         }
       }
     }
+
   }
 }

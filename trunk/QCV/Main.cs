@@ -41,28 +41,22 @@ namespace QCV {
       CommandLine.CLIArgs args = cl.Args;
 
       if (args.script_paths.Count > 0) {
-        Base.Scripting s = new QCV.Base.Scripting(QCV.Base.Scripting.Language.CSharp);
+        Base.Scripting s = new QCV.Base.Scripting();
         
-        CompilerResults results = s.Compile(
+        bool success = s.Compile(
           args.script_paths,
           new string[] { 
-            "mscorlib.dll",
-            "System.dll", 
-            "System.Drawing.dll", 
-            "QCV.Base.dll",
-            "QCV.Toolbox.dll", 
-            "Emgu.CV.dll", 
-            "Emgu.Util.dll"}
+            "mscorlib.dll", "System.dll", "System.Drawing.dll", "QCV.Base.dll",
+            "QCV.Toolbox.dll", "Emgu.CV.dll", "Emgu.Util.dll"}
         );
 
-        if (results.Errors.HasErrors) {
-          _logger.Error(s.FormatCompilerResults(results));
+        if (success) {
+          _logger.Debug(s.FormatCompilerResults(s.CompilerResults));
+          Base.Addins.AddinStore.DiscoverInAssembly(s.CompiledAssemblies);
         } else {
-          _logger.Debug(s.FormatCompilerResults(results));
-          Base.Addins.AddinStore.DiscoverInAssembly(results.CompiledAssembly);
+          _logger.Error(s.FormatCompilerResults(s.CompilerResults));
         }
       }
-
 
       _filters.AddRange(LoadAndCombineFilterLists(args.load_paths));
       _filters.AddRange(CreateFilterListFromNames(args.filter_names));
