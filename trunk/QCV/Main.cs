@@ -46,8 +46,8 @@ namespace QCV {
         bool success = s.Compile(
           args.script_paths,
           new string[] { 
-            "mscorlib.dll", "System.dll", "System.Drawing.dll", "QCV.Base.dll",
-            "QCV.Toolbox.dll", "Emgu.CV.dll", "Emgu.Util.dll"}
+            "mscorlib.dll", "System.dll", "System.Drawing.dll", "System.Xml.dll",
+            "QCV.Base.dll", "QCV.Toolbox.dll", "Emgu.CV.dll", "Emgu.Util.dll"}
         );
 
         if (success) {
