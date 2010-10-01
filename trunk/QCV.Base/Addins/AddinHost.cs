@@ -20,20 +20,32 @@ using System.Reflection;
 using log4net;
 
 namespace QCV.Base.Addins {
-  public static class AddinHost {
-    private static List<AddinInfo> _addins = new List<AddinInfo>();
+  public class AddinHost {
+    private List<AddinInfo> _addins = new List<AddinInfo>();
+    private AppDomain _domain;
     private static readonly ILog _logger = LogManager.GetLogger(typeof(AddinHost));
+
+    public AddinHost() {
+      _domain = AppDomain.CurrentDomain;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public AddinHost(AppDomain domain) {
+      _domain = domain;
+    }
 
     /// <summary>
     /// Discovers add-ins from current set of loaded assemblies
     /// </summary>
-    public static void DiscoverInDomain() {
-      foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies()) {
-        AddinHost.DiscoverInAssembly(a);
+    public void DiscoverInDomain() {
+      foreach (Assembly a in _domain.GetAssemblies()) {
+        DiscoverInAssembly(a);
       }
     }
 
-    public static void DiscoverInAssembly(IEnumerable<Assembly> assemblies) {
+    public void DiscoverInAssembly(IEnumerable<Assembly> assemblies) {
       foreach (Assembly a in assemblies) {
         DiscoverInAssembly(a);
       }
@@ -42,7 +54,7 @@ namespace QCV.Base.Addins {
     /// <summary>
     /// Discovers add-ins from current set of loaded assemblies
     /// </summary>
-    public static void DiscoverInAssembly(Assembly a) {
+    public void DiscoverInAssembly(Assembly a) {
       List<AddinInfo> addins = new List<AddinInfo>();
       foreach (Type t in a.GetExportedTypes()) {
         if (IsAddin(t) && !_addins.Any(ai => ai.Type == t)) {
@@ -60,7 +72,7 @@ namespace QCV.Base.Addins {
     /// </summary>
     /// <param name="directory_path">Directory path</param>
     /// <param name="recursive"></param>
-    public static void DiscoverInDirectory(string directory_path) {
+    public void DiscoverInDirectory(string directory_path) {
       if (Directory.Exists(directory_path))
       {
         foreach (string file in Directory.GetFiles(directory_path, "*.dll"))
@@ -74,13 +86,13 @@ namespace QCV.Base.Addins {
     /// Discover exported types in assembly
     /// </summary>
     /// <param name="assembly_path">Path to assembly</param>
-    public static void DiscoverInFile(string assembly_path) {
+    public void DiscoverInFile(string assembly_path) {
       try {
-        Assembly a = Assembly.LoadFrom(assembly_path);
+        Assembly a = _domain.Load(assembly_path);
         DiscoverInAssembly(a);
       } catch (System.BadImageFormatException) {
         //_logger.Debug(String.Format("'{0}' is not a valid assembly.", assembly_path));
-      } catch (System.IO.FileLoadException) {
+      } catch (System.IO.FileLoadException e) {
         //_logger.Debug(String.Format("'{0}' already loaded.", assembly_path));
       } catch (System.TypeLoadException) {
         //_logger.Warn(String.Format("Type load exception during loading of '{0}' occurred.", assembly_path));
@@ -92,7 +104,7 @@ namespace QCV.Base.Addins {
     /// </summary>
     /// <param name="type_of">Type</param>
     /// <returns>Enumeration of addin infos</returns>
-    public static IEnumerable<AddinInfo> FindAddins(Type type_of) {
+    public IEnumerable<AddinInfo> FindAddins(Type type_of) {
       return _addins.Select(ai => ai).Where(ai => ai.TypeOf(type_of));
     }
 
@@ -101,7 +113,7 @@ namespace QCV.Base.Addins {
     /// </summary>
     /// <param name="type_of">Type</param>
     /// <returns>Enumeration of addin infos</returns>
-    public static IEnumerable<AddinInfo> FindAddins(Type type_of, Func<AddinInfo, bool> predicate) {
+    public IEnumerable<AddinInfo> FindAddins(Type type_of, Func<AddinInfo, bool> predicate) {
       return _addins.Where(ai => ai.TypeOf(type_of) && predicate(ai));
     }
 
@@ -110,11 +122,11 @@ namespace QCV.Base.Addins {
     /// </summary>
     /// <param name="ai"></param>
     /// <returns></returns>
-    public static object CreateInstance(AddinInfo ai) {
+    public object CreateInstance(AddinInfo ai) {
       return Activator.CreateInstance(ai.Type);
     }
 
-    public static object FindAndCreateInstance(Type type_of, string full_name) {
+    public object FindAndCreateInstance(Type type_of, string full_name) {
       AddinInfo ai = FindAddins(
         type_of, 
         (e) => { return e.DefaultConstructible && e.FullName == full_name; }
@@ -133,7 +145,7 @@ namespace QCV.Base.Addins {
     /// </summary>
     /// <param name="t"></param>
     /// <returns></returns>
-    private static bool IsAddin(Type t) {
+    private bool IsAddin(Type t) {
       return Attribute.IsDefined(t, typeof(AddinAttribute));
     }
   }
