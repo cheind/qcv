@@ -11,9 +11,12 @@ using Emgu.CV;
 using Emgu.CV.Structure;
 using NDesk.Options;
 using System.CodeDom.Compiler;
+using log4net.Config;
+using log4net;
 
 namespace QCV {
   public partial class Main : Form, QCV.Base.IInteraction {
+    private static readonly ILog _logger = LogManager.GetLogger("qcv");
     private Dictionary<string, ShowImageForm> _show_forms = new Dictionary<string, ShowImageForm>();
     private Base.FilterList _filters = new QCV.Base.FilterList();
     private Base.Runtime _runtime = new QCV.Base.Runtime();
@@ -21,6 +24,8 @@ namespace QCV {
 
     public Main() {
       InitializeComponent();
+
+      XmlConfigurator.Configure(new System.IO.FileInfo("QCV.log4net"));
       
       this.AddOwnedForm(_props);
 
@@ -36,7 +41,9 @@ namespace QCV {
       CommandLine.CLIArgs args = cl.Args;
 
       if (args.script_paths.Count > 0) {
-        CompilerResults results = Base.Scripting.Compile(
+        Base.Scripting s = new QCV.Base.Scripting(QCV.Base.Scripting.Language.CSharp);
+        
+        CompilerResults results = s.Compile(
           args.script_paths,
           new string[] { 
             "mscorlib.dll",
@@ -47,13 +54,11 @@ namespace QCV {
             "Emgu.CV.dll", 
             "Emgu.Util.dll"}
         );
-        
-        foreach (CompilerError err in results.Errors)
-				{
-          System.Console.WriteLine(err.ErrorText + err.Line.ToString() + err.FileName);
-				}
 
-        if (results.Errors.Count == 0) {
+        if (results.Errors.HasErrors) {
+          _logger.Error(s.FormatCompilerResults(results));
+        } else {
+          _logger.Debug(s.FormatCompilerResults(results));
           Base.Addins.AddinStore.DiscoverInAssembly(results.CompiledAssembly);
         }
       }
