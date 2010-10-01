@@ -24,9 +24,9 @@ namespace QCV {
       
       this.AddOwnedForm(_props);
 
-      Base.Addins.AddinStore.Discover();
-      Base.Addins.AddinStore.Discover(Environment.CurrentDirectory);
-      Base.Addins.AddinStore.Discover(Path.Combine(Environment.CurrentDirectory, "plugins"));
+      Base.Addins.AddinStore.DiscoverInDomain();
+      Base.Addins.AddinStore.DiscoverInDirectory(Environment.CurrentDirectory);
+      Base.Addins.AddinStore.DiscoverInDirectory(Path.Combine(Environment.CurrentDirectory, "plugins"));
 
       _props.FormClosing += new FormClosingEventHandler(AnyFormClosing);
       _runtime.RuntimeFinishedEvent += new QCV.Base.Runtime.RuntimeFinishedEventHandler(RuntimeFinishedEvent);
@@ -54,7 +54,7 @@ namespace QCV {
 				}
 
         if (results.Errors.Count == 0) {
-          Base.Addins.AddinStore.Discover(results.CompiledAssembly);
+          Base.Addins.AddinStore.DiscoverInAssembly(results.CompiledAssembly);
         }
       }
 

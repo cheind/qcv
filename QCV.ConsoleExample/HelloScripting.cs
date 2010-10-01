@@ -20,11 +20,10 @@ namespace QCV.ConsoleExample {
         return;
       }
 
-      QCV.Base.Addins.AddinStore.Discover(results.CompiledAssembly);
+      QCV.Base.Addins.AddinStore.DiscoverInAssembly(results.CompiledAssembly);
       QCV.Base.IFilter say_hello = QCV.Base.Addins.AddinStore.FindAndCreateInstance(
         typeof(QCV.Base.IFilter),
-        (ai) => { return ai.FullName == "Scripts.SayHello"; }
-      ) as QCV.Base.IFilter;
+        "Scripts.SayHello") as QCV.Base.IFilter;
 
       QCV.Base.FilterList f = new QCV.Base.FilterList();
       f.Add(say_hello);
