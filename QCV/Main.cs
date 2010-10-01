@@ -29,9 +29,9 @@ namespace QCV {
       
       this.AddOwnedForm(_props);
 
-      Base.Addins.AddinStore.DiscoverInDomain();
-      Base.Addins.AddinStore.DiscoverInDirectory(Environment.CurrentDirectory);
-      Base.Addins.AddinStore.DiscoverInDirectory(Path.Combine(Environment.CurrentDirectory, "plugins"));
+      Base.Addins.AddinHost.DiscoverInDomain();
+      Base.Addins.AddinHost.DiscoverInDirectory(Environment.CurrentDirectory);
+      Base.Addins.AddinHost.DiscoverInDirectory(Path.Combine(Environment.CurrentDirectory, "plugins"));
 
       _props.FormClosing += new FormClosingEventHandler(AnyFormClosing);
       _runtime.RuntimeFinishedEvent += new QCV.Base.Runtime.RuntimeFinishedEventHandler(RuntimeFinishedEvent);
@@ -52,7 +52,7 @@ namespace QCV {
 
         if (success) {
           _logger.Debug(s.FormatCompilerResults(s.CompilerResults));
-          Base.Addins.AddinStore.DiscoverInAssembly(s.CompiledAssemblies);
+          Base.Addins.AddinHost.DiscoverInAssembly(s.CompiledAssemblies);
         } else {
           _logger.Error(s.FormatCompilerResults(s.CompilerResults));
         }
@@ -120,12 +120,12 @@ namespace QCV {
     Base.FilterList CreateFilterListFromNames(IEnumerable<string> filter_names) {
       Base.FilterList fl = new QCV.Base.FilterList();
       foreach (string filter_name in filter_names) {
-        IEnumerable<Base.Addins.AddinInfo> e = Base.Addins.AddinStore.FindAddins(
+        IEnumerable<Base.Addins.AddinInfo> e = Base.Addins.AddinHost.FindAddins(
           typeof(Base.IFilter),
           (ai) => { return ai.FullName == filter_name; }
         );
         if (e.Count() > 0) {
-          Base.IFilter f = Base.Addins.AddinStore.CreateInstance(e.First()) as Base.IFilter;
+          Base.IFilter f = Base.Addins.AddinHost.CreateInstance(e.First()) as Base.IFilter;
           fl.Add(f);
         }
       }

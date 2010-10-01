@@ -82,8 +82,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Addins\AddinAttribute.cs" />
+    <Compile Include="Addins\AddinHost.cs" />
     <Compile Include="Addins\AddinInfo.cs" />
-    <Compile Include="Addins\AddinStore.cs" />
     <Compile Include="AnonymousFilter.cs" />
     <Compile Include="Bundle.cs" />
     <Compile Include="ConsoleInteraction.cs" />
