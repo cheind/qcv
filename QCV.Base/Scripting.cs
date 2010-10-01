@@ -40,7 +40,6 @@ namespace QCV.Base {
       CompilerParameters cp = new CompilerParameters(refs.ToArray());
       cp.GenerateExecutable = false;
       cp.GenerateInMemory = true;
-      cp.OutputAssembly = "QCV.Scripts.dll";
       
       Dictionary<string, string> pp = new Dictionary<string, string>() {{"CompilerVersion", "v3.5"}};
 
