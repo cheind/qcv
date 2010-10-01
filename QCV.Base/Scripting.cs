@@ -39,13 +39,16 @@ namespace QCV.Base {
       CompilerParameters cp = new CompilerParameters(refs.ToArray());
       cp.GenerateExecutable = false;
       cp.GenerateInMemory = true;
+      
+      Dictionary<string, string> pp = new Dictionary<string, string>() {{"CompilerVersion", "v3.5"}};
 
       _results = new List<CompilerResults>();
       if (csharp.Count() > 0) {
-        _results.Add(new CSharpCodeProvider().CompileAssemblyFromFile(cp, csharp.ToArray()));
+        CSharpCodeProvider p = new CSharpCodeProvider();
+        _results.Add(new CSharpCodeProvider(pp).CompileAssemblyFromFile(cp, csharp.ToArray()));
       }
       if (vb.Count() > 0) {
-        _results.Add(new VBCodeProvider().CompileAssemblyFromFile(cp, vb.ToArray()));
+        _results.Add(new VBCodeProvider(pp).CompileAssemblyFromFile(cp, vb.ToArray()));
       }
       if (cpp.Count() > 0) {
         _results.Add(new CppCodeProvider().CompileAssemblyFromFile(cp, cpp.ToArray()));
