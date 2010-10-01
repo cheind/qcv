@@ -15,13 +15,23 @@ using System.Runtime.Serialization;
 namespace QCV.Toolbox.Sources {
 
   [Serializable]
-  public abstract class Source : QCV.Base.Resource, QCV.Base.IFilter {
+  public abstract class Source : QCV.Base.Resource, QCV.Base.IFilter, ISerializable {
     private IntrinsicCameraParameters _intrinsics = null;
-    private string _name;
-    private bool _loop;
+    private string _name = "source";
+    private bool _loop = false;
 
-    public Source() {
-      this.Name = "source";
+    public Source() 
+    {}
+
+    public Source(SerializationInfo info, StreamingContext context)
+    {
+      this.Name = (string)info.GetValue("name", typeof(string));
+      this.Loop = (bool)info.GetValue("loop", typeof(bool));
+    }
+
+    public virtual void GetObjectData(SerializationInfo info, StreamingContext context) {
+      info.AddValue("name", _name);
+      info.AddValue("loop", _loop);
     }
 
     public string Name {

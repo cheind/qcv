@@ -11,13 +11,18 @@ namespace QCV.ConsoleExample {
   public class HelloScriptingError : IExample {
     public void Run(string[] args) {
 
-      QCV.Base.Scripting s = new QCV.Base.Scripting(QCV.Base.Scripting.Language.CSharp);
+      QCV.Base.Scripting s = new QCV.Base.Scripting();
 
-      CompilerResults results = s.Compile(
+      bool success = s.Compile(
         new string[] { @"..\..\etc\scripts\error.cs" },
-        new string[] {});
+        new string[] { "System.dll"});
 
-      Console.WriteLine(s.FormatCompilerResults(results));
+      if (!success) {
+        Console.WriteLine("Errors during compilation!");
+      }
+
+      Console.WriteLine(s.FormatCompilerResults(s.CompilerResults));
+
     }
   }
 }

@@ -33,6 +33,12 @@ namespace QCV.Base.Addins {
       }
     }
 
+    public static void DiscoverInAssembly(IEnumerable<Assembly> assemblies) {
+      foreach (Assembly a in assemblies) {
+        DiscoverInAssembly(a);
+      }
+    }
+
     /// <summary>
     /// Discovers add-ins from current set of loaded assemblies
     /// </summary>

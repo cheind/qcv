@@ -6,39 +6,60 @@ using System.CodeDom.Compiler;
 using Microsoft.CSharp;
 using Microsoft.VisualBasic;
 using Microsoft.VisualC;
+using System.Reflection;
 
 namespace QCV.Base {
   public class Scripting {
-    
-    public enum Language {
-      CSharp,
-      VisualBasic,
-      Cpp
+
+    private List<CompilerResults> _results = new List<CompilerResults>();
+
+    public IList<CompilerResults> CompilerResults {
+      get { return _results; }
     }
 
-    private CodeDomProvider _provider;
+    public IEnumerable<Assembly> CompiledAssemblies {
+      get { return _results.Select((cr) => { return cr.CompiledAssembly; }); }
+    }
 
-    public Scripting(Language language) {
-      switch (language) {
-        case Language.CSharp :
-          _provider = new CSharpCodeProvider();
-          break;
-        case Language.VisualBasic:
-          _provider = new VBCodeProvider();
-          break;
-        case Language.Cpp:
-          _provider = new CppCodeProvider();
-          break;
+    public bool Compile(IEnumerable<string> sources, IEnumerable<string> refs) {
+
+      // Split sources into various languages
+      IEnumerable<string> csharp = sources.Where(
+        (s) => { return s.EndsWith(".cs", StringComparison.InvariantCultureIgnoreCase); }
+      );
+
+      IEnumerable<string> vb = sources.Where(
+        (s) => { return s.EndsWith(".vb", StringComparison.InvariantCultureIgnoreCase); }
+      );
+
+      IEnumerable<string> cpp = sources.Where(
+        (s) => { return s.EndsWith(".cpp", StringComparison.InvariantCultureIgnoreCase); }
+      );
+
+      CompilerParameters cp = new CompilerParameters(refs.ToArray());
+      cp.GenerateExecutable = false;
+      cp.GenerateInMemory = true;
+
+      _results = new List<CompilerResults>();
+      if (csharp.Count() > 0) {
+        _results.Add(new CSharpCodeProvider().CompileAssemblyFromFile(cp, csharp.ToArray()));
       }
+      if (vb.Count() > 0) {
+        _results.Add(new VBCodeProvider().CompileAssemblyFromFile(cp, vb.ToArray()));
+      }
+      if (cpp.Count() > 0) {
+        _results.Add(new CppCodeProvider().CompileAssemblyFromFile(cp, cpp.ToArray()));
+      }
+
+      return _results.All((cr) => { return !cr.Errors.HasErrors; });
     }
 
-    public CompilerResults Compile(IEnumerable<string> sources, IEnumerable<string> refs) {
-
-      CompilerParameters props = new CompilerParameters(refs.ToArray());
-      props.GenerateExecutable = false;
-      props.GenerateInMemory = true;
-      
-      return _provider.CompileAssemblyFromFile(props, sources.ToArray());
+    public String FormatCompilerResults(IEnumerable<CompilerResults> results) {
+      StringBuilder sb = new StringBuilder();
+      foreach (CompilerResults cr in results) {
+        sb.Append(FormatCompilerResults(cr));
+      }
+      return sb.ToString();
     }
 
     public String FormatCompilerResults(CompilerResults cr) {
@@ -57,3 +78,4 @@ namespace QCV.Base {
     }
   }
 }
+

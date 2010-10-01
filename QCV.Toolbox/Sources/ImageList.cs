@@ -14,7 +14,7 @@ namespace QCV.Toolbox.Sources {
 
   [Serializable]
   [Base.Addins.Addin]
-  public class ImageList : Source, ISerializable {
+  public class ImageList : Source {
     private string _directory_path = null;
     private string _pattern = null;
     private int _id = 0;
@@ -23,7 +23,7 @@ namespace QCV.Toolbox.Sources {
     public ImageList() {
     }
 
-    public ImageList(SerializationInfo info, StreamingContext context)
+    public ImageList(SerializationInfo info, StreamingContext context) : base(info, context)
     {
       _id = 0;
       string path = (string)info.GetValue("directory_path", typeof(string));
@@ -32,7 +32,8 @@ namespace QCV.Toolbox.Sources {
       this.FilePattern = pattern;
     }
 
-    public void GetObjectData(SerializationInfo info, StreamingContext context) {
+    public override void GetObjectData(SerializationInfo info, StreamingContext context) {
+      base.GetObjectData(info, context);
       info.AddValue("directory_path", _directory_path);
       info.AddValue("pattern", _pattern);
     }
