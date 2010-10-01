@@ -16,31 +16,36 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-//using log4net;
 using System.Reflection;
+using log4net;
 
 namespace QCV.Base.Addins {
   public static class AddinStore {
     private static List<AddinInfo> _addins = new List<AddinInfo>();
-    //private static readonly ILog _logger = LogManager.GetLogger(typeof(AddinStore));
+    private static readonly ILog _logger = LogManager.GetLogger(typeof(AddinStore));
 
     /// <summary>
     /// Discovers add-ins from current set of loaded assemblies
     /// </summary>
-    public static void Discover() {
+    public static void DiscoverInDomain() {
       foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies()) {
-        AddinStore.Discover(a);
+        AddinStore.DiscoverInAssembly(a);
       }
     }
 
     /// <summary>
     /// Discovers add-ins from current set of loaded assemblies
     /// </summary>
-    public static void Discover(Assembly a) {
+    public static void DiscoverInAssembly(Assembly a) {
+      List<AddinInfo> addins = new List<AddinInfo>();
       foreach (Type t in a.GetExportedTypes()) {
-        if (IsAddin(t)) {
-          _addins.Add(new AddinInfo(t));
+        if (IsAddin(t) && !_addins.Any(ai => ai.Type == t)) {
+          addins.Add(new AddinInfo(t));
         }
+      }
+      if (addins.Count > 0) {
+        _addins.AddRange(addins);
+        _logger.Debug(String.Format("Discovered {0} addins in '{1}'.", addins.Count, a.FullName));
       }
     }
 
@@ -49,13 +54,30 @@ namespace QCV.Base.Addins {
     /// </summary>
     /// <param name="directory_path">Directory path</param>
     /// <param name="recursive"></param>
-    public static void Discover(string directory_path) {
+    public static void DiscoverInDirectory(string directory_path) {
       if (Directory.Exists(directory_path))
       {
         foreach (string file in Directory.GetFiles(directory_path, "*.dll"))
         {
-          DiscoverTypes(file);
+          DiscoverInFile(file);
         }
+      }
+    }
+
+    /// <summary>
+    /// Discover exported types in assembly
+    /// </summary>
+    /// <param name="assembly_path">Path to assembly</param>
+    public static void DiscoverInFile(string assembly_path) {
+      try {
+        Assembly a = Assembly.LoadFrom(assembly_path);
+        DiscoverInAssembly(a);
+      } catch (System.BadImageFormatException) {
+        //_logger.Debug(String.Format("'{0}' is not a valid assembly.", assembly_path));
+      } catch (System.IO.FileLoadException) {
+        //_logger.Debug(String.Format("'{0}' already loaded.", assembly_path));
+      } catch (System.TypeLoadException) {
+        //_logger.Warn(String.Format("Type load exception during loading of '{0}' occurred.", assembly_path));
       }
     }
 
@@ -86,10 +108,10 @@ namespace QCV.Base.Addins {
       return Activator.CreateInstance(ai.Type);
     }
 
-    public static object FindAndCreateInstance(Type type_of) {
+    public static object FindAndCreateInstance(Type type_of, string full_name) {
       AddinInfo ai = FindAddins(
         type_of, 
-        (e) => { return e.DefaultConstructible; }
+        (e) => { return e.DefaultConstructible && e.FullName == full_name; }
       ).FirstOrDefault() as AddinInfo;
       if (ai != null) {
         return CreateInstance(ai);
@@ -98,39 +120,7 @@ namespace QCV.Base.Addins {
       }
     }
 
-    public static object FindAndCreateInstance(Type type_of, Func<AddinInfo, bool> predicate) {
-      AddinInfo ai = FindAddins(
-        type_of,
-        (e) => { return e.DefaultConstructible && predicate(e); }
-      ).FirstOrDefault() as AddinInfo;
-      if (ai != null) {
-        return CreateInstance(ai);
-      } else {
-        return null;
-      }
-    }
 
-    /// <summary>
-    /// Discover exported types in assembly
-    /// </summary>
-    /// <param name="assembly_path">Path to assembly</param>
-    private static void DiscoverTypes(string assembly_path) {
-      try {
-        Assembly a = Assembly.LoadFrom(assembly_path);
-        foreach (Type t in a.GetExportedTypes()) {
-          if (IsAddin(t) && !_addins.Any(ai => ai.Type == t)) {
-              _addins.Add(new AddinInfo(t));
-          }
-        }
-        //_logger.Debug(String.Format("'{0}' successfully loaded.", assembly_path));
-      } catch (System.BadImageFormatException) {
-        //_logger.Debug(String.Format("'{0}' is not a valid assembly.", assembly_path));
-      } catch (System.IO.FileLoadException) {
-        //_logger.Debug(String.Format("'{0}' already loaded.", assembly_path));
-      } catch (System.TypeLoadException) {
-        //_logger.Warn(String.Format("Type load exception during loading of '{0}' occurred.", assembly_path));
-      }
-    }
 
     /// <summary>
     /// Test if type is flagged as addin

@@ -65,8 +65,8 @@
   <ItemGroup>
     <Reference Include="Emgu.CV, Version=2.0.1.0, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL" />
     <Reference Include="Emgu.Util, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL" />
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL" />
     <Reference Include="NDesk.Options, Version=0.2.1.0, Culture=neutral, processorArchitecture=MSIL" />
-    <Reference Include="QCV.Toolbox, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -82,6 +82,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HelloAddin.cs" />
     <Compile Include="HelloException.cs" />
     <Compile Include="HelloFPS.cs" />
     <Compile Include="HelloScripting.cs" />
@@ -94,7 +95,11 @@
   <ItemGroup>
     <ProjectReference Include="..\QCV.Base\QCV.Base.csproj">
       <Project>{3B845908-9A44-4907-81C2-BCA17C462A19}</Project>
-      <Name>RDV.Base</Name>
+      <Name>QCV.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QCV.Toolbox\QCV.Toolbox.csproj">
+      <Project>{96DFF61A-A988-4F7D-977D-634EFC2E6BF1}</Project>
+      <Name>QCV.Toolbox</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

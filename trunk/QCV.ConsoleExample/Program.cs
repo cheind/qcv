@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Diagnostics;
 using QCV.Toolbox.Sources;
 using NDesk.Options;
+using log4net.Config;
 
 namespace QCV.ConsoleExample {
   [Serializable]
@@ -19,7 +20,10 @@ namespace QCV.ConsoleExample {
 
     static void Main(string[] args) {
 
-      Base.Addins.AddinStore.Discover();
+      XmlConfigurator.Configure(new System.IO.FileInfo("QCV.ConsoleExample.log4net"));
+
+      Base.Addins.AddinStore.DiscoverInDomain();
+      Base.Addins.AddinStore.DiscoverInDirectory(Environment.CurrentDirectory);
 
       string example_name = "";
       bool help = false;

@@ -27,6 +27,7 @@ namespace QCV.ConsoleExample {
       runtime.Run(f, new QCV.Base.ConsoleInteraction(), 10);
 
       Console.WriteLine(runtime.Error.Message);
+      Console.WriteLine("Check the log files.");
     }
   }
 }

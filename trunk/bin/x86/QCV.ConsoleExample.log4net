@@ -1,0 +1,16 @@
+<!--QCV.ConsoleExample logging configuration -->
+<log4net>
+    <appender name="MainFile" type="log4net.Appender.FileAppender">
+      <param name="File" value="QCV.ConsoleExample.log.txt" />
+      <param name="AppendToFile" value="false" />
+      <layout type="log4net.Layout.PatternLayout">
+            <conversionPattern value="%-5level %logger - %message%newline" />
+      </layout>
+      <lockingmodel type="log4net.Appender.FileAppender+MinimalLock"/>
+    </appender>
+    
+    <root>
+        <level value="DEBUG" />
+        <appender-ref ref="MainFile" />
+    </root>
+</log4net>
