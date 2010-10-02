@@ -85,9 +85,8 @@
     <Compile Include="Addins\AddinHost.cs" />
     <Compile Include="Addins\AddinInfo.cs" />
     <Compile Include="AnonymousFilter.cs" />
-    <Compile Include="Bundle.cs" />
     <Compile Include="ConsoleInteraction.cs" />
-    <Compile Include="Extensions\Bundle.cs" />
+    <Compile Include="Extensions\Dictionary.cs" />
     <Compile Include="FixedTimeStep.cs" />
     <Compile Include="FilterList.cs" />
     <Compile Include="IFilter.cs" />

@@ -25,7 +25,7 @@ namespace QCV.Toolbox {
       set { _show_name = value; }
     }
 
-    public void Execute(QCV.Base.Bundle b, System.ComponentModel.CancelEventArgs e) {
+    public void Execute(Dictionary<string, object> b, System.ComponentModel.CancelEventArgs e) {
       Image<Bgr, byte> i = b.FetchImage(_bag_name);
       Base.IInteraction ii = b.FetchInteraction();
       ii.ShowImage(_show_name, i);

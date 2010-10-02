@@ -91,9 +91,9 @@ namespace QCV.Toolbox.Sources {
       }
     }
 
-    public override void Execute(QCV.Base.Bundle bundle, CancelEventArgs e) {
+    public override void Execute(Dictionary<string, object> b, CancelEventArgs e) {
       Image<Bgr, byte> i = this.Frame();
-      bundle.Store(this.Name, i);
+      b[this.Name] = i;
       e.Cancel = (i == null);
     }
   }

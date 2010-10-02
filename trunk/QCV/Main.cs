@@ -51,10 +51,10 @@ namespace QCV {
         );
 
         if (success) {
-          _logger.Debug(s.FormatCompilerResults(s.CompilerResults));
+          _logger.Debug(s.FormatErrors(s.CompilerResults));
           Base.Addins.AddinHost.DiscoverInAssembly(s.CompiledAssemblies);
         } else {
-          _logger.Error(s.FormatCompilerResults(s.CompilerResults));
+          _logger.Error(s.FormatErrors(s.CompilerResults));
         }
       }
 

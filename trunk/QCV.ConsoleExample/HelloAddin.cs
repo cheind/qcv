@@ -9,7 +9,7 @@ namespace QCV.ConsoleExample {
   [Base.Addins.Addin]
   public class DemoFilter : QCV.Base.IFilter {
 
-    public void Execute(QCV.Base.Bundle b, System.ComponentModel.CancelEventArgs e) {
+    public void Execute(Dictionary<string, object> b, System.ComponentModel.CancelEventArgs e) {
       Console.WriteLine(String.Format("Executing {0}", this.GetType().FullName));
     }
 

@@ -23,7 +23,7 @@ namespace QCV.Toolbox {
       _watch = new Stopwatch();
     }
 
-    public void Execute(QCV.Base.Bundle b, System.ComponentModel.CancelEventArgs e) {
+    public void Execute(Dictionary<string, object> b, System.ComponentModel.CancelEventArgs e) {
       if (FPSUpdateEvent != null) {
         if (_watch.IsRunning) {
           _watch.Stop();
