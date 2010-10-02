@@ -21,7 +21,7 @@ namespace QCV.ConsoleExample {
         Console.WriteLine("Errors during compilation!");
       }
 
-      Console.WriteLine(s.FormatCompilerResults(s.CompilerResults));
+      Console.WriteLine(s.FormatCompilerResults());
 
     }
   }

@@ -7,11 +7,12 @@ using Microsoft.CSharp;
 using Microsoft.VisualBasic;
 using Microsoft.VisualC;
 using System.Reflection;
+using log4net;
 
 namespace QCV.Base {
   [Serializable]
   public class Scripting {
-
+    private static readonly ILog _logger = LogManager.GetLogger(typeof(Scripting));
     private List<CompilerResults> _results = new List<CompilerResults>();
 
     public IList<CompilerResults> CompilerResults {
@@ -55,27 +56,37 @@ namespace QCV.Base {
         _results.Add(new CppCodeProvider().CompileAssemblyFromFile(cp, cpp.ToArray()));
       }
 
-      return _results.All((cr) => { return !cr.Errors.HasErrors; });
+      bool success = _results.All((cr) => { return !cr.Errors.HasErrors; });
+
+      if (success) {
+        _logger.Info(FormatCompilerResults());
+      } else {
+        _logger.Error(FormatCompilerResults());
+      }
+
+      return success;
     }
 
-    public String FormatCompilerResults(IEnumerable<CompilerResults> results) {
+    public String FormatCompilerResults() {
       StringBuilder sb = new StringBuilder();
-      foreach (CompilerResults cr in results) {
-        sb.Append(FormatCompilerResults(cr));
+
+      bool success = _results.All((cr) => { return !cr.Errors.HasErrors; });
+      if (success) {
+        sb.Append("Compilation succeeded");
+      } else {
+        sb.AppendLine("Compilation failed");
+        foreach (CompilerResults cr in _results) {
+          sb.Append(FormatErrors(cr));
+        }
       }
       return sb.ToString();
     }
 
-    public String FormatCompilerResults(CompilerResults cr) {
+    public String FormatErrors(CompilerResults cr) {
       StringBuilder sb = new StringBuilder();
 
-      if (cr.Errors.Count > 0) {
-        sb.AppendLine("Build failed");
-        for (int i = 0; i < cr.Errors.Count; i++)
-          sb.AppendLine(i.ToString() + ": " + cr.Errors[i].ToString());
-      } else {
-        sb.AppendLine("Build succeeded");
-      }
+      for (int i = 0; i < cr.Errors.Count; i++)
+        sb.AppendLine(i.ToString() + ": " + cr.Errors[i].ToString());
 
       return sb.ToString();
     }

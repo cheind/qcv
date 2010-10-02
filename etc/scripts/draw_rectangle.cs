@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using QCV.Base.Extensions;
 using Emgu.CV;
 using Emgu.CV.Structure;
@@ -15,9 +16,9 @@ namespace Scripts {
       set { _thickness = value; }
     }
     
-    public void Execute(QCV.Base.Bundle b, System.ComponentModel.CancelEventArgs e) {
+    public void Execute(Dictionary<string, object> b, System.ComponentModel.CancelEventArgs e) {
       Image<Bgr, byte> i = b.FetchImage("source");
-      i.Draw(new Rectangle(0, 0, i.Size.Width, i.Size.Height), new Bgr(Color.Green), Thickness);
+      i.Draw(new Rectangle(0, 0, i.Size.Width, i.Size.Height), new Bgr(Color.Red), Thickness);
     }
   }
 }

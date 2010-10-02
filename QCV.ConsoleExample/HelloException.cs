@@ -23,13 +23,10 @@ namespace QCV.ConsoleExample {
           })
       );
 
-      QCV.Base.Runtime runtime = new QCV.Base.Runtime(
-        new QCV.Base.ConsoleInteraction()
-      );
+      QCV.Base.Runtime runtime = new QCV.Base.Runtime();
       runtime.Run(f, 10);
 
-      Console.WriteLine(runtime.Error.Message);
-      Console.WriteLine("Check the log files.");
+      Console.WriteLine(String.Format("Error was {0}",runtime.Error.Message));
     }
   }
 }

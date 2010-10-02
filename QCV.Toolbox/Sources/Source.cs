@@ -52,6 +52,6 @@ namespace QCV.Toolbox.Sources {
       set { _intrinsics = value; }
     }
 
-    public abstract void Execute(QCV.Base.Bundle b, System.ComponentModel.CancelEventArgs e);
+    public abstract void Execute(Dictionary<string, object> b, System.ComponentModel.CancelEventArgs e);
   }
 }

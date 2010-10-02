@@ -11,22 +11,24 @@ namespace QCV.ConsoleExample {
   [Base.Addins.Addin]
   public class HelloScriptingExchange : IExample {
     public void Run(string[] args) {
-
-      ILog log = LogManager.GetLogger(typeof(HelloScriptingExchange));
+      Console.WriteLine("Press any key to quit");
 
       QCV.Base.Scripting s = new QCV.Base.Scripting();
-      CompileScripts(s, log);
+      CompileScripts(s);
 
       QCV.Base.Addins.AddinHost h = new QCV.Base.Addins.AddinHost();
       h.DiscoverInAssembly(s.CompiledAssemblies);
 
       QCV.Base.FilterList fl = BuildFilterList(h);
 
-      QCV.Base.Runtime runtime = new QCV.Base.Runtime(
-        new QCV.Base.ConsoleInteraction()
-      );
+      QCV.Base.Runtime runtime = new QCV.Base.Runtime();
+
+      Dictionary<string, object> env = new Dictionary<string, object>() {
+        {"interaction", new QCV.Base.ConsoleInteraction(runtime)}
+      };
+
       runtime.FPS = 30.0;
-      runtime.Run(fl, 0);
+      runtime.Run(fl, env, 0);
 
       System.IO.FileSystemWatcher watch = new System.IO.FileSystemWatcher();
       watch.Path = @"..\..\etc\scripts\";
@@ -39,20 +41,23 @@ namespace QCV.ConsoleExample {
       watch.Changed += (sender, ev) => {
         if ((DateTime.Now - dt).TotalSeconds > 1) {
           runtime.Stop(true);
-          CompileScripts(s, log);
-          
-          QCV.Base.Addins.AddinHost tmp = new QCV.Base.Addins.AddinHost();
-          tmp.DiscoverInAssembly(s.CompiledAssemblies);
+          if (CompileScripts(s)) {
 
-          h.Merge(tmp);
+            QCV.Base.Addins.AddinHost tmp = new QCV.Base.Addins.AddinHost();
+            tmp.DiscoverInAssembly(s.CompiledAssemblies);
 
-          QCV.Base.Reconfiguration r = new QCV.Base.Reconfiguration();
-          QCV.Base.FilterList fl_new;
-          if (r.Update(fl, h, out fl_new)) {
-            r.CopyPropertyValues(fl, fl_new);
-            runtime.Run(fl_new, 0);
+            h.Merge(tmp);
+
+            QCV.Base.Reconfiguration r = new QCV.Base.Reconfiguration();
+            QCV.Base.FilterList fl_new;
+            if (r.Update(fl, h, out fl_new)) {
+              r.CopyPropertyValues(fl, fl_new);
+              fl = fl_new;
+              runtime.Run(fl_new, env, 0);
+            }
+          } else {
+            runtime.Run(fl, env, 0);
           }
-
           
           dt = DateTime.Now;
         }
@@ -60,29 +65,25 @@ namespace QCV.ConsoleExample {
       };
       watch.EnableRaisingEvents = true;
 
-
-      Console.WriteLine("Press any key to quit");
       Console.ReadKey();
 
       runtime.Stop(true);
       runtime.Shutdown();
     }
 
-    private void CompileScripts(QCV.Base.Scripting s, ILog log) {
+    private bool CompileScripts(QCV.Base.Scripting s) {
 
       string[] scripts = new string[] { 
         @"..\..\etc\scripts\draw_rectangle.cs" 
       };
 
-      s.Compile(scripts, new string[] { 
+      return s.Compile(scripts, new string[] { 
         "QCV.Base.dll", 
         "Emgu.CV.dll", 
         "Emgu.Util.dll", 
         "System.dll", 
         "System.Drawing.dll",
         "System.Xml.dll"});
-
-      log.Debug(s.FormatCompilerResults(s.CompilerResults));
     }
 
     private QCV.Base.FilterList BuildFilterList(QCV.Base.Addins.AddinHost h) {

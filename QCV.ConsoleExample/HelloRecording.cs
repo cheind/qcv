@@ -35,11 +35,14 @@ namespace QCV.ConsoleExample {
       f.Add(si);
       f.Add(rv);
         
-      QCV.Base.Runtime runtime = new QCV.Base.Runtime(
-        new QCV.Base.ConsoleInteraction()
-      );
+      QCV.Base.Runtime runtime = new QCV.Base.Runtime();
+
+      Dictionary<string, object> env = new Dictionary<string,object>() {
+        {"interaction", new QCV.Base.ConsoleInteraction(runtime)}
+      };
+
       runtime.FPS = 30.0;
-      runtime.Run(f, 3);
+      runtime.Run(f, env, 3);
     }
   }
 }

@@ -20,16 +20,13 @@ namespace QCV.ConsoleExample {
       f.Add(
         new QCV.Base.AnonymousFilter(
           (b, ev) => {
-            ILog l = b.FetchLogger();
+            ILog l = b.FetchDefaultLogger();
             l.Debug("A debugging greeting message!");
             ev.Cancel = true;
           })
       );
-     
 
-      QCV.Base.Runtime runtime = new QCV.Base.Runtime(
-        new QCV.Base.ConsoleInteraction()
-      );
+      QCV.Base.Runtime runtime = new QCV.Base.Runtime();        
       runtime.FPS = 30.0;
       runtime.Run(f, 10);
     }

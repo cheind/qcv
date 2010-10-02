@@ -6,9 +6,24 @@ using Emgu.CV;
 using Emgu.CV.Structure;
 
 namespace QCV.Base {
+
   public class ConsoleInteraction : IInteraction {
     private HashSet<string> _known_windows = new HashSet<string>();
     private ThreadedWorker _w = new ThreadedWorker();
+
+    public ConsoleInteraction(Runtime r) {
+      r.RuntimeShutdownEvent += new EventHandler(RuntimeShutdownEvent);
+      r.RuntimeStartingEvent += new EventHandler(RuntimeStartingEvent);
+    }
+
+    void RuntimeStartingEvent(object sender, EventArgs e) {
+      _w.Start();
+    }
+
+    void RuntimeShutdownEvent(object sender, EventArgs e) {
+      _w.Stop();
+    }
+
 
     public void ShowImage(string id, Image<Bgr, byte> image) {
 
@@ -23,15 +38,5 @@ namespace QCV.Base {
         return null;
       });
     }
-
-    public void RuntimeStarted() {
-      _w.Start();
-    }
-
-    public void RuntimeShutdown() {
-      _w.Stop();
-    }
-
-    public void RuntimeStopped() {}
   }
 }

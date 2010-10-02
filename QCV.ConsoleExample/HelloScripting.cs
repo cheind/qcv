@@ -17,7 +17,7 @@ namespace QCV.ConsoleExample {
         new string[]{ @"..\..\etc\scripts\say_hello.cs" },
         new string[]{"QCV.Base.dll", "System.dll"});
 
-      Console.WriteLine(s.FormatCompilerResults(s.CompilerResults));
+      Console.WriteLine(s.FormatCompilerResults());
 
       if (!success) {
         return;
@@ -32,11 +32,14 @@ namespace QCV.ConsoleExample {
       QCV.Base.FilterList f = new QCV.Base.FilterList();
       f.Add(say_hello);
       
-      QCV.Base.Runtime runtime = new QCV.Base.Runtime(
-        new QCV.Base.ConsoleInteraction()
-      );
+      QCV.Base.Runtime runtime = new QCV.Base.Runtime();
+
+      Dictionary<string, object> env = new Dictionary<string,object>() {
+        {"interaction", new QCV.Base.ConsoleInteraction(runtime)}
+      };
       runtime.FPS = 1.0;
-      runtime.Run(f, -1);
+      runtime.Run(f, env, -1);
+      runtime.Shutdown();
     }
   }
 }

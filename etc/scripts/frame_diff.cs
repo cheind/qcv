@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
 
 using Emgu.CV;
@@ -19,7 +18,7 @@ namespace Scripts {
     bool is_in_change = true;
     
     
-    public void Execute(QCV.Base.Bundle b, System.ComponentModel.CancelEventArgs e) {
+    public void Execute(Dictionary<string, object> b, System.ComponentModel.CancelEventArgs e) {
       Image<Bgr, byte> image = b.FetchImage("source");
       Image<Gray, byte> g = image.Convert<Gray, byte>();
 

@@ -15,6 +15,7 @@ namespace QCV.ConsoleExample {
       QCV.Toolbox.Sources.Camera c = new QCV.Toolbox.Sources.Camera();
       c.Name = "input 1";
       c.DeviceIndex = 0;
+      c.FrameWidth = 320;
 
       QCV.Toolbox.ShowImage si = new QCV.Toolbox.ShowImage();
       si.BagName = "input 1";
@@ -29,11 +30,15 @@ namespace QCV.ConsoleExample {
       f = null;
       f = QCV.Base.FilterList.Load("filterlist.fl");
 
-      QCV.Base.Runtime runtime = new QCV.Base.Runtime(
-        new QCV.Base.ConsoleInteraction()
-      );
+      QCV.Base.Runtime runtime = new QCV.Base.Runtime();
+
+      Dictionary<string, object> env = new Dictionary<string,object>() {
+        {"interaction", new QCV.Base.ConsoleInteraction(runtime)}
+      };
+      
       runtime.FPS = 30.0;
-      runtime.Run(f, 10);
+      runtime.Run(f, env, 10);
+      runtime.Shutdown();
     }
   }
 }
