@@ -35,9 +35,11 @@ namespace QCV.ConsoleExample {
       f.Add(si);
       f.Add(rv);
         
-      QCV.Base.Runtime runtime = new QCV.Base.Runtime();
+      QCV.Base.Runtime runtime = new QCV.Base.Runtime(
+        new QCV.Base.ConsoleInteraction()
+      );
       runtime.FPS = 30.0;
-      runtime.Run(f, new QCV.Base.ConsoleInteraction(), 3);
+      runtime.Run(f, 3);
     }
   }
 }

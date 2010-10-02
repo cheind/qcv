@@ -32,9 +32,11 @@ namespace QCV.ConsoleExample {
       QCV.Base.FilterList f = new QCV.Base.FilterList();
       f.Add(say_hello);
       
-      QCV.Base.Runtime runtime = new QCV.Base.Runtime();
+      QCV.Base.Runtime runtime = new QCV.Base.Runtime(
+        new QCV.Base.ConsoleInteraction()
+      );
       runtime.FPS = 1.0;
-      runtime.Run(f, new QCV.Base.ConsoleInteraction(), -1);
+      runtime.Run(f, -1);
     }
   }
 }

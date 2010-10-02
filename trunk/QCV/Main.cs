@@ -19,11 +19,12 @@ namespace QCV {
     private static readonly ILog _logger = LogManager.GetLogger("qcv");
     private Dictionary<string, ShowImageForm> _show_forms = new Dictionary<string, ShowImageForm>();
     private Base.FilterList _filters = new QCV.Base.FilterList();
-    private Base.Runtime _runtime = new QCV.Base.Runtime();
+    private Base.Runtime _runtime = null;
     private PropertyForm _props = new PropertyForm();
 
     public Main() {
       InitializeComponent();
+      _runtime = new QCV.Base.Runtime(this);
 
       XmlConfigurator.Configure(new System.IO.FileInfo("QCV.log4net"));
       
@@ -34,7 +35,6 @@ namespace QCV {
       Base.Addins.AddinHost.DiscoverInDirectory(Path.Combine(Environment.CurrentDirectory, "plugins"));
 
       _props.FormClosing += new FormClosingEventHandler(AnyFormClosing);
-      _runtime.RuntimeFinishedEvent += new QCV.Base.Runtime.RuntimeFinishedEventHandler(RuntimeFinishedEvent);
 
       // Parse command line
       CommandLine cl = new CommandLine();
@@ -105,18 +105,6 @@ namespace QCV {
       }
     }
 
-    void RuntimeFinishedEvent(object sender, EventArgs e) {
-      if (_btn_run.InvokeRequired) {
-        _btn_run.Invoke(new MethodInvoker(delegate { 
-          _btn_run.Text = "Run"; 
-          _lb_status.BackColor = Control.DefaultBackColor; 
-        }));
-      } else {
-        _btn_run.Text = "Run";
-        _lb_status.BackColor = Control.DefaultBackColor; 
-      }
-    }
-
     Base.FilterList CreateFilterListFromNames(IEnumerable<string> filter_names) {
       Base.FilterList fl = new QCV.Base.FilterList();
       foreach (string filter_name in filter_names) {
@@ -147,7 +135,7 @@ namespace QCV {
         _btn_run.Text = "Stop";
         _lb_status.BackColor = Color.LightGreen;
 
-        _runtime.Run(_filters, this, 0);
+        _runtime.Run(_filters, 0);
       }
     }
 
@@ -188,6 +176,21 @@ namespace QCV {
         Rectangle r = f.ClientRectangle;
         f.Image = copy.Resize(r.Width, r.Height, Emgu.CV.CvEnum.INTER.CV_INTER_NN, true);
       }));
+    }
+
+    public void RuntimeStarted() {
+    }
+
+    public void RuntimeStopped() {
+      if (_btn_run.InvokeRequired) {
+        _btn_run.Invoke(new MethodInvoker(delegate {
+          _btn_run.Text = "Run";
+          _lb_status.BackColor = Control.DefaultBackColor;
+        }));
+      } else {
+        _btn_run.Text = "Run";
+        _lb_status.BackColor = Control.DefaultBackColor;
+      }
     }
 
     #endregion

@@ -23,8 +23,10 @@ namespace QCV.ConsoleExample {
           })
       );
 
-      QCV.Base.Runtime runtime = new QCV.Base.Runtime();
-      runtime.Run(f, new QCV.Base.ConsoleInteraction(), 10);
+      QCV.Base.Runtime runtime = new QCV.Base.Runtime(
+        new QCV.Base.ConsoleInteraction()
+      );
+      runtime.Run(f, 10);
 
       Console.WriteLine(runtime.Error.Message);
       Console.WriteLine("Check the log files.");
