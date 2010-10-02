@@ -75,7 +75,6 @@ namespace QCV.Base {
           sb.AppendLine(i.ToString() + ": " + cr.Errors[i].ToString());
       } else {
         sb.AppendLine("Build succeeded");
-        sb.AppendLine("Compiler returned with result code: " + cr.NativeCompilerReturnValue.ToString());
       }
 
       return sb.ToString();

@@ -21,8 +21,10 @@ namespace QCV.Base {
     private BackgroundWorker _bw = new BackgroundWorker();
     private FixedTimeStep _fts = new FixedTimeStep();
     private ManualResetEvent _stopped = new ManualResetEvent(false);
+    private IInteraction _ii;
 
-    public Runtime() {
+    public Runtime(IInteraction ii) {
+      _ii = ii;
       _bw.WorkerSupportsCancellation = true;
       _bw.DoWork += new DoWorkEventHandler(DoWork);
       _bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(RunWorkerCompleted);
@@ -30,6 +32,7 @@ namespace QCV.Base {
 
     void RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
       _last_error = e.Result as Exception;
+      _ii.RuntimeStopped();
       _stopped.Set();
       if (RuntimeFinishedEvent != null) {
         RuntimeFinishedEvent(this, new EventArgs());
@@ -63,11 +66,12 @@ namespace QCV.Base {
     /// <summary>
     /// Start frame grabbing asynchronously
     /// </summary>
-    public void Run(FilterList s, IInteraction ii, int wait) {
+    public void Run(FilterList s, int wait) {
       if (!_bw.IsBusy) {
         _stopped.Reset();
         _last_error = null;
-        _bw.RunWorkerAsync(new object[]{s,ii});
+        _ii.RuntimeStarted();
+        _bw.RunWorkerAsync(new object[]{s,_ii});
         if (wait == -1) {
           _stopped.WaitOne();
         } else if (wait > 0) {
@@ -81,6 +85,11 @@ namespace QCV.Base {
       _bw.CancelAsync();
       if (wait)
         _stopped.WaitOne();
+    }
+
+    public void Shutdown() {
+      this.Stop(true);
+      _ii.RuntimeShutdown();
     }
 
     protected override void DisposeManaged() {

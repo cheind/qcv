@@ -20,27 +20,15 @@ using System.Reflection;
 using log4net;
 
 namespace QCV.Base.Addins {
-  public class AddinHost {
-    private List<AddinInfo> _addins = new List<AddinInfo>();
-    private AppDomain _domain;
+
+  public class AddinHost : List<AddinInfo> {
     private static readonly ILog _logger = LogManager.GetLogger(typeof(AddinHost));
-
-    public AddinHost() {
-      _domain = AppDomain.CurrentDomain;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public AddinHost(AppDomain domain) {
-      _domain = domain;
-    }
 
     /// <summary>
     /// Discovers add-ins from current set of loaded assemblies
     /// </summary>
     public void DiscoverInDomain() {
-      foreach (Assembly a in _domain.GetAssemblies()) {
+      foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies()) {
         DiscoverInAssembly(a);
       }
     }
@@ -51,20 +39,28 @@ namespace QCV.Base.Addins {
       }
     }
 
+    public void Merge(AddinHost other) {
+      
+      foreach(AddinInfo ai in other) {
+        int idx = this.FindIndex((a) => { return a.FullName == ai.FullName; });
+        if (idx >= 0) {
+          this[idx] = ai;
+        }
+      }
+      
+    }
+
     /// <summary>
     /// Discovers add-ins from current set of loaded assemblies
     /// </summary>
     public void DiscoverInAssembly(Assembly a) {
       List<AddinInfo> addins = new List<AddinInfo>();
       foreach (Type t in a.GetExportedTypes()) {
-        if (IsAddin(t) && !_addins.Any(ai => ai.Type == t)) {
+        if (IsAddin(t) && !this.Any(ai => ai.Type == t)) {
           addins.Add(new AddinInfo(t));
         }
       }
-      if (addins.Count > 0) {
-        _addins.AddRange(addins);
-        _logger.Debug(String.Format("Discovered {0} addins in '{1}'.", addins.Count, a.FullName));
-      }
+      this.AddRange(addins);
     }
 
     /// <summary>
@@ -88,11 +84,11 @@ namespace QCV.Base.Addins {
     /// <param name="assembly_path">Path to assembly</param>
     public void DiscoverInFile(string assembly_path) {
       try {
-        Assembly a = _domain.Load(assembly_path);
+        Assembly a = AppDomain.CurrentDomain.Load(assembly_path);
         DiscoverInAssembly(a);
       } catch (System.BadImageFormatException) {
         //_logger.Debug(String.Format("'{0}' is not a valid assembly.", assembly_path));
-      } catch (System.IO.FileLoadException e) {
+      } catch (System.IO.FileLoadException) {
         //_logger.Debug(String.Format("'{0}' already loaded.", assembly_path));
       } catch (System.TypeLoadException) {
         //_logger.Warn(String.Format("Type load exception during loading of '{0}' occurred.", assembly_path));
@@ -105,7 +101,7 @@ namespace QCV.Base.Addins {
     /// <param name="type_of">Type</param>
     /// <returns>Enumeration of addin infos</returns>
     public IEnumerable<AddinInfo> FindAddins(Type type_of) {
-      return _addins.Select(ai => ai).Where(ai => ai.TypeOf(type_of));
+      return this.Select(ai => ai).Where(ai => ai.TypeOf(type_of));
     }
 
     /// <summary>
@@ -114,7 +110,7 @@ namespace QCV.Base.Addins {
     /// <param name="type_of">Type</param>
     /// <returns>Enumeration of addin infos</returns>
     public IEnumerable<AddinInfo> FindAddins(Type type_of, Func<AddinInfo, bool> predicate) {
-      return _addins.Where(ai => ai.TypeOf(type_of) && predicate(ai));
+      return this.Where(ai => ai.TypeOf(type_of) && predicate(ai));
     }
 
     /// <summary>
