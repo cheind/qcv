@@ -8,6 +8,7 @@ using Emgu.CV.Structure;
 
 namespace QCV.Base {
   public interface IInteraction {
-    void ShowImage(string id, Image<Bgr, byte> image);
+    void Show(string id, object o);
+    void Query(string text, out object o);
   }
 }

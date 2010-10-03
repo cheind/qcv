@@ -25,7 +25,6 @@ namespace QCV.ConsoleExample {
 
       Base.IFilterListProvider p = new MyFilterList();
 
-
       QCV.Base.Runtime runtime = new QCV.Base.Runtime();
       Dictionary<string, object> env = new Dictionary<string, object>() {
         {"interaction", new QCV.Base.ConsoleInteraction(runtime)}
