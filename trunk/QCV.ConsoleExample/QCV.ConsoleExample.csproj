@@ -85,6 +85,7 @@
     <Compile Include="HelloAddin.cs" />
     <Compile Include="HelloCamera.cs" />
     <Compile Include="HelloException.cs" />
+    <Compile Include="HelloFilterListProvider.cs" />
     <Compile Include="HelloFPS.cs" />
     <Compile Include="HelloImageList.cs" />
     <Compile Include="HelloLogging.cs" />

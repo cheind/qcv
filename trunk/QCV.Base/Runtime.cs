@@ -126,6 +126,7 @@ namespace QCV.Base {
           foreach (IFilter f in fl) {
             f.Execute(info, ev);
             if (ev.Cancel) {
+              _logger.Info(String.Format("Filter {0} requests stop", f.GetType().FullName));
               stop = true;
               break;
             }

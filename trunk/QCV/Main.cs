@@ -41,9 +41,9 @@ namespace QCV {
       CommandLine.CLIArgs args = cl.Args;
 
       if (args.script_paths.Count > 0) {
-        Base.Scripting s = new QCV.Base.Scripting();
+        Base.Compiler s = new QCV.Base.Compiler();
         
-        bool success = s.Compile(
+        bool success = s.CompileFromFile(
           args.script_paths,
           new string[] { 
             "mscorlib.dll", "System.dll", "System.Drawing.dll", "System.Xml.dll",

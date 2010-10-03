@@ -80,19 +80,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Camera.cs" />
+    <Compile Include="ImageList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecordVideo.cs" />
     <Compile Include="ShowFPS.cs" />
     <Compile Include="ShowImage.cs" />
-    <Compile Include="Sources\Camera.cs" />
-    <Compile Include="Sources\ImageList.cs" />
-    <Compile Include="Sources\Source.cs" />
-    <Compile Include="Sources\Video.cs" />
+    <Compile Include="Source.cs" />
+    <Compile Include="Video.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QCV.Base\QCV.Base.csproj">
       <Project>{3B845908-9A44-4907-81C2-BCA17C462A19}</Project>
-      <Name>RDV.Base</Name>
+      <Name>QCV.Base</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -12,7 +12,7 @@ using System.Text;
 using Emgu.CV;
 using System.Runtime.Serialization;
 
-namespace QCV.Toolbox.Sources {
+namespace QCV.Toolbox {
 
   [Serializable]
   public abstract class Source : QCV.Base.Resource, QCV.Base.IFilter, ISerializable {

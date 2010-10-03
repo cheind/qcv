@@ -25,7 +25,6 @@ namespace QCV.ConsoleExample {
 
       Base.Addins.AddinHost h = new QCV.Base.Addins.AddinHost();
       h.DiscoverInDomain();
-      h.DiscoverInDirectory(Environment.CurrentDirectory);
 
       string example_name = "";
       bool help = false;

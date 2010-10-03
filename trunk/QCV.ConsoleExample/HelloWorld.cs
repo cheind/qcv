@@ -20,6 +20,7 @@ namespace QCV.ConsoleExample {
       QCV.Base.Runtime runtime = new QCV.Base.Runtime();
       runtime.FPS = 1.0;
       runtime.Run(f, 10);
+      runtime.Shutdown();
     }
   }
 }

@@ -12,13 +12,13 @@ namespace QCV.ConsoleExample {
 
       // Part one, assembly the filter list
 
-      QCV.Toolbox.Sources.Camera c = new QCV.Toolbox.Sources.Camera();
+      QCV.Toolbox.Camera c = new QCV.Toolbox.Camera();
       c.Name = "input 1";
       c.DeviceIndex = 0;
       c.FrameWidth = 320;
 
       QCV.Toolbox.ShowImage si = new QCV.Toolbox.ShowImage();
-      si.BagName = "input 1";
+      si.BundleName = "input 1";
       si.ShowName = "image";
       
       QCV.Base.FilterList f = new QCV.Base.FilterList();

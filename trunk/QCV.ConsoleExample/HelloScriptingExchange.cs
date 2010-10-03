@@ -8,18 +8,47 @@ using Emgu.CV;
 
 namespace QCV.ConsoleExample {
 
+  class ScriptingFilterList : Base.IFilterListProvider {
+
+    public QCV.Base.FilterList CreateFilterList(QCV.Base.Addins.AddinHost h) {
+      QCV.Toolbox.Camera c = new QCV.Toolbox.Camera();
+      c.DeviceIndex = 0;
+      c.FrameWidth = 320;
+      c.FrameHeight = 200;
+      c.Name = "source";
+
+      QCV.Toolbox.ShowImage si = new QCV.Toolbox.ShowImage();
+      si.BundleName = "source";
+
+      QCV.Base.IFilter script 
+        = h.CreateInstance<QCV.Base.IFilter>("Scripts.DrawRectangle");
+
+      QCV.Base.FilterList f = new QCV.Base.FilterList();
+      f.Add(c);
+      f.Add(script);
+      f.Add(si);
+      return f;
+    }
+  }
+
   [Base.Addins.Addin]
   public class HelloScriptingExchange : IExample {
     public void Run(string[] args) {
       Console.WriteLine("Press any key to quit");
 
-      QCV.Base.Scripting s = new QCV.Base.Scripting();
-      CompileScripts(s);
+      string script = @"..\..\etc\scripts\draw_rectangle.cs";
+      QCV.Base.Compiler s = new QCV.Base.Compiler(
+        new string[] {
+        "QCV.Base.dll", "Emgu.CV.dll", "Emgu.Util.dll", 
+        "System.dll", "System.Drawing.dll", "System.Xml.dll"}
+      );
+      s.CompileFromFile(script);
 
       QCV.Base.Addins.AddinHost h = new QCV.Base.Addins.AddinHost();
       h.DiscoverInAssembly(s.CompiledAssemblies);
 
-      QCV.Base.FilterList fl = BuildFilterList(h);
+      Base.IFilterListProvider provider = new ScriptingFilterList();
+      QCV.Base.FilterList fl = provider.CreateFilterList(h);
 
       QCV.Base.Runtime runtime = new QCV.Base.Runtime();
 
@@ -41,7 +70,7 @@ namespace QCV.ConsoleExample {
       watch.Changed += (sender, ev) => {
         if ((DateTime.Now - dt).TotalSeconds > 1) {
           runtime.Stop(true);
-          if (CompileScripts(s)) {
+          if (s.CompileFromFile(script)) {
 
             QCV.Base.Addins.AddinHost tmp = new QCV.Base.Addins.AddinHost();
             tmp.DiscoverInAssembly(s.CompiledAssemblies);
@@ -69,40 +98,6 @@ namespace QCV.ConsoleExample {
 
       runtime.Stop(true);
       runtime.Shutdown();
-    }
-
-    private bool CompileScripts(QCV.Base.Scripting s) {
-
-      string[] scripts = new string[] { 
-        @"..\..\etc\scripts\draw_rectangle.cs" 
-      };
-
-      return s.Compile(scripts, new string[] { 
-        "QCV.Base.dll", 
-        "Emgu.CV.dll", 
-        "Emgu.Util.dll", 
-        "System.dll", 
-        "System.Drawing.dll",
-        "System.Xml.dll"});
-    }
-
-    private QCV.Base.FilterList BuildFilterList(QCV.Base.Addins.AddinHost h) {
-      QCV.Toolbox.Sources.Camera c = new QCV.Toolbox.Sources.Camera();
-      c.DeviceIndex = 0;
-      c.FrameWidth = 320;
-      c.FrameHeight = 200;
-      c.Name = "source";
-
-      QCV.Toolbox.ShowImage si = new QCV.Toolbox.ShowImage();
-      si.BagName = "source";
-
-      object script = h.FindAndCreateInstance(typeof(QCV.Base.IFilter), "Scripts.DrawRectangle");
-
-      QCV.Base.FilterList f = new QCV.Base.FilterList();
-      f.Add(c);
-      f.Add(script as QCV.Base.IFilter);
-      f.Add(si);
-      return f;
     }
   }
 }

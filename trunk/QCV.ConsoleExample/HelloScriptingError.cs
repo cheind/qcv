@@ -11,12 +11,10 @@ namespace QCV.ConsoleExample {
   public class HelloScriptingError : IExample {
     public void Run(string[] args) {
 
-      QCV.Base.Scripting s = new QCV.Base.Scripting();
+      QCV.Base.Compiler s = new QCV.Base.Compiler();
 
-      bool success = s.Compile(
-        new string[] { @"..\..\etc\scripts\error.cs" },
-        new string[] { "System.dll"});
-
+      bool success = s.CompileFromFile(@"..\..\etc\scripts\error.cs");
+        
       if (!success) {
         Console.WriteLine("Errors during compilation!");
       }
