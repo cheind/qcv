@@ -7,7 +7,7 @@ using Emgu.CV;
 using Emgu.CV.Structure;
 
 namespace QCV.Base {
-  public interface IInteraction {
+  public interface IDataInteractor {
     void Show(string id, object o);
     void Query(string text, out object o);
   }
