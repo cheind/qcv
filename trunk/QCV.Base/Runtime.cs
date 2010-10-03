@@ -134,7 +134,7 @@ namespace QCV.Base {
           stop |= bw.CancellationPending;
         }
       } catch (Exception ex) {
-        _logger.Error(String.Format("Runtime catched error '{0}'", ex.Message));
+        _logger.Error(String.Format("Runtime catched error {0} {1}", ex.Message, ex.StackTrace));
         e.Result = ex;
       }
     }

@@ -25,9 +25,15 @@ namespace QCV.ConsoleExample {
 
       Base.IFilterListProvider p = new MyFilterList();
 
+
       QCV.Base.Runtime runtime = new QCV.Base.Runtime();
-      runtime.FPS = 1.0;
-      runtime.Run(p.CreateFilterList(h), 10);
+      Dictionary<string, object> env = new Dictionary<string, object>() {
+        {"interaction", new QCV.Base.ConsoleInteraction(runtime)}
+      };
+
+      runtime.FPS = 30.0;
+      runtime.Run(p.CreateFilterList(h), env, 10);
+      runtime.Shutdown();
     }
   }
 }
