@@ -18,7 +18,7 @@ namespace Scripts {
     
     public void Execute(Dictionary<string, object> b, System.ComponentModel.CancelEventArgs e) {
       Image<Bgr, byte> i = b.FetchImage("source");
-      i.Draw(new Rectangle(0, 0, i.Size.Width, i.Size.Height), new Bgr(Color.Blue), Thickness);
+      i.Draw(new Rectangle(0, 0, i.Size.Width, i.Size.Height), new Bgr(Color.Red), Thickness);
     }
   }
 }

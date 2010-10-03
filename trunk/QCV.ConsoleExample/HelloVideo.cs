@@ -25,7 +25,7 @@ namespace QCV.ConsoleExample {
 
       Dictionary<string, object> env = new Dictionary<string, object>()
       {
-        {"interaction", new QCV.Base.ConsoleInteraction(runtime)}
+        {"interactor", new QCV.Base.ConsoleDataInteractor(runtime)}
       };
 
       runtime.Run(f, env, 5);

@@ -8,6 +8,7 @@ using Microsoft.VisualBasic;
 using Microsoft.VisualC;
 using System.Reflection;
 using log4net;
+using System.IO;
 
 namespace QCV.Base {
 
@@ -63,27 +64,31 @@ namespace QCV.Base {
         (s) => { return s.EndsWith(_cpp.FileExtension, StringComparison.InvariantCultureIgnoreCase); }
       );
 
-      
-      _results = new List<CompilerResults>();
-      if (csharp.Count() > 0) {
-        _results.Add(_csharp.CompileAssemblyFromFile(_cp, csharp.ToArray()));
-      }
-      if (vb.Count() > 0) {
-        _results.Add(_vb.CompileAssemblyFromFile(_cp, vb.ToArray()));
-      }
-      if (cpp.Count() > 0) {
-        _results.Add(_cpp.CompileAssemblyFromFile(_cp, cpp.ToArray()));
-      }
+      try {
+        _results = new List<CompilerResults>();
+        if (csharp.Count() > 0) {
+          _results.Add(_csharp.CompileAssemblyFromFile(_cp, csharp.ToArray()));
+        }
+        if (vb.Count() > 0) {
+          _results.Add(_vb.CompileAssemblyFromFile(_cp, vb.ToArray()));
+        }
+        if (cpp.Count() > 0) {
+          _results.Add(_cpp.CompileAssemblyFromFile(_cp, cpp.ToArray()));
+        }
 
-      bool success = _results.All((cr) => { return !cr.Errors.HasErrors; });
+        bool success = _results.All((cr) => { return !cr.Errors.HasErrors; });
 
-      if (success) {
-        _logger.Info(FormatCompilerResults());
-      } else {
-        _logger.Error(FormatCompilerResults());
+        if (success) {
+          _logger.Info(FormatCompilerResults());
+        } else {
+          _logger.Error(FormatCompilerResults());
+        }
+        return success;
+
+      } catch (IOException err) {
+        _logger.Error(String.Format("Failed - Exception raised '{0}'", err.Message));
+        return false;
       }
-
-      return success;
     }
 
     public String FormatCompilerResults() {
@@ -92,9 +97,9 @@ namespace QCV.Base {
       bool success = _results.All((cr) => { return !cr.Errors.HasErrors; });
 
       if (success) {
-        sb.Append("Compilation succeeded");
+        sb.Append("Success");
       } else {
-        sb.AppendLine("Compilation failed");
+        sb.AppendLine("Failed");
         foreach (CompilerResults cr in _results) {
           sb.Append(FormatErrors(cr));
         }

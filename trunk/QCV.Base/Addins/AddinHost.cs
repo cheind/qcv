@@ -45,6 +45,8 @@ namespace QCV.Base.Addins {
         int idx = this.FindIndex((a) => { return a.FullName == ai.FullName; });
         if (idx >= 0) {
           this[idx] = ai;
+        } else {
+          this.Add(ai);
         }
       }
       

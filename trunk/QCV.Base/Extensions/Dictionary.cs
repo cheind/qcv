@@ -26,8 +26,8 @@ namespace QCV.Base.Extensions {
       return b.Fetch<FilterList>("playlist");
     }
 
-    public static IInteraction FetchInteraction(this Dictionary<string, object> b) {
-      return b.Fetch<IInteraction>("interaction");
+    public static IDataInteractor FetchInteractor(this Dictionary<string, object> b) {
+      return b.Fetch<IDataInteractor>("interactor");
     }
 
     public static ILog FetchDefaultLogger(this Dictionary<string, object> b) {

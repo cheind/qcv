@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace QCV.Base {
   public class Reconfiguration {
-    public bool Update(FilterList fl, Addins.AddinHost h, out FilterList fl_new) {
+    public void Update(FilterList fl, Addins.AddinHost h, out FilterList fl_new) {
 
       fl_new = new FilterList();
       foreach (IFilter f in fl) {
@@ -16,7 +16,7 @@ namespace QCV.Base {
           (ai) => { return ai.DefaultConstructible && ai.FullName == t.FullName; }
         ).FirstOrDefault();
 
-        if (fai == null || t == fai.GetType()) {
+        if (fai == null || t == fai.Type) {
           // Just move filter over
           fl_new.Add(f);
         } else {
@@ -24,7 +24,6 @@ namespace QCV.Base {
           fl_new.Add(h.CreateInstance(fai) as IFilter);
         }
       }
-      return true;
     }
 
     public void CopyPropertyValues(FilterList from, FilterList to) {

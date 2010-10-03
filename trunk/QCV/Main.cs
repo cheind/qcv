@@ -15,7 +15,7 @@ using log4net.Config;
 using log4net;
 
 namespace QCV {
-  public partial class Main : Form, QCV.Base.IInteraction {
+  public partial class Main : Form, QCV.Base.IDataInteractor {
     private static readonly ILog _logger = LogManager.GetLogger("qcv");
     private Dictionary<string, ShowImageForm> _show_forms = new Dictionary<string, ShowImageForm>();
     private Base.FilterList _filters = new QCV.Base.FilterList();

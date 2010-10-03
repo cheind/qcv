@@ -86,13 +86,14 @@
     <Compile Include="Addins\AddinInfo.cs" />
     <Compile Include="AnonymousFilter.cs" />
     <Compile Include="Compiler.cs" />
-    <Compile Include="ConsoleInteraction.cs" />
+    <Compile Include="ConsoleDataInteractor.cs" />
     <Compile Include="Extensions\Dictionary.cs" />
     <Compile Include="FixedTimeStep.cs" />
     <Compile Include="FilterList.cs" />
+    <Compile Include="IDataInteractor.cs" />
     <Compile Include="IFilter.cs" />
     <Compile Include="IFilterListProvider.cs" />
-    <Compile Include="IInteraction.cs" />
+    <Compile Include="InstantCompiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reconfiguration.cs" />
     <Compile Include="Resource.cs" />
