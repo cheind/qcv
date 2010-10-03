@@ -49,7 +49,8 @@ namespace QCV.ConsoleExample {
         
         QCV.Base.Addins.AddinHost tmp = new QCV.Base.Addins.AddinHost();
         tmp.DiscoverInAssembly(ev.CompiledAssemblies);
-        h.Merge(tmp);
+
+        h.MergeByFullName(tmp);
 
         if (fl == null) {
           Base.IFilterListProvider provider = new ScriptingFilterList();

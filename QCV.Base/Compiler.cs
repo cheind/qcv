@@ -113,7 +113,9 @@ namespace QCV.Base {
       for (int i = 0; i < cr.Errors.Count; i++)
         sb.AppendLine(i.ToString() + ": " + cr.Errors[i].ToString());
 
-      return sb.ToString();
+      string nl = Environment.NewLine;
+      string final = sb.ToString();
+      return final.Remove(final.Length - nl.Length, nl.Length);
     }
   }
 }

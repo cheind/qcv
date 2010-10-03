@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="ValuesDataSet" targetNamespace="http://tempuri.org/ValuesDataSet.xsd" xmlns:mstns="http://tempuri.org/ValuesDataSet.xsd" xmlns="http://tempuri.org/ValuesDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="ValuesDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="ValuesDataSet" msprop:Generator_UserDSName="ValuesDataSet" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="KeyValues" msprop:Generator_UserTableName="KeyValues" msprop:Generator_RowDeletedName="KeyValuesRowDeleted" msprop:Generator_TableClassName="KeyValuesDataTable" msprop:Generator_RowChangedName="KeyValuesRowChanged" msprop:Generator_RowClassName="KeyValuesRow" msprop:Generator_RowChangingName="KeyValuesRowChanging" msprop:Generator_RowEvArgName="KeyValuesRowChangeEvent" msprop:Generator_RowEvHandlerName="KeyValuesRowChangeEventHandler" msprop:Generator_TablePropName="KeyValues" msprop:Generator_TableVarName="tableKeyValues" msprop:Generator_RowDeletingName="KeyValuesRowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Id" msprop:Generator_UserColumnName="Id" msprop:Generator_ColumnPropNameInRow="Id" msprop:Generator_ColumnVarNameInTable="columnId" msprop:Generator_ColumnPropNameInTable="IdColumn" type="xs:string" />
+              <xs:element name="Value" msprop:Generator_UserColumnName="Value" msprop:Generator_ColumnPropNameInRow="Value" msprop:Generator_ColumnVarNameInTable="columnValue" msprop:Generator_ColumnPropNameInTable="ValueColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="DataTable1Key1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:KeyValues" />
+      <xs:field xpath="mstns:Id" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

@@ -72,7 +72,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandLine.cs" />
+    <Compile Include="FilterProperties.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FilterProperties.Designer.cs">
+      <DependentUpon>FilterProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HookableTextWriter.cs" />
+    <Compile Include="Extensions\Control.cs" />
     <Compile Include="Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main.DataInteractor.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Main.Designer.cs">
@@ -80,6 +91,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FilterProperties.resx">
+      <DependentUpon>FilterProperties.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
@@ -87,9 +101,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PropertyForm.resx">
-      <DependentUpon>PropertyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ShowImageForm.resx">
       <DependentUpon>ShowImageForm.cs</DependentUpon>
@@ -102,22 +113,36 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="ValuesDataSet.xsc">
+      <DependentUpon>ValuesDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="ValuesDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ValuesDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="ValuesDataSet.xss">
+      <DependentUpon>ValuesDataSet.xsd</DependentUpon>
+    </None>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="PropertyForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PropertyForm.Designer.cs">
-      <DependentUpon>PropertyForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ShowImageForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ShowImageForm.Designer.cs">
       <DependentUpon>ShowImageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ValuesDataSet.cs">
+      <DependentUpon>ValuesDataSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ValuesDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ValuesDataSet.xsd</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
