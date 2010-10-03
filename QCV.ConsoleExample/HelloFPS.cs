@@ -14,7 +14,7 @@ namespace QCV.ConsoleExample {
   public class HelloFPS : IExample {
 
     public void Run(string[] args) {
-      QCV.Toolbox.Sources.Camera c = new QCV.Toolbox.Sources.Camera();
+      QCV.Toolbox.Camera c = new QCV.Toolbox.Camera();
       c.Name = "input 1";
       c.DeviceIndex = 0;
 

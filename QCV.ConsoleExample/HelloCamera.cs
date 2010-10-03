@@ -10,14 +10,14 @@ namespace QCV.ConsoleExample {
 
     public void Run(string[] args) {
 
-      QCV.Toolbox.Sources.Camera c = new QCV.Toolbox.Sources.Camera();
+      QCV.Toolbox.Camera c = new QCV.Toolbox.Camera();
       c.DeviceIndex = 0;
       c.FrameWidth = 320;
       c.FrameHeight = 200;
       c.Name = "source";
 
       QCV.Toolbox.ShowImage si = new QCV.Toolbox.ShowImage();
-      si.BagName = "source";
+      si.BundleName = "source";
 
       QCV.Base.FilterList f = new QCV.Base.FilterList();
       f.Add(c);

@@ -23,7 +23,7 @@ using System.Xml.Serialization;
 using System.Runtime.Serialization;
 using System.Drawing;
 
-namespace QCV.Toolbox.Sources {
+namespace QCV.Toolbox {
   
   /// <summary>
   /// Represents a camera source
@@ -37,6 +37,23 @@ namespace QCV.Toolbox.Sources {
     
     public Camera() {
       this.DeviceIndex = 0;
+    }
+
+    public Camera(int device_index) {
+      this.DeviceIndex = device_index;
+    }
+
+    public Camera(int device_index, int width, int height) {
+      this.DeviceIndex = device_index;
+      this.FrameWidth = width;
+      this.FrameHeight = height;
+    }
+
+    public Camera(int device_index, int width, int height, string name) {
+      this.DeviceIndex = device_index;
+      this.FrameWidth = width;
+      this.FrameHeight = height;
+      this.Name = name;
     }
 
     public Camera(SerializationInfo info, StreamingContext context) : base(info, context)

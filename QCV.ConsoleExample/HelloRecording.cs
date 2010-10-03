@@ -14,14 +14,14 @@ namespace QCV.ConsoleExample {
   public class HelloRecording : IExample {
 
     public void Run(string[] args) {
-      QCV.Toolbox.Sources.Camera c = new QCV.Toolbox.Sources.Camera();
+      QCV.Toolbox.Camera c = new QCV.Toolbox.Camera();
       c.Name = "camera";
       c.DeviceIndex = 0;
       c.FrameWidth = 640;
       c.FrameHeight = 480;
 
       QCV.Toolbox.ShowImage si = new QCV.Toolbox.ShowImage();
-      si.BagName = "camera";
+      si.BundleName = "camera";
 
       QCV.Toolbox.RecordVideo rv = new QCV.Toolbox.RecordVideo();
       rv.VideoPath = "myvideo.avi";

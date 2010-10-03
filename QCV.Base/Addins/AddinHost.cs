@@ -119,18 +119,39 @@ namespace QCV.Base.Addins {
     /// <param name="ai"></param>
     /// <returns></returns>
     public object CreateInstance(AddinInfo ai) {
-      return Activator.CreateInstance(ai.Type);
+      return CreateInstance(ai, null);
     }
 
-    public object FindAndCreateInstance(Type type_of, string full_name) {
+    /// <summary>
+    /// Create default constructed instance of addin
+    /// </summary>
+    /// <param name="ai"></param>
+    /// <returns></returns>
+    public object CreateInstance(AddinInfo ai, object[] args) {
+      return Activator.CreateInstance(ai.Type, args);
+    }
+
+    public T CreateInstance<T>(string full_name) {
       AddinInfo ai = FindAddins(
-        type_of, 
+        typeof(T), 
         (e) => { return e.DefaultConstructible && e.FullName == full_name; }
       ).FirstOrDefault() as AddinInfo;
       if (ai != null) {
-        return CreateInstance(ai);
+        return (T)CreateInstance(ai);
       } else {
-        return null;
+        return default(T);
+      }
+    }
+
+    public T CreateInstance<T>(string full_name, object[] args) {
+      AddinInfo ai = FindAddins(
+        typeof(T),
+        (e) => { return e.FullName == full_name; }
+      ).FirstOrDefault() as AddinInfo;
+      if (ai != null) {
+        return (T)CreateInstance(ai, args);
+      } else {
+        return default(T);
       }
     }
 

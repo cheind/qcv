@@ -10,10 +10,31 @@ using System.Reflection;
 using log4net;
 
 namespace QCV.Base {
+
   [Serializable]
-  public class Scripting {
-    private static readonly ILog _logger = LogManager.GetLogger(typeof(Scripting));
+  public class Compiler {
+    private static readonly ILog _logger = LogManager.GetLogger(typeof(Compiler));
     private List<CompilerResults> _results = new List<CompilerResults>();
+    private CSharpCodeProvider _csharp;
+    private VBCodeProvider _vb;
+    private CppCodeProvider _cpp;
+    private CompilerParameters _cp;
+
+    public Compiler() : this(new string[]{})
+    {}
+
+    public Compiler(IEnumerable<string> references) {
+      _cp = new CompilerParameters(references.ToArray());
+      _cp.GenerateExecutable = false;
+      _cp.GenerateInMemory = true;
+
+      Dictionary<string, string> pp = new Dictionary<string, string>() 
+      {{"CompilerVersion", "v3.5"}};
+
+      _csharp = new CSharpCodeProvider(pp);
+      _vb = new VBCodeProvider(pp);
+      _cpp = new CppCodeProvider();
+    }
 
     public IList<CompilerResults> CompilerResults {
       get { return _results; }
@@ -23,37 +44,35 @@ namespace QCV.Base {
       get { return _results.Select((cr) => { return cr.CompiledAssembly; }); }
     }
 
-    public bool Compile(IEnumerable<string> sources, IEnumerable<string> refs) {
+    public bool CompileFromFile(string source_path) {
+      return CompileFromFile(new string[] { source_path });
+    }
+
+    public bool CompileFromFile(IEnumerable<string> source_paths) {
 
       // Split sources into various languages
-      IEnumerable<string> csharp = sources.Where(
-        (s) => { return s.EndsWith(".cs", StringComparison.InvariantCultureIgnoreCase); }
+      IEnumerable<string> csharp = source_paths.Where(
+        (s) => { return s.EndsWith(_csharp.FileExtension, StringComparison.InvariantCultureIgnoreCase); }
       );
 
-      IEnumerable<string> vb = sources.Where(
-        (s) => { return s.EndsWith(".vb", StringComparison.InvariantCultureIgnoreCase); }
+      IEnumerable<string> vb = source_paths.Where(
+        (s) => { return s.EndsWith(_vb.FileExtension, StringComparison.InvariantCultureIgnoreCase); }
       );
 
-      IEnumerable<string> cpp = sources.Where(
-        (s) => { return s.EndsWith(".cpp", StringComparison.InvariantCultureIgnoreCase); }
+      IEnumerable<string> cpp = source_paths.Where(
+        (s) => { return s.EndsWith(_cpp.FileExtension, StringComparison.InvariantCultureIgnoreCase); }
       );
 
-      CompilerParameters cp = new CompilerParameters(refs.ToArray());
-      cp.GenerateExecutable = false;
-      cp.GenerateInMemory = true;
       
-      Dictionary<string, string> pp = new Dictionary<string, string>() {{"CompilerVersion", "v3.5"}};
-
       _results = new List<CompilerResults>();
       if (csharp.Count() > 0) {
-        CSharpCodeProvider p = new CSharpCodeProvider();
-        _results.Add(new CSharpCodeProvider(pp).CompileAssemblyFromFile(cp, csharp.ToArray()));
+        _results.Add(_csharp.CompileAssemblyFromFile(_cp, csharp.ToArray()));
       }
       if (vb.Count() > 0) {
-        _results.Add(new VBCodeProvider(pp).CompileAssemblyFromFile(cp, vb.ToArray()));
+        _results.Add(_vb.CompileAssemblyFromFile(_cp, vb.ToArray()));
       }
       if (cpp.Count() > 0) {
-        _results.Add(new CppCodeProvider().CompileAssemblyFromFile(cp, cpp.ToArray()));
+        _results.Add(_cpp.CompileAssemblyFromFile(_cp, cpp.ToArray()));
       }
 
       bool success = _results.All((cr) => { return !cr.Errors.HasErrors; });
@@ -71,6 +90,7 @@ namespace QCV.Base {
       StringBuilder sb = new StringBuilder();
 
       bool success = _results.All((cr) => { return !cr.Errors.HasErrors; });
+
       if (success) {
         sb.Append("Compilation succeeded");
       } else {

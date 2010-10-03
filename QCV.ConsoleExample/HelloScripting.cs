@@ -11,12 +11,11 @@ namespace QCV.ConsoleExample {
   public class HelloScripting : IExample {
     public void Run(string[] args) {
 
-      QCV.Base.Scripting s = new QCV.Base.Scripting();
+      QCV.Base.Compiler s = new QCV.Base.Compiler(
+        new string[] { "QCV.Base.dll", "System.dll" }
+      );
 
-      bool success = s.Compile(
-        new string[]{ @"..\..\etc\scripts\say_hello.cs" },
-        new string[]{"QCV.Base.dll", "System.dll"});
-
+      bool success = s.CompileFromFile(@"..\..\etc\scripts\say_hello.cs");
       Console.WriteLine(s.FormatCompilerResults());
 
       if (!success) {
@@ -25,10 +24,7 @@ namespace QCV.ConsoleExample {
 
       QCV.Base.Addins.AddinHost h = new QCV.Base.Addins.AddinHost();
       h.DiscoverInAssembly(s.CompiledAssemblies);
-      QCV.Base.IFilter say_hello = h.FindAndCreateInstance(
-        typeof(QCV.Base.IFilter),
-        "Scripts.SayHello") as QCV.Base.IFilter;
-
+      QCV.Base.IFilter say_hello = h.CreateInstance<QCV.Base.IFilter>("Scripts.SayHello");
       QCV.Base.FilterList f = new QCV.Base.FilterList();
       f.Add(say_hello);
       

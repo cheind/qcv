@@ -14,7 +14,7 @@ namespace QCV.ConsoleExample {
       v.Name = "source";
 
       QCV.Toolbox.ShowImage si = new QCV.Toolbox.ShowImage();
-      si.BagName = "source";
+      si.BundleName = "source";
 
       QCV.Base.FilterList f = new QCV.Base.FilterList();
       f.Add(v);
