@@ -116,6 +116,10 @@ namespace QCV.Base {
         e.Argument as Dictionary<string, object>;
 
       FilterList fl = info["filterlist"] as FilterList;
+      if (fl == null || fl.Count == 0) {
+        _logger.Warn("No filters to work on");
+        return;
+      }
 
       bool stop = bw.CancellationPending;
       CancelEventArgs ev = new CancelEventArgs(false);

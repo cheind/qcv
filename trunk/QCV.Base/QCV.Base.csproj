@@ -90,6 +90,7 @@
     <Compile Include="Extensions\Dictionary.cs" />
     <Compile Include="FixedTimeStep.cs" />
     <Compile Include="FilterList.cs" />
+    <Compile Include="Globbing.cs" />
     <Compile Include="IDataInteractor.cs" />
     <Compile Include="IFilter.cs" />
     <Compile Include="IFilterListProvider.cs" />

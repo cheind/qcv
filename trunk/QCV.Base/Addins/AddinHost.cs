@@ -39,17 +39,11 @@ namespace QCV.Base.Addins {
       }
     }
 
-    public void Merge(AddinHost other) {
-      
-      foreach(AddinInfo ai in other) {
-        int idx = this.FindIndex((a) => { return a.FullName == ai.FullName; });
-        if (idx >= 0) {
-          this[idx] = ai;
-        } else {
-          this.Add(ai);
-        }
-      }
-      
+    public void MergeByFullName(AddinHost other) {
+      AddinHost tmp = new AddinHost();
+      tmp.AddRange(other.Union(this, new AddinInfoFullNameComparer()));
+      this.Clear();
+      this.AddRange(tmp);      
     }
 
     /// <summary>

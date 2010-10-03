@@ -14,59 +14,130 @@ using System.CodeDom.Compiler;
 using log4net.Config;
 using log4net;
 
+using QCV.Extensions;
+
 namespace QCV {
-  public partial class Main : Form, QCV.Base.IDataInteractor {
-    private static readonly ILog _logger = LogManager.GetLogger("qcv");
-    private Dictionary<string, ShowImageForm> _show_forms = new Dictionary<string, ShowImageForm>();
-    private Base.FilterList _filters = new QCV.Base.FilterList();
+  public partial class Main : Form {
+
+    private static readonly ILog _logger = LogManager.GetLogger(typeof(Main));
+    private HookableTextWriter _console_hook = new HookableTextWriter();
+    private Base.InstantCompiler _ic = null;
+    private Base.Addins.AddinHost _ah = null;
+    private Dictionary<string, object> _env = null;
+    private Base.FilterList _fl = null;
     private Base.Runtime _runtime = null;
-    private PropertyForm _props = new PropertyForm();
+    private CommandLine.CLIArgs _args = null;
 
     public Main() {
       InitializeComponent();
-      _runtime = new QCV.Base.Runtime(this);
 
+      // Redirect console output
+      _console_hook.StringAppendedEvent += new HookableTextWriter.StringAppendedEventHandler(ConsoleStringAppendedEvent);
+      Console.SetOut(_console_hook);
+
+      // Configure logging
       XmlConfigurator.Configure(new System.IO.FileInfo("QCV.log4net"));
-      
-      this.AddOwnedForm(_props);
-
-      Base.Addins.AddinHost.DiscoverInDomain();
-      Base.Addins.AddinHost.DiscoverInDirectory(Environment.CurrentDirectory);
-      Base.Addins.AddinHost.DiscoverInDirectory(Path.Combine(Environment.CurrentDirectory, "plugins"));
-
-      _props.FormClosing += new FormClosingEventHandler(AnyFormClosing);
 
       // Parse command line
       CommandLine cl = new CommandLine();
-      CommandLine.CLIArgs args = cl.Args;
+      _args = cl.Args;
 
-      if (args.script_paths.Count > 0) {
-        Base.Compiler s = new QCV.Base.Compiler();
-        
-        bool success = s.CompileFromFile(
-          args.script_paths,
-          new string[] { 
+      // Compile all scripts
+      _ic = new QCV.Base.InstantCompiler(
+        _args.script_paths,
+        _args.references.Union(new string[] { 
             "mscorlib.dll", "System.dll", "System.Drawing.dll", "System.Xml.dll",
-            "QCV.Base.dll", "QCV.Toolbox.dll", "Emgu.CV.dll", "Emgu.Util.dll"}
-        );
+            "QCV.Base.dll", "QCV.Toolbox.dll", "Emgu.CV.dll", "Emgu.Util.dll"}).Distinct()
+      );
+      _ic.BuildSucceededEvent += new QCV.Base.InstantCompiler.BuildEventHandler(BuildSucceededEvent);
 
-        if (success) {
-          _logger.Debug(s.FormatErrors(s.CompilerResults));
-          Base.Addins.AddinHost.DiscoverInAssembly(s.CompiledAssemblies);
-        } else {
-          _logger.Error(s.FormatErrors(s.CompilerResults));
-        }
+      _ah = new QCV.Base.Addins.AddinHost();
+      _ah.DiscoverInDomain();
+      _ah.DiscoverInDirectory(Environment.CurrentDirectory);
+
+      _env = new Dictionary<string, object>() {
+        {"interactor", this}
+      };
+
+      _runtime = new QCV.Base.Runtime();
+      _runtime.RuntimeStartingEvent += new EventHandler(RuntimeStartingEvent);
+      _runtime.RuntimeStoppedEvent += new EventHandler(RuntimeStoppedEvent);
+
+      _ic.Compile();
+
+      if (_args.immediate_execute) {
+        _runtime.Run(_fl, _env, 0);
+      }
+    }
+
+    void ConsoleStringAppendedEvent(object sender, string text) {
+      _rtb_console.InvokeIfRequired(() => {
+        _rtb_console.SelectionColor = ColorFromText(text);
+        _rtb_console.AppendText(text);
+        _rtb_console.ScrollToCaret();
+      });
+    }
+
+    private Color ColorFromText(string text) {
+      if (text.StartsWith("INFO")) {
+        return Color.DarkGreen;
+      } else if (text.StartsWith("ERROR")) {
+        return Color.DarkRed;
+      } else if (text.StartsWith("WARN")) {
+        return Color.DarkOrange;
+      } else {
+        return Color.Black;
+      }
+    }
+
+    void RuntimeStoppedEvent(object sender, EventArgs e) {
+      _btn_run.InvokeIfRequired(() => {
+        _btn_run.Text = "Run";
+        _btn_run.BackColor = Control.DefaultBackColor;
+      });
+    }
+
+    void RuntimeStartingEvent(object sender, EventArgs e) {
+      _btn_run.InvokeIfRequired(() => {
+        _btn_run.Text = "Stop";
+        _btn_run.BackColor = Color.LightGreen;
+      });
+    }
+
+    void BuildSucceededEvent(object sender, QCV.Base.Compiler compiler) {
+      bool running = _runtime.Running;
+      if (running) {
+        _runtime.Stop(true);
       }
 
-      _filters.AddRange(LoadAndCombineFilterLists(args.load_paths));
-      _filters.AddRange(CreateFilterListFromNames(args.filter_names));
+      QCV.Base.Addins.AddinHost tmp = new QCV.Base.Addins.AddinHost();
+      tmp.DiscoverInAssembly(compiler.CompiledAssemblies);
+      _ah.MergeByFullName(tmp);
 
-      _lb_status.Text = String.Format("Created {0} filters", _filters.Count);
-      PreprocessFilter(_filters);
-      _props.Filters = _filters;
+      if (_fl == null) {
+        _fl = new QCV.Base.FilterList();
+        IEnumerable<Base.Addins.AddinInfo> providers = _ah.FindAddins(
+            typeof(Base.IFilterListProvider),
+            (ai) => (ai.DefaultConstructible && _args.filterlist_providers.Contains(ai.FullName)));
 
-      if (args.immediate_execute) {
-        RunOrStopRuntime();
+        foreach (Base.Addins.AddinInfo ai in providers) {
+          Base.IFilterListProvider p = _ah.CreateInstance(ai) as Base.IFilterListProvider;
+          _fl.AddRange(p.CreateFilterList(_ah));
+        }
+
+        _logger.Info(String.Format("Created {0} filters.", _fl.Count));
+      } else {
+        QCV.Base.Reconfiguration r = new QCV.Base.Reconfiguration();
+        QCV.Base.FilterList fl_new;
+        r.Update(_fl, _ah, out fl_new);
+        r.CopyPropertyValues(_fl, fl_new);
+        _fl = fl_new;
+      }
+
+      _filter_properties.Filters = _fl;
+
+      if (running) {
+        _runtime.Run(_fl, _env, 0);
       }
     }
 
@@ -78,26 +149,6 @@ namespace QCV {
       return fl;
     }
 
-    private void PreprocessFilter(QCV.Base.FilterList filters) {
-      Toolbox.ShowFPS fps = filters.FirstOrDefault(
-        (f) => { return f is Toolbox.ShowFPS; }
-      ) as Toolbox.ShowFPS;
-
-      if (fps != null) {
-        fps.FPSUpdateEvent += new Toolbox.ShowFPS.FPSUpdateEventHandler(FPSUpdateEvent);
-      }
-    }
-
-    void FPSUpdateEvent(object sender, double fps) {
-      if (_lb_status.InvokeRequired) {
-        _btn_run.Invoke(new MethodInvoker(delegate {
-          _lb_status.Text = String.Format("FPS: {0}", (int)fps);
-        }));
-      } else {
-        _lb_status.Text = String.Format("FPS: {0}", (int)fps);
-      }
-    }
-
     void AnyFormClosing(object sender, FormClosingEventArgs e) {
       if (e.CloseReason != CloseReason.FormOwnerClosing) {
         e.Cancel = true;
@@ -105,45 +156,21 @@ namespace QCV {
       }
     }
 
-    Base.FilterList CreateFilterListFromNames(IEnumerable<string> filter_names) {
-      Base.FilterList fl = new QCV.Base.FilterList();
-      foreach (string filter_name in filter_names) {
-        IEnumerable<Base.Addins.AddinInfo> e = Base.Addins.AddinHost.FindAddins(
-          typeof(Base.IFilter),
-          (ai) => { return ai.FullName == filter_name; }
-        );
-        if (e.Count() > 0) {
-          Base.IFilter f = Base.Addins.AddinHost.CreateInstance(e.First()) as Base.IFilter;
-          fl.Add(f);
-        }
-      }
-      return fl;
-    }
-
-    private void _btn_props_Click(object sender, EventArgs e) {
-      _props.Show();
-    }
-
     private void _btn_play_Click(object sender, EventArgs e) {
-      RunOrStopRuntime();
-    }
-
-    private void RunOrStopRuntime() {
       if (_runtime.Running) {
         _runtime.Stop(false);
       } else {
-        _btn_run.Text = "Stop";
-        _lb_status.BackColor = Color.LightGreen;
-
-        _runtime.Run(_filters, 0);
+        _runtime.Run(_fl, _env, 0);
       }
     }
 
     private void Main_FormClosing(object sender, FormClosingEventArgs e) {
-      if (_runtime.Running) {
-        _runtime.Stop(false);
-        e.Cancel = true;
-      }
+      e.Cancel = Shutdown();
+    }
+
+    private bool Shutdown() {
+      _runtime.Stop(false);
+      return _runtime.Running;
     }
 
     private void _mnu_help_arguments_Click(object sender, EventArgs e) {
@@ -153,46 +180,8 @@ namespace QCV {
 
     private void _mnu_save_filter_list_Click(object sender, EventArgs e) {
       if (this.saveFileDialog1.ShowDialog() == DialogResult.OK) {
-        Base.FilterList.Save(this.saveFileDialog1.FileName, _filters);
+        Base.FilterList.Save(this.saveFileDialog1.FileName, _fl);
       }
     }
-
-    #region IInteraction Members
-
-    public void Show(string id, Image<Bgr, byte> image) {
-      Image<Bgr, byte> copy = image.Copy();
-      this.Invoke(new MethodInvoker(delegate {
-        ShowImageForm f = null;
-        if (!_show_forms.ContainsKey(id)) {
-          f = new ShowImageForm();
-          f.Text = id;
-          this.AddOwnedForm(f);
-          f.FormClosing += new FormClosingEventHandler(AnyFormClosing);
-          f.Show();
-          _show_forms.Add(id, f);
-        } else {
-          f = _show_forms[id];
-        }
-        Rectangle r = f.ClientRectangle;
-        f.Image = copy.Resize(r.Width, r.Height, Emgu.CV.CvEnum.INTER.CV_INTER_NN, true);
-      }));
-    }
-
-    public void RuntimeStarted() {
-    }
-
-    public void RuntimeStopped() {
-      if (_btn_run.InvokeRequired) {
-        _btn_run.Invoke(new MethodInvoker(delegate {
-          _btn_run.Text = "Run";
-          _lb_status.BackColor = Control.DefaultBackColor;
-        }));
-      } else {
-        _btn_run.Text = "Run";
-        _lb_status.BackColor = Control.DefaultBackColor;
-      }
-    }
-
-    #endregion
   }
 }

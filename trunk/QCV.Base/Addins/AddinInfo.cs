@@ -103,4 +103,15 @@ namespace QCV.Base.Addins {
       return t.IsAssignableFrom(_type);
     }
   }
+
+  class AddinInfoFullNameComparer : IEqualityComparer<AddinInfo> {
+
+    public bool Equals(AddinInfo a, AddinInfo b) {
+      return a.FullName == b.FullName;
+    }
+
+    public int GetHashCode(AddinInfo a) {
+      return a.FullName.GetHashCode();
+    }
+  }
 }

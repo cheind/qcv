@@ -19,7 +19,6 @@ namespace QCV.ConsoleExample {
       c.DeviceIndex = 0;
 
       QCV.Toolbox.ShowFPS fps = new QCV.Toolbox.ShowFPS();
-      fps.FPSUpdateEvent += new QCV.Toolbox.ShowFPS.FPSUpdateEventHandler(FPSUpdateEvent);
 
       QCV.Base.FilterList f = new QCV.Base.FilterList();
       f.Add(c);
@@ -42,10 +41,6 @@ namespace QCV.ConsoleExample {
       runtime.FPS = 30.0;
       runtime.Run(f, env, 10);
       runtime.Shutdown();
-    }
-
-    void FPSUpdateEvent(object sender, double fps) {
-      Console.Write("FPS {0} \r", (int)fps);
     }
   }
 }
