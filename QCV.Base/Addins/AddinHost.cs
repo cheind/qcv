@@ -84,7 +84,7 @@ namespace QCV.Base.Addins {
     /// <param name="assembly_path">Path to assembly</param>
     public void DiscoverInFile(string assembly_path) {
       try {
-        Assembly a = AppDomain.CurrentDomain.Load(assembly_path);
+        Assembly a = Assembly.LoadFrom(assembly_path);
         DiscoverInAssembly(a);
       } catch (System.BadImageFormatException) {
         //_logger.Debug(String.Format("'{0}' is not a valid assembly.", assembly_path));
