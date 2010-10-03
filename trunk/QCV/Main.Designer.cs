@@ -38,12 +38,12 @@
       this._tp_filters = new System.Windows.Forms.TabPage();
       this._tb_values = new System.Windows.Forms.TabPage();
       this.dataGridView1 = new System.Windows.Forms.DataGridView();
-      this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.valueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.keyValuesBindingSource = new System.Windows.Forms.BindingSource(this.components);
       this.valuesDataSet = new QCV.ValuesDataSet();
       this.valuesDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
       this._filter_properties = new QCV.FilterProperties();
+      this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.valueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.menuStrip1.SuspendLayout();
       this._tabctrl.SuspendLayout();
       this._tb_console.SuspendLayout();
@@ -57,9 +57,9 @@
       // 
       // _btn_run
       // 
-      this._btn_run.Location = new System.Drawing.Point(12, 44);
+      this._btn_run.Location = new System.Drawing.Point(12, 38);
       this._btn_run.Name = "_btn_run";
-      this._btn_run.Size = new System.Drawing.Size(75, 50);
+      this._btn_run.Size = new System.Drawing.Size(75, 56);
       this._btn_run.TabIndex = 0;
       this._btn_run.Text = "Run";
       this._btn_run.UseVisualStyleBackColor = true;
@@ -112,11 +112,11 @@
       this._tabctrl.Controls.Add(this._tp_filters);
       this._tabctrl.Controls.Add(this._tb_values);
       this._tabctrl.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this._tabctrl.Location = new System.Drawing.Point(0, 100);
+      this._tabctrl.Location = new System.Drawing.Point(0, 109);
       this._tabctrl.Multiline = true;
       this._tabctrl.Name = "_tabctrl";
       this._tabctrl.SelectedIndex = 0;
-      this._tabctrl.Size = new System.Drawing.Size(510, 238);
+      this._tabctrl.Size = new System.Drawing.Size(510, 229);
       this._tabctrl.TabIndex = 4;
       // 
       // _tb_console
@@ -125,7 +125,7 @@
       this._tb_console.Location = new System.Drawing.Point(4, 23);
       this._tb_console.Name = "_tb_console";
       this._tb_console.Padding = new System.Windows.Forms.Padding(3);
-      this._tb_console.Size = new System.Drawing.Size(502, 208);
+      this._tb_console.Size = new System.Drawing.Size(502, 202);
       this._tb_console.TabIndex = 0;
       this._tb_console.Text = "Console";
       this._tb_console.UseVisualStyleBackColor = true;
@@ -136,7 +136,7 @@
       this._rtb_console.Dock = System.Windows.Forms.DockStyle.Fill;
       this._rtb_console.Location = new System.Drawing.Point(3, 3);
       this._rtb_console.Name = "_rtb_console";
-      this._rtb_console.Size = new System.Drawing.Size(496, 202);
+      this._rtb_console.Size = new System.Drawing.Size(496, 196);
       this._rtb_console.TabIndex = 0;
       this._rtb_console.Text = "";
       // 
@@ -146,7 +146,7 @@
       this._tp_filters.Location = new System.Drawing.Point(4, 23);
       this._tp_filters.Name = "_tp_filters";
       this._tp_filters.Padding = new System.Windows.Forms.Padding(3);
-      this._tp_filters.Size = new System.Drawing.Size(502, 208);
+      this._tp_filters.Size = new System.Drawing.Size(502, 202);
       this._tp_filters.TabIndex = 1;
       this._tp_filters.Text = "Filters";
       this._tp_filters.UseVisualStyleBackColor = true;
@@ -156,7 +156,7 @@
       this._tb_values.Controls.Add(this.dataGridView1);
       this._tb_values.Location = new System.Drawing.Point(4, 23);
       this._tb_values.Name = "_tb_values";
-      this._tb_values.Size = new System.Drawing.Size(502, 211);
+      this._tb_values.Size = new System.Drawing.Size(502, 202);
       this._tb_values.TabIndex = 2;
       this._tb_values.Text = "Values";
       this._tb_values.UseVisualStyleBackColor = true;
@@ -175,22 +175,8 @@
       this.dataGridView1.Location = new System.Drawing.Point(0, 0);
       this.dataGridView1.Name = "dataGridView1";
       this.dataGridView1.ReadOnly = true;
-      this.dataGridView1.Size = new System.Drawing.Size(502, 211);
+      this.dataGridView1.Size = new System.Drawing.Size(502, 202);
       this.dataGridView1.TabIndex = 0;
-      // 
-      // idDataGridViewTextBoxColumn
-      // 
-      this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
-      this.idDataGridViewTextBoxColumn.HeaderText = "Id";
-      this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-      this.idDataGridViewTextBoxColumn.ReadOnly = true;
-      // 
-      // valueDataGridViewTextBoxColumn
-      // 
-      this.valueDataGridViewTextBoxColumn.DataPropertyName = "Value";
-      this.valueDataGridViewTextBoxColumn.HeaderText = "Value";
-      this.valueDataGridViewTextBoxColumn.Name = "valueDataGridViewTextBoxColumn";
-      this.valueDataGridViewTextBoxColumn.ReadOnly = true;
       // 
       // keyValuesBindingSource
       // 
@@ -212,8 +198,25 @@
       this._filter_properties.Dock = System.Windows.Forms.DockStyle.Fill;
       this._filter_properties.Location = new System.Drawing.Point(3, 3);
       this._filter_properties.Name = "_filter_properties";
-      this._filter_properties.Size = new System.Drawing.Size(496, 203);
+      this._filter_properties.Size = new System.Drawing.Size(496, 197);
       this._filter_properties.TabIndex = 0;
+      // 
+      // idDataGridViewTextBoxColumn
+      // 
+      this.idDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+      this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
+      this.idDataGridViewTextBoxColumn.HeaderText = "Id";
+      this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
+      this.idDataGridViewTextBoxColumn.ReadOnly = true;
+      this.idDataGridViewTextBoxColumn.Width = 43;
+      // 
+      // valueDataGridViewTextBoxColumn
+      // 
+      this.valueDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+      this.valueDataGridViewTextBoxColumn.DataPropertyName = "Value";
+      this.valueDataGridViewTextBoxColumn.HeaderText = "Value";
+      this.valueDataGridViewTextBoxColumn.Name = "valueDataGridViewTextBoxColumn";
+      this.valueDataGridViewTextBoxColumn.ReadOnly = true;
       // 
       // Main
       // 
@@ -263,9 +266,9 @@
     private System.Windows.Forms.DataGridView dataGridView1;
     private System.Windows.Forms.BindingSource valuesDataSetBindingSource;
     private ValuesDataSet valuesDataSet;
+    private System.Windows.Forms.BindingSource keyValuesBindingSource;
     private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
     private System.Windows.Forms.DataGridViewTextBoxColumn valueDataGridViewTextBoxColumn;
-    private System.Windows.Forms.BindingSource keyValuesBindingSource;
 
   }
 }
