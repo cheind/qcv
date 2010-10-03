@@ -40,7 +40,7 @@ namespace QCV.Toolbox {
     public void Execute(Dictionary<string, object> b, System.ComponentModel.CancelEventArgs e) {
       Image<Bgr, byte> i = b.FetchImage(_bundle_name);
       Base.IInteraction ii = b.FetchInteraction();
-      ii.ShowImage(_show_name, i);
+      ii.Show(_show_name, i);
     }
   }
 }

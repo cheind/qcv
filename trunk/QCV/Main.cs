@@ -159,7 +159,7 @@ namespace QCV {
 
     #region IInteraction Members
 
-    public void ShowImage(string id, Image<Bgr, byte> image) {
+    public void Show(string id, Image<Bgr, byte> image) {
       Image<Bgr, byte> copy = image.Copy();
       this.Invoke(new MethodInvoker(delegate {
         ShowImageForm f = null;

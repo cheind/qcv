@@ -25,7 +25,7 @@ namespace QCV.ConsoleExample {
           (b, ev) => {
             Image<Bgr, byte> i = b.FetchImage("input 1");
             i.Draw(new Rectangle(0, 0, i.Width, i.Height), new Bgr(Color.Green), 4);
-            b.FetchInteraction().ShowImage("from input 1", i);
+            b.FetchInteraction().Show("from input 1", i);
           })
       );
 
@@ -36,6 +36,7 @@ namespace QCV.ConsoleExample {
       };
       runtime.FPS = 30.0;
       runtime.Run(f, env, 10);
+      runtime.Shutdown();
     }
   }
 }
