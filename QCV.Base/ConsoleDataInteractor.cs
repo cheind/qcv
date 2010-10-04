@@ -66,7 +66,7 @@ namespace QCV.Base {
       }
     }
 
-    public void Query(string text, out object o) {
+    public bool Query(string text, object o) {
       throw new NotImplementedException();
     }
 

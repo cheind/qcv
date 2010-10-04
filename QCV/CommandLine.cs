@@ -12,6 +12,7 @@ namespace QCV {
       public bool parsed_ok = true;
       public bool help = false;
       public bool immediate_execute = false;
+      public bool auto_shutdown = false;
       public List<string> filterlist_providers = new List<string>();
       public List<string> load_paths = new List<string>();
       public List<string> script_paths = new List<string>();
@@ -34,6 +35,8 @@ namespace QCV {
           v => _args.script_paths.AddRange(Base.Globbing.Glob(v)) },
         { "run", "immediately start executing", 
           v => _args.immediate_execute = v != null },
+        { "shutdown", "automatically exit application when runtime stops", 
+          v => _args.auto_shutdown = v != null }
       };
 
       Parse();

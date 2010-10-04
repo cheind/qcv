@@ -47,17 +47,12 @@ namespace QCV {
             r.Value = o.ToString();
             valuesDataSet.KeyValues.Rows.Add(r);
           }
-          
-          
-          
         }));
-        
-        
       }
     }
 
-    public void Query(string text, out object o) {
-      throw new NotImplementedException();
+    public bool Query(string text, object o) {
+      return _query_ctrl.Query(text, o);
     }
   }
 }
