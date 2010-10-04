@@ -10,9 +10,14 @@ QCV is an acronym and stands for "Quick Computer Vision". QCV is a framework for
   # a class library (QCV.Base.dll) representing the core entities QCV and
   # Third-party libraries (such as Emgu/OpenCV) providing additional data structures and algorithms.
 
-
-
 =Motivation=
+Does the following paragraph sound familiar?
+ Did you ever had a great idea for an algorithm, but failed to implement it because setting up the environment took to much time? Have you ever felt frustrated trying to connect to sensors, playing videos from your harddisk? 
+
+
+
+The development of QCV is linked to the development of [http://parsley.googlecode.com Parsley]. In fact
+
 =Prerequisites=
 =Overview=
 =Basic Usage=
