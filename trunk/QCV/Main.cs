@@ -27,6 +27,7 @@ namespace QCV {
     private Base.FilterList _fl = null;
     private Base.Runtime _runtime = null;
     private CommandLine.CLIArgs _args = null;
+    private bool _appexit_requested = false;
 
     public Main() {
       InitializeComponent();
@@ -34,6 +35,9 @@ namespace QCV {
       // Redirect console output
       _console_hook.StringAppendedEvent += new HookableTextWriter.StringAppendedEventHandler(ConsoleStringAppendedEvent);
       Console.SetOut(_console_hook);
+
+      _query_ctrl.OnQueryBeginEvent += new QueryControl.OnQueryBeginEventHandler(OnQueryBeginEvent);
+      _query_ctrl.OnQueryEndEvent += new QueryControl.OnQueryEndEventHandler(OnQueryEndEvent);
 
       // Configure logging
       XmlConfigurator.Configure(new System.IO.FileInfo("QCV.log4net"));
@@ -70,6 +74,14 @@ namespace QCV {
       }
     }
 
+    void OnQueryEndEvent(object sender, bool results) {
+      _tp_query.Text = _tp_query.Text.TrimEnd(new char[] { '*' });
+    }
+
+    void OnQueryBeginEvent(object sender, string text, object query) {
+      _tp_query.Text += "*";
+    }
+
     void ConsoleStringAppendedEvent(object sender, string text) {
       _rtb_console.InvokeIfRequired(() => {
         _rtb_console.SelectionColor = ColorFromText(text);
@@ -90,13 +102,6 @@ namespace QCV {
       }
     }
 
-    void RuntimeStoppedEvent(object sender, EventArgs e) {
-      _btn_run.InvokeIfRequired(() => {
-        _btn_run.Text = "Run";
-        _btn_run.BackColor = Control.DefaultBackColor;
-      });
-    }
-
     void RuntimeStartingEvent(object sender, EventArgs e) {
       _btn_run.InvokeIfRequired(() => {
         _btn_run.Text = "Stop";
@@ -104,9 +109,21 @@ namespace QCV {
       });
     }
 
+    void RuntimeStoppedEvent(object sender, EventArgs e) {
+      _btn_run.InvokeIfRequired(() => {
+        if (_appexit_requested || _args.auto_shutdown) {
+          this.Close();
+        } else {
+          _btn_run.Text = "Run";
+          _btn_run.BackColor = Control.DefaultBackColor;
+        }
+      });
+    }
+
     void BuildSucceededEvent(object sender, QCV.Base.Compiler compiler) {
       bool running = _runtime.Running;
       if (running) {
+        _query_ctrl.Cancel();
         _runtime.Stop(true);
       }
 
@@ -158,6 +175,7 @@ namespace QCV {
 
     private void _btn_play_Click(object sender, EventArgs e) {
       if (_runtime.Running) {
+        _query_ctrl.Cancel();
         _runtime.Stop(false);
       } else {
         _runtime.Run(_fl, _env, 0);
@@ -165,10 +183,12 @@ namespace QCV {
     }
 
     private void Main_FormClosing(object sender, FormClosingEventArgs e) {
+      _appexit_requested = true;
       e.Cancel = Shutdown();
     }
 
     private bool Shutdown() {
+      _query_ctrl.Cancel();
       _runtime.Stop(false);
       return _runtime.Running;
     }

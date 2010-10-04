@@ -22,8 +22,8 @@ namespace QCV.Base.Extensions {
       return b.Fetch<Runtime>("runtime");
     }
 
-    public static FilterList FetchPlaylist(this Dictionary<string, object> b) {
-      return b.Fetch<FilterList>("playlist");
+    public static FilterList FetchFilterList(this Dictionary<string, object> b) {
+      return b.Fetch<FilterList>("filterlist");
     }
 
     public static IDataInteractor FetchInteractor(this Dictionary<string, object> b) {

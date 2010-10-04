@@ -102,6 +102,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="QueryControl.resx">
+      <DependentUpon>QueryControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ShowImageForm.resx">
       <DependentUpon>ShowImageForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -128,6 +131,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="QueryControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="QueryControl.Designer.cs">
+      <DependentUpon>QueryControl.cs</DependentUpon>
     </Compile>
     <Compile Include="ShowImageForm.cs">
       <SubType>Form</SubType>
