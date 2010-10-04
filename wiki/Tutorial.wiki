@@ -11,14 +11,13 @@ QCV is an acronym and stands for "Quick Computer Vision". QCV is a framework for
   # Third-party libraries (such as Emgu/OpenCV) providing additional data structures and algorithms.
 
 =Motivation=
-Does the following paragraph sound familiar?
- Did you ever had a great idea for an algorithm, but failed to implement it because setting up the environment took to much time? Have you ever felt frustrated trying to connect to sensors, playing videos from your harddisk? 
+Does the following paragraph sound familiar to you?
+ Have you ever had a great idea for an algorithm, but failed to implement it because setting up the environment took to much time? Have you ever felt frustrated setting up projects, managing dependencies, closing your application for a rebuilt to see the effects of your changed algorithm?
 
-
-
-The development of QCV is linked to the development of [http://parsley.googlecode.com Parsley]. In fact
+Sounds familiar? Then QCV is for you. It provides a complete setup to host and run your algorithms. You don't even need a integrated development environment to get started. QCV automatically detects changes in your algorithm source files and applies those changes online.
 
 =Prerequisites=
+
 =Overview=
 =Basic Usage=
 ==Hello World==
