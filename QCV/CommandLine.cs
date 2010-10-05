@@ -13,6 +13,7 @@ namespace QCV {
       public bool help = false;
       public bool immediate_execute = false;
       public bool auto_shutdown = false;
+      public bool enable_debugger = false;
       public List<string> filterlist_providers = new List<string>();
       public List<string> load_paths = new List<string>();
       public List<string> script_paths = new List<string>();
@@ -36,7 +37,9 @@ namespace QCV {
         { "run", "immediately start executing", 
           v => _args.immediate_execute = v != null },
         { "shutdown", "automatically exit application when runtime stops", 
-          v => _args.auto_shutdown = v != null }
+          v => _args.auto_shutdown = v != null },
+        { "debug", "enable attaching a debugger", 
+          v => _args.enable_debugger = v != null }
       };
 
       Parse();

@@ -31,7 +31,8 @@ namespace QCV.ConsoleExample {
       QCV.Base.InstantCompiler ic = new QCV.Base.InstantCompiler(
         scripts, new string[] {
         "QCV.Base.dll", "Emgu.CV.dll", "Emgu.Util.dll", 
-        "System.dll", "System.Drawing.dll", "System.Xml.dll"});
+        "System.dll", "System.Drawing.dll", "System.Xml.dll"},
+        false);
 
       QCV.Base.Addins.AddinHost h = new QCV.Base.Addins.AddinHost();
       h.DiscoverInDomain();

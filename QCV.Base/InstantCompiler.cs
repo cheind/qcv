@@ -15,17 +15,18 @@ namespace QCV.Base {
     public delegate void BuildEventHandler(object sender, Compiler compiler);
     public event BuildEventHandler BuildSucceededEvent;
 
-    public InstantCompiler(IEnumerable<string> watch_files)
+    public InstantCompiler(IEnumerable<string> watch_files, bool debug)
     {
-      _c = new Compiler();
+      _c = new Compiler(debug);
       _files = watch_files;
       InstallFileSystemWatch(watch_files);
     }
 
     public InstantCompiler(IEnumerable<string> watch_files,
-                           IEnumerable<string> references) 
+                           IEnumerable<string> references,
+                           bool debug) 
     {
-      _c = new Compiler(references);
+      _c = new Compiler(references, debug);
       _files = watch_files;
       InstallFileSystemWatch(watch_files);
     }

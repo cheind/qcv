@@ -20,22 +20,29 @@ namespace QCV.Base {
     private VBCodeProvider _vb;
     private CppCodeProvider _cpp;
     private CompilerParameters _cp;
+    private Dictionary<string, string> _pp;
 
-    public Compiler() : this(new string[]{})
+    public Compiler() 
+      : this(new string[]{}, false)
     {}
 
-    public Compiler(IEnumerable<string> references) {
+    public Compiler(bool debug)
+      : this(new string[] { }, debug) 
+    { }
+
+
+    public Compiler(IEnumerable<string> references, bool debug) {
       _cp = new CompilerParameters(references.ToArray());
       _cp.GenerateExecutable = false;
-      _cp.GenerateInMemory = true;
-      _cp.IncludeDebugInformation = true;
-      _cp.TempFiles.KeepFiles = false;
+      _cp.GenerateInMemory = false;
+      _cp.IncludeDebugInformation = debug;
+      _cp.TempFiles.KeepFiles = debug;
 
-      Dictionary<string, string> pp = new Dictionary<string, string>() 
+      _pp = new Dictionary<string, string>() 
       {{"CompilerVersion", "v3.5"}};
 
-      _csharp = new CSharpCodeProvider(pp);
-      _vb = new VBCodeProvider(pp);
+      _csharp = new CSharpCodeProvider(_pp);
+      _vb = new VBCodeProvider(_pp);
       _cpp = new CppCodeProvider();
     }
 
@@ -88,6 +95,9 @@ namespace QCV.Base {
         return success;
 
       } catch (IOException err) {
+        _logger.Error(String.Format("Failed - Exception raised '{0}'", err.Message));
+        return false;
+      } catch (ArgumentException err) {
         _logger.Error(String.Format("Failed - Exception raised '{0}'", err.Message));
         return false;
       }
