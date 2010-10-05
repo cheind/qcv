@@ -28,6 +28,8 @@ namespace QCV.Base {
       _cp = new CompilerParameters(references.ToArray());
       _cp.GenerateExecutable = false;
       _cp.GenerateInMemory = true;
+      _cp.IncludeDebugInformation = true;
+      _cp.TempFiles.KeepFiles = false;
 
       Dictionary<string, string> pp = new Dictionary<string, string>() 
       {{"CompilerVersion", "v3.5"}};
