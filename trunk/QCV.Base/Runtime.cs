@@ -122,14 +122,14 @@ namespace QCV.Base {
       }
 
       bool stop = bw.CancellationPending;
-      CancelEventArgs ev = new CancelEventArgs(false);
+      info["cancel"] = false;
       try {
         while (!stop) {
           _fts.UpdateAndWait();
 
           foreach (IFilter f in fl) {
-            f.Execute(info, ev);
-            if (ev.Cancel) {
+            f.Execute(info);
+            if ((bool)info["cancel"]) {
               _logger.Info(String.Format("Filter {0} requests stop", f.GetType().FullName));
               stop = true;
               break;

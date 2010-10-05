@@ -22,7 +22,7 @@ namespace Scripts {
       set { _color = value;}
     }
     
-    public void Execute(Dictionary<string, object> b, System.ComponentModel.CancelEventArgs e) {
+    public void Execute(Dictionary<string, object> b) {
       Image<Bgr, byte> i = b.FetchImage("source");
       i.Draw(new Rectangle(0, 0, i.Size.Width, i.Size.Height), new Bgr(_color), Thickness);
     }

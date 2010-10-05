@@ -7,6 +7,6 @@ using System.ComponentModel;
 namespace QCV.Base {
   
   public interface IFilter {
-    void Execute(Dictionary<string, object> b, CancelEventArgs e);
+    void Execute(Dictionary<string, object> b);
   }
 }

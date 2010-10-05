@@ -64,7 +64,7 @@ namespace QCV.Toolbox {
       set { _bag_name = value; }
     }
 
-    public void Execute(Dictionary<string, object> b, System.ComponentModel.CancelEventArgs e) {
+    public void Execute(Dictionary<string, object> b) {
       if (_vw == null) {
         _vw = new VideoWriter(_path, _fps, _frame_width, _frame_height, true);
       }

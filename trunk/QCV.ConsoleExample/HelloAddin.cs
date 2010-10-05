@@ -16,7 +16,7 @@ namespace QCV.ConsoleExample {
       _message = message;
     }
 
-    public void Execute(Dictionary<string, object> b, System.ComponentModel.CancelEventArgs e) {
+    public void Execute(Dictionary<string, object> b) {
       Console.WriteLine(String.Format("Executing {0} : {1}", this.GetType().FullName, _message));
     }
   }
@@ -35,7 +35,7 @@ namespace QCV.ConsoleExample {
         h.CreateInstance<QCV.Base.IFilter>("QCV.ConsoleExample.DemoFilter");
 
       if (filter != null) {
-        filter.Execute(null, null);
+        filter.Execute(null);
       }
 
       filter =
@@ -45,7 +45,7 @@ namespace QCV.ConsoleExample {
         );
 
       if (filter != null) {
-        filter.Execute(null, null);
+        filter.Execute(null);
       }
     }
   }

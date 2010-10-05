@@ -23,6 +23,11 @@ namespace QCV.Toolbox {
     public ImageList() {
     }
 
+    public ImageList(string directory_path, string file_pattern) {
+      this.DirectoryPath = directory_path;
+      this.FilePattern = file_pattern;
+    }
+
     public ImageList(SerializationInfo info, StreamingContext context) : base(info, context)
     {
       _id = 0;
@@ -70,10 +75,10 @@ namespace QCV.Toolbox {
       }
     }
 
-    public override void Execute(Dictionary<string, object> b, CancelEventArgs e) {
+    public override void Execute(Dictionary<string, object> b) {
       Image<Bgr, byte> i = this.Frame();
       b[this.Name] = i;
-      e.Cancel = (i == null);
+      b["cancel"] = (i == null);
     }
 
     void UpdateFiles() {

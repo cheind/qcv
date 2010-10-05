@@ -20,6 +20,8 @@ using Emgu.CV;
 using Emgu.CV.Structure;
 using System.IO;
 using System.Runtime.Serialization;
+using System.Drawing.Design;
+using System.Windows.Forms.Design;
 
 namespace QCV.Toolbox.Sources {
   
@@ -35,6 +37,11 @@ namespace QCV.Toolbox.Sources {
     
     public Video() {}
 
+    public Video(string video_path) 
+    {
+      this.VideoPath = video_path;
+    }
+
     public Video(SerializationInfo info, StreamingContext context) : base (info, context)
     {
       string path = (string)info.GetValue("path", typeof(string));
@@ -47,6 +54,7 @@ namespace QCV.Toolbox.Sources {
     }
 
 
+    [Editor(typeof(FileNameEditor), typeof(UITypeEditor))]
     public string VideoPath {
       get { lock (this) { return _path; } }
       set {
@@ -91,10 +99,10 @@ namespace QCV.Toolbox.Sources {
       }
     }
 
-    public override void Execute(Dictionary<string, object> b, CancelEventArgs e) {
+    public override void Execute(Dictionary<string, object> b) {
       Image<Bgr, byte> i = this.Frame();
       b[this.Name] = i;
-      e.Cancel = (i == null);
+      b["cancel"] = (i == null);
     }
   }
 }

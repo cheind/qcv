@@ -120,10 +120,10 @@ namespace QCV.Toolbox {
       }
     }
 
-    public override void Execute(Dictionary<string, object> b, CancelEventArgs e) {
+    public override void Execute(Dictionary<string, object> b) {
       Image<Bgr, byte> i = this.Frame();
       b[this.Name] = i;
-      e.Cancel = (i == null);
+      b["cancel"] = (i == null);
     }
 
     protected override void DisposeManaged() {
