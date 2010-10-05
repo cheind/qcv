@@ -12,7 +12,8 @@ namespace QCV.ConsoleExample {
     public void Run(string[] args) {
 
       QCV.Base.Compiler s = new QCV.Base.Compiler(
-        new string[] { "QCV.Base.dll", "System.dll" }
+        new string[] { "QCV.Base.dll", "System.dll" },
+        false
       );
 
       bool success = s.CompileFromFile(@"..\..\etc\scripts\say_hello.cs");

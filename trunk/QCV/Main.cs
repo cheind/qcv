@@ -51,7 +51,8 @@ namespace QCV {
         _args.script_paths,
         _args.references.Union(new string[] { 
             "mscorlib.dll", "System.dll", "System.Drawing.dll", "System.Xml.dll",
-            "QCV.Base.dll", "QCV.Toolbox.dll", "Emgu.CV.dll", "Emgu.Util.dll"}).Distinct()
+            "QCV.Base.dll", "QCV.Toolbox.dll", "Emgu.CV.dll", "Emgu.Util.dll"}).Distinct(),
+        _args.enable_debugger
       );
       _ic.BuildSucceededEvent += new QCV.Base.InstantCompiler.BuildEventHandler(BuildSucceededEvent);
 
@@ -132,6 +133,7 @@ namespace QCV {
       _ah.MergeByFullName(tmp);
 
       if (_fl == null) {
+        // First run
         _fl = new QCV.Base.FilterList();
         IEnumerable<Base.Addins.AddinInfo> providers = _ah.FindAddins(
             typeof(Base.IFilterListProvider),
@@ -144,6 +146,7 @@ namespace QCV {
 
         _logger.Info(String.Format("Created {0} filters.", _fl.Count));
       } else {
+        // Subsequent runs
         QCV.Base.Reconfiguration r = new QCV.Base.Reconfiguration();
         QCV.Base.FilterList fl_new;
         r.Update(_fl, _ah, out fl_new);
