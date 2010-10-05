@@ -8,14 +8,14 @@ namespace QCV.Base {
 
   public class AnonymousFilter : IFilter {
 
-    Action<Dictionary<string, object>, CancelEventArgs> _action;
+    Action<Dictionary<string, object>> _action;
 
-    public AnonymousFilter(Action<Dictionary<string, object>, CancelEventArgs> action) {
+    public AnonymousFilter(Action<Dictionary<string, object>> action) {
       _action = action;
     }
 
-    public void Execute(Dictionary<string, object> b, CancelEventArgs e) {
-      _action(b, e);
+    public void Execute(Dictionary<string, object> b) {
+      _action(b);
     }
   }
 }

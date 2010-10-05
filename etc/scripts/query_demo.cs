@@ -15,10 +15,10 @@ namespace Scripts {
       };
     }
     
-    public void Execute(Dictionary<string, object> b, System.ComponentModel.CancelEventArgs e) {
+    public void Execute(Dictionary<string, object> b) {
       bool result = b.FetchInteractor().Query("Continue?", null);
       if (!result) {
-        e.Cancel = true;
+        b["cancel"] = true;
       }
     }
   }

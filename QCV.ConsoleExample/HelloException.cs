@@ -18,7 +18,7 @@ namespace QCV.ConsoleExample {
       QCV.Base.FilterList f = new QCV.Base.FilterList();
       f.Add(
         new QCV.Base.AnonymousFilter(
-          (b, ev) => {
+          (b) => {
             throw new Exception("ups!");
           })
       );

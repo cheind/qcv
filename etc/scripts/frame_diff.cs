@@ -18,7 +18,7 @@ namespace Scripts {
     bool is_in_change = true;
     
     
-    public void Execute(Dictionary<string, object> b, System.ComponentModel.CancelEventArgs e) {
+    public void Execute(Dictionary<string, object> b) {
       Image<Bgr, byte> image = b.FetchImage("source");
       Image<Gray, byte> g = image.Convert<Gray, byte>();
 

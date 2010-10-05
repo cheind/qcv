@@ -37,7 +37,7 @@ namespace QCV.Toolbox {
       set { _show_name = value; }
     }
 
-    public void Execute(Dictionary<string, object> b, System.ComponentModel.CancelEventArgs e) {
+    public void Execute(Dictionary<string, object> b) {
       Image<Bgr, byte> i = b.FetchImage(_bundle_name);
       Base.IDataInteractor ii = b.FetchInteractor();
       ii.Show(_show_name, i);

@@ -33,7 +33,7 @@ namespace QCV.Toolbox {
       set {_update_frequency = value;}
     }
 
-    public void Execute(Dictionary<string, object> b, System.ComponentModel.CancelEventArgs e) {
+    public void Execute(Dictionary<string, object> b) {
       _iterations += 1;
       DateTime now = DateTime.Now;
       double elapsed = (now - _last_update).TotalSeconds;
