@@ -34,7 +34,7 @@ namespace QCV.Base {
     public Compiler(IEnumerable<string> references, bool debug) {
       _cp = new CompilerParameters(references.ToArray());
       _cp.GenerateExecutable = false;
-      _cp.GenerateInMemory = false;
+      _cp.GenerateInMemory = !debug;
       _cp.IncludeDebugInformation = debug;
       _cp.TempFiles.KeepFiles = debug;
 
