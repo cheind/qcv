@@ -5,6 +5,7 @@ using QCV.Base.Extensions;
 namespace Scripts {
 
   [QCV.Base.Addins.Addin]
+  [Serializable]
   public class QueryDemo : QCV.Base.IFilter, QCV.Base.IFilterListProvider {
     
     public QCV.Base.FilterList CreateFilterList(QCV.Base.Addins.AddinHost h) {
@@ -18,6 +19,7 @@ namespace Scripts {
     public void Execute(Dictionary<string, object> b) {
       bool result = b.FetchInteractor().Query("Continue?", null);
       if (!result) {
+        Console.WriteLine("abc");
         b["cancel"] = true;
       }
     }

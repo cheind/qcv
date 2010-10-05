@@ -56,10 +56,6 @@ namespace QCV {
       );
       _ic.BuildSucceededEvent += new QCV.Base.InstantCompiler.BuildEventHandler(BuildSucceededEvent);
 
-      _ah = new QCV.Base.Addins.AddinHost();
-      _ah.DiscoverInDomain();
-      _ah.DiscoverInDirectory(Environment.CurrentDirectory);
-
       _env = new Dictionary<string, object>() {
         {"interactor", this}
       };
@@ -85,6 +81,7 @@ namespace QCV {
 
     void ConsoleStringAppendedEvent(object sender, string text) {
       _rtb_console.InvokeIfRequired(() => {
+        _rtb_console.Select(_rtb_console.TextLength, 0);
         _rtb_console.SelectionColor = ColorFromText(text);
         _rtb_console.AppendText(text);
         _rtb_console.ScrollToCaret();
@@ -130,9 +127,15 @@ namespace QCV {
 
       QCV.Base.Addins.AddinHost tmp = new QCV.Base.Addins.AddinHost();
       tmp.DiscoverInAssembly(compiler.CompiledAssemblies);
-      _ah.MergeByFullName(tmp);
+      
 
       if (_fl == null) {
+
+        _ah = new QCV.Base.Addins.AddinHost();
+        _ah.DiscoverInDomain();
+        _ah.DiscoverInDirectory(Environment.CurrentDirectory);
+        _ah.MergeByFullName(tmp);
+
         // First run
         _fl = new QCV.Base.FilterList();
         IEnumerable<Base.Addins.AddinInfo> providers = _ah.FindAddins(
@@ -144,8 +147,27 @@ namespace QCV {
           _fl.AddRange(p.CreateFilterList(_ah));
         }
 
+        foreach (string lpath in _args.load_paths) {
+          string path = Path.GetFullPath(lpath);
+          if (File.Exists(path)) {
+            try {
+              Base.FilterList tmp_fl = Base.FilterList.Load(path);
+              _fl.AddRange(tmp_fl);
+            } catch (Exception err) {
+              _logger.Error(
+                String.Format("Failed to load FilterList from '{0}' {1}", 
+                path, err.Message)
+              );
+            }
+               
+          } else {
+            _logger.Error(String.Format("Path '{0}' does not exist.", lpath));
+          }
+        }
+
         _logger.Info(String.Format("Created {0} filters.", _fl.Count));
       } else {
+        _ah.MergeByFullName(tmp);
         // Subsequent runs
         QCV.Base.Reconfiguration r = new QCV.Base.Reconfiguration();
         QCV.Base.FilterList fl_new;
@@ -203,7 +225,14 @@ namespace QCV {
 
     private void _mnu_save_filter_list_Click(object sender, EventArgs e) {
       if (this.saveFileDialog1.ShowDialog() == DialogResult.OK) {
-        Base.FilterList.Save(this.saveFileDialog1.FileName, _fl);
+        try {
+          Base.FilterList.Save(this.saveFileDialog1.FileName, _fl);
+        } catch (Exception err) {
+          _logger.Error(
+            String.Format("Failed to save FilterList to '{0}' {1}",
+            this.saveFileDialog1.FileName, err.Message)
+          );
+        }
       }
     }
   }
