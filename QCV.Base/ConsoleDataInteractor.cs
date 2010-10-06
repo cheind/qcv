@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Emgu.CV;
 using Emgu.CV.Structure;
+using System.Reflection;
 
 namespace QCV.Base {
 
@@ -44,9 +45,11 @@ namespace QCV.Base {
     private OpenCVImageHandler _ih;
     private Dictionary<Type, Action<string, object> > _show_lookup;
     private Action<string, object> _show_else;
+    private EventInvocationCache _eic;
 
     public ConsoleDataInteractor(Runtime r) {
       _ih = new OpenCVImageHandler(r);
+      _eic = new EventInvocationCache();
 
       _show_lookup = new Dictionary<Type,Action<string,object>>()
       {
@@ -68,6 +71,15 @@ namespace QCV.Base {
 
     public bool Query(string text, object o) {
       throw new NotImplementedException();
+    }
+
+
+    public void ExecutePendingEvents(object instance, Dictionary<string, object> bundle) {
+      _eic.InvokeEvents(instance, bundle);
+    }
+
+    public void CacheEvent(object instance, MethodInfo mi) {
+      _eic.Add(instance, mi);
     }
 
   }

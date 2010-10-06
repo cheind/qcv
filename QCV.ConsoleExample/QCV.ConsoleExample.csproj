@@ -84,6 +84,7 @@
   <ItemGroup>
     <Compile Include="HelloAddin.cs" />
     <Compile Include="HelloCamera.cs" />
+    <Compile Include="HelloEvents.cs" />
     <Compile Include="HelloException.cs" />
     <Compile Include="HelloFilterListProvider.cs" />
     <Compile Include="HelloFPS.cs" />
