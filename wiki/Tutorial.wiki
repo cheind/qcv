@@ -58,7 +58,13 @@ You can run the above example by saving it to <tt>hello_world.cs</tt> and then i
 {{{
 qcv.exe -s hello_world.cs Tutorial.HelloWorld
 }}}
-on your command line.
+on your command line. This will startup <tt>qcv.exe</tt> which will display a graphical user interface allowing you to interact with hosted filters. The following image annotates parts of <tt>qcv.exe</tt>. Don't worry if you don't understand all the annotations at this point of the tutorial.
+
+http://qcv.googlecode.com/svn/trunk/etc/doc/qcv-callouts.png
+
+
+
+<tt>qcv.exe</tt> will automatically compile all sources passed with the <tt>-s</tt>  command line switch. Th
 
 ==Getting Input from Sources==
 ==Interaction==
