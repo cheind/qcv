@@ -147,7 +147,7 @@ QCV ships with support for the following image input sources
 You can, of course, connect from multiple sources within a single filter list.
 
 {{{
-// file: multiple_image_input.cs
+// qcv.exe -s multiple_image_input.cs Tutorial.MultipleImageInput
 using System;
 using System.Collections.Generic;
 
