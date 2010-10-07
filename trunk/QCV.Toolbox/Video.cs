@@ -34,6 +34,7 @@ namespace QCV.Toolbox.Sources {
 
     private string _path = null;
     private Emgu.CV.Capture _device = null;
+    private bool _loop = false;
     
     public Video() {}
 
@@ -45,12 +46,19 @@ namespace QCV.Toolbox.Sources {
     public Video(SerializationInfo info, StreamingContext context) : base (info, context)
     {
       string path = (string)info.GetValue("path", typeof(string));
+      this.Loop = info.GetBoolean("loop");
       this.VideoPath = path;
     }
 
     public override void GetObjectData(SerializationInfo info, StreamingContext context) {
       base.GetObjectData(info, context);
       info.AddValue("path", _path);
+      info.AddValue("loop", _loop);
+    }
+
+    public bool Loop {
+      get { return _loop; }
+      set { _loop = value; }
     }
 
 

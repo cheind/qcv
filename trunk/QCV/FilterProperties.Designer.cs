@@ -33,6 +33,7 @@
       this._pg.Location = new System.Drawing.Point(0, 0);
       this._pg.Margin = new System.Windows.Forms.Padding(0);
       this._pg.Name = "_pg";
+      this._pg.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
       this._pg.Size = new System.Drawing.Size(440, 391);
       this._pg.TabIndex = 0;
       this._pg.ToolbarVisible = false;
