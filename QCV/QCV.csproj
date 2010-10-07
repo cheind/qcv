@@ -73,11 +73,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandLine.cs" />
+    <Compile Include="FilterEvents.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FilterEvents.Designer.cs">
+      <DependentUpon>FilterEvents.cs</DependentUpon>
+    </Compile>
     <Compile Include="FilterProperties.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="FilterProperties.Designer.cs">
       <DependentUpon>FilterProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FilterSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FilterSettings.Designer.cs">
+      <DependentUpon>FilterSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="HookableTextWriter.cs" />
     <Compile Include="Extensions\Control.cs" />
@@ -92,8 +104,14 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FilterEvents.resx">
+      <DependentUpon>FilterEvents.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FilterProperties.resx">
       <DependentUpon>FilterProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FilterSettings.resx">
+      <DependentUpon>FilterSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
@@ -103,11 +121,11 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="QueryControl.resx">
-      <DependentUpon>QueryControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ShowImageForm.resx">
       <DependentUpon>ShowImageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShowQueryForm.resx">
+      <DependentUpon>ShowQueryForm.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -133,17 +151,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="QueryControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="QueryControl.Designer.cs">
-      <DependentUpon>QueryControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="ShowImageForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ShowImageForm.Designer.cs">
       <DependentUpon>ShowImageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ShowQueryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShowQueryForm.Designer.cs">
+      <DependentUpon>ShowQueryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ValuesDataSet.cs">
       <DependentUpon>ValuesDataSet.xsd</DependentUpon>

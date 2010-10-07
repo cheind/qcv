@@ -28,16 +28,19 @@ namespace QCV {
     private Base.Runtime _runtime = null;
     private CommandLine.CLIArgs _args = null;
     private bool _appexit_requested = false;
+    private ShowQueryForm _query_form;
 
     public Main() {
       InitializeComponent();
 
+      _query_form = new ShowQueryForm(this);
+      _query_form.FormClosing += new FormClosingEventHandler(AnyFormClosing);
+
+      _fl_settings.DataInteractor = this;
+
       // Redirect console output
       _console_hook.StringAppendedEvent += new HookableTextWriter.StringAppendedEventHandler(ConsoleStringAppendedEvent);
       Console.SetOut(_console_hook);
-
-      _query_ctrl.OnQueryBeginEvent += new QueryControl.OnQueryBeginEventHandler(OnQueryBeginEvent);
-      _query_ctrl.OnQueryEndEvent += new QueryControl.OnQueryEndEventHandler(OnQueryEndEvent);
 
       // Configure logging
       XmlConfigurator.Configure(new System.IO.FileInfo("QCV.log4net"));
@@ -69,14 +72,6 @@ namespace QCV {
       if (_args.immediate_execute) {
         _runtime.Run(_fl, _env, 0);
       }
-    }
-
-    void OnQueryEndEvent(object sender, bool results) {
-      _tp_query.Text = _tp_query.Text.TrimEnd(new char[] { '*' });
-    }
-
-    void OnQueryBeginEvent(object sender, string text, object query) {
-      _tp_query.Text += "*";
     }
 
     void ConsoleStringAppendedEvent(object sender, string text) {
@@ -121,7 +116,7 @@ namespace QCV {
     void BuildSucceededEvent(object sender, QCV.Base.Compiler compiler) {
       bool running = _runtime.Running;
       if (running) {
-        _query_ctrl.Cancel();
+        _query_form.Cancel();
         _runtime.Stop(true);
       }
 
@@ -176,7 +171,7 @@ namespace QCV {
         _fl = fl_new;
       }
 
-      _filter_properties.Filters = _fl;
+      _fl_settings.GenerateUI(_fl);
 
       if (running) {
         _runtime.Run(_fl, _env, 0);
@@ -200,7 +195,7 @@ namespace QCV {
 
     private void _btn_play_Click(object sender, EventArgs e) {
       if (_runtime.Running) {
-        _query_ctrl.Cancel();
+        _query_form.Cancel();
         _runtime.Stop(false);
       } else {
         _runtime.Run(_fl, _env, 0);
@@ -213,7 +208,7 @@ namespace QCV {
     }
 
     private bool Shutdown() {
-      _query_ctrl.Cancel();
+      _query_form.Cancel();
       _runtime.Stop(false);
       return _runtime.Running;
     }

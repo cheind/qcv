@@ -14,5 +14,13 @@ namespace QCV.Extensions {
         action();
       }
     }
+
+    public static void BeginInvokeIfRequired(this Control control, MethodInvoker action) {
+      if (control.InvokeRequired) {
+        control.BeginInvoke(action);
+      } else {
+        action();
+      }
+    }
   }
 }

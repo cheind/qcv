@@ -32,35 +32,32 @@
       this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this._mnu_help_arguments = new System.Windows.Forms.ToolStripMenuItem();
       this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-      this._tabctrl = new System.Windows.Forms.TabControl();
-      this._tp_console = new System.Windows.Forms.TabPage();
-      this._rtb_console = new System.Windows.Forms.RichTextBox();
-      this._tp_filters = new System.Windows.Forms.TabPage();
-      this._tp_values = new System.Windows.Forms.TabPage();
-      this.dataGridView1 = new System.Windows.Forms.DataGridView();
-      this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.valueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.keyValuesBindingSource = new System.Windows.Forms.BindingSource(this.components);
       this.valuesDataSet = new QCV.ValuesDataSet();
       this.valuesDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
-      this._tp_query = new System.Windows.Forms.TabPage();
-      this._filter_properties = new QCV.FilterProperties();
-      this._query_ctrl = new QCV.QueryControl();
+      this._tp_values = new System.Windows.Forms.TabPage();
+      this.dataGridView1 = new System.Windows.Forms.DataGridView();
+      this.valueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this._tp_console = new System.Windows.Forms.TabPage();
+      this._rtb_console = new System.Windows.Forms.RichTextBox();
+      this._tabctrl = new System.Windows.Forms.TabControl();
+      this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+      this._fl_settings = new QCV.FilterSettings();
       this.menuStrip1.SuspendLayout();
-      this._tabctrl.SuspendLayout();
-      this._tp_console.SuspendLayout();
-      this._tp_filters.SuspendLayout();
-      this._tp_values.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.keyValuesBindingSource)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.valuesDataSet)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.valuesDataSetBindingSource)).BeginInit();
-      this._tp_query.SuspendLayout();
+      this._tp_values.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+      this._tp_console.SuspendLayout();
+      this._tabctrl.SuspendLayout();
+      this.tableLayoutPanel1.SuspendLayout();
       this.SuspendLayout();
       // 
       // _btn_run
       // 
-      this._btn_run.Location = new System.Drawing.Point(12, 38);
+      this._btn_run.Location = new System.Drawing.Point(3, 3);
       this._btn_run.Name = "_btn_run";
       this._btn_run.Size = new System.Drawing.Size(75, 56);
       this._btn_run.TabIndex = 0;
@@ -75,7 +72,7 @@
             this.helpToolStripMenuItem});
       this.menuStrip1.Location = new System.Drawing.Point(0, 0);
       this.menuStrip1.Name = "menuStrip1";
-      this.menuStrip1.Size = new System.Drawing.Size(510, 24);
+      this.menuStrip1.Size = new System.Drawing.Size(512, 24);
       this.menuStrip1.TabIndex = 3;
       this.menuStrip1.Text = "menuStrip1";
       // 
@@ -109,58 +106,28 @@
       this._mnu_help_arguments.Text = "Arguments";
       this._mnu_help_arguments.Click += new System.EventHandler(this._mnu_help_arguments_Click);
       // 
-      // _tabctrl
+      // keyValuesBindingSource
       // 
-      this._tabctrl.Controls.Add(this._tp_console);
-      this._tabctrl.Controls.Add(this._tp_filters);
-      this._tabctrl.Controls.Add(this._tp_values);
-      this._tabctrl.Controls.Add(this._tp_query);
-      this._tabctrl.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this._tabctrl.Location = new System.Drawing.Point(0, 109);
-      this._tabctrl.Multiline = true;
-      this._tabctrl.Name = "_tabctrl";
-      this._tabctrl.SelectedIndex = 0;
-      this._tabctrl.Size = new System.Drawing.Size(510, 229);
-      this._tabctrl.TabIndex = 4;
+      this.keyValuesBindingSource.DataMember = "KeyValues";
+      this.keyValuesBindingSource.DataSource = this.valuesDataSet;
       // 
-      // _tp_console
+      // valuesDataSet
       // 
-      this._tp_console.Controls.Add(this._rtb_console);
-      this._tp_console.Location = new System.Drawing.Point(4, 23);
-      this._tp_console.Name = "_tp_console";
-      this._tp_console.Padding = new System.Windows.Forms.Padding(3);
-      this._tp_console.Size = new System.Drawing.Size(502, 202);
-      this._tp_console.TabIndex = 0;
-      this._tp_console.Text = "Console";
-      this._tp_console.UseVisualStyleBackColor = true;
+      this.valuesDataSet.DataSetName = "ValuesDataSet";
+      this.valuesDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
       // 
-      // _rtb_console
+      // valuesDataSetBindingSource
       // 
-      this._rtb_console.BorderStyle = System.Windows.Forms.BorderStyle.None;
-      this._rtb_console.Dock = System.Windows.Forms.DockStyle.Fill;
-      this._rtb_console.Location = new System.Drawing.Point(3, 3);
-      this._rtb_console.Name = "_rtb_console";
-      this._rtb_console.Size = new System.Drawing.Size(496, 196);
-      this._rtb_console.TabIndex = 0;
-      this._rtb_console.Text = "";
-      // 
-      // _tp_filters
-      // 
-      this._tp_filters.Controls.Add(this._filter_properties);
-      this._tp_filters.Location = new System.Drawing.Point(4, 23);
-      this._tp_filters.Name = "_tp_filters";
-      this._tp_filters.Padding = new System.Windows.Forms.Padding(3);
-      this._tp_filters.Size = new System.Drawing.Size(502, 202);
-      this._tp_filters.TabIndex = 1;
-      this._tp_filters.Text = "Filters";
-      this._tp_filters.UseVisualStyleBackColor = true;
+      this.valuesDataSetBindingSource.DataSource = this.valuesDataSet;
+      this.valuesDataSetBindingSource.Position = 0;
       // 
       // _tp_values
       // 
+      this._tp_values.BackColor = System.Drawing.Color.Transparent;
       this._tp_values.Controls.Add(this.dataGridView1);
       this._tp_values.Location = new System.Drawing.Point(4, 23);
       this._tp_values.Name = "_tp_values";
-      this._tp_values.Size = new System.Drawing.Size(502, 202);
+      this._tp_values.Size = new System.Drawing.Size(504, 128);
       this._tp_values.TabIndex = 2;
       this._tp_values.Text = "Values";
       this._tp_values.UseVisualStyleBackColor = true;
@@ -179,8 +146,16 @@
       this.dataGridView1.Location = new System.Drawing.Point(0, 0);
       this.dataGridView1.Name = "dataGridView1";
       this.dataGridView1.ReadOnly = true;
-      this.dataGridView1.Size = new System.Drawing.Size(502, 203);
+      this.dataGridView1.Size = new System.Drawing.Size(504, 129);
       this.dataGridView1.TabIndex = 0;
+      // 
+      // valueDataGridViewTextBoxColumn
+      // 
+      this.valueDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+      this.valueDataGridViewTextBoxColumn.DataPropertyName = "Value";
+      this.valueDataGridViewTextBoxColumn.HeaderText = "Value";
+      this.valueDataGridViewTextBoxColumn.Name = "valueDataGridViewTextBoxColumn";
+      this.valueDataGridViewTextBoxColumn.ReadOnly = true;
       // 
       // idDataGridViewTextBoxColumn
       // 
@@ -191,66 +166,75 @@
       this.idDataGridViewTextBoxColumn.ReadOnly = true;
       this.idDataGridViewTextBoxColumn.Width = 43;
       // 
-      // valueDataGridViewTextBoxColumn
+      // _tp_console
       // 
-      this.valueDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-      this.valueDataGridViewTextBoxColumn.DataPropertyName = "Value";
-      this.valueDataGridViewTextBoxColumn.HeaderText = "Value";
-      this.valueDataGridViewTextBoxColumn.Name = "valueDataGridViewTextBoxColumn";
-      this.valueDataGridViewTextBoxColumn.ReadOnly = true;
+      this._tp_console.BackColor = System.Drawing.Color.Transparent;
+      this._tp_console.Controls.Add(this._rtb_console);
+      this._tp_console.Location = new System.Drawing.Point(4, 23);
+      this._tp_console.Name = "_tp_console";
+      this._tp_console.Padding = new System.Windows.Forms.Padding(3);
+      this._tp_console.Size = new System.Drawing.Size(504, 128);
+      this._tp_console.TabIndex = 0;
+      this._tp_console.Text = "Console";
+      this._tp_console.UseVisualStyleBackColor = true;
       // 
-      // keyValuesBindingSource
+      // _rtb_console
       // 
-      this.keyValuesBindingSource.DataMember = "KeyValues";
-      this.keyValuesBindingSource.DataSource = this.valuesDataSet;
+      this._rtb_console.BorderStyle = System.Windows.Forms.BorderStyle.None;
+      this._rtb_console.Dock = System.Windows.Forms.DockStyle.Fill;
+      this._rtb_console.Location = new System.Drawing.Point(3, 3);
+      this._rtb_console.Name = "_rtb_console";
+      this._rtb_console.Size = new System.Drawing.Size(498, 122);
+      this._rtb_console.TabIndex = 0;
+      this._rtb_console.Text = "";
       // 
-      // valuesDataSet
+      // _tabctrl
       // 
-      this.valuesDataSet.DataSetName = "ValuesDataSet";
-      this.valuesDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+      this._tabctrl.Controls.Add(this._tp_console);
+      this._tabctrl.Controls.Add(this._tp_values);
+      this._tabctrl.Dock = System.Windows.Forms.DockStyle.Bottom;
+      this._tabctrl.Location = new System.Drawing.Point(0, 372);
+      this._tabctrl.Multiline = true;
+      this._tabctrl.Name = "_tabctrl";
+      this._tabctrl.SelectedIndex = 0;
+      this._tabctrl.Size = new System.Drawing.Size(512, 155);
+      this._tabctrl.TabIndex = 4;
       // 
-      // valuesDataSetBindingSource
+      // tableLayoutPanel1
       // 
-      this.valuesDataSetBindingSource.DataSource = this.valuesDataSet;
-      this.valuesDataSetBindingSource.Position = 0;
+      this.tableLayoutPanel1.ColumnCount = 1;
+      this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+      this.tableLayoutPanel1.Controls.Add(this._btn_run, 0, 0);
+      this.tableLayoutPanel1.Controls.Add(this._fl_settings, 0, 1);
+      this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 24);
+      this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+      this.tableLayoutPanel1.RowCount = 2;
+      this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+      this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+      this.tableLayoutPanel1.Size = new System.Drawing.Size(512, 348);
+      this.tableLayoutPanel1.TabIndex = 6;
       // 
-      // _tp_query
+      // _fl_settings
       // 
-      this._tp_query.Controls.Add(this._query_ctrl);
-      this._tp_query.Location = new System.Drawing.Point(4, 23);
-      this._tp_query.Name = "_tp_query";
-      this._tp_query.Size = new System.Drawing.Size(502, 202);
-      this._tp_query.TabIndex = 3;
-      this._tp_query.Text = "Queries";
-      this._tp_query.UseVisualStyleBackColor = true;
-      // 
-      // _filter_properties
-      // 
-      this._filter_properties.Dock = System.Windows.Forms.DockStyle.Fill;
-      this._filter_properties.Location = new System.Drawing.Point(3, 3);
-      this._filter_properties.Name = "_filter_properties";
-      this._filter_properties.Size = new System.Drawing.Size(496, 197);
-      this._filter_properties.TabIndex = 0;
-      // 
-      // _query_ctrl
-      // 
-      this._query_ctrl.Dock = System.Windows.Forms.DockStyle.Fill;
-      this._query_ctrl.Enabled = false;
-      this._query_ctrl.Location = new System.Drawing.Point(0, 0);
-      this._query_ctrl.Name = "_query_ctrl";
-      this._query_ctrl.Size = new System.Drawing.Size(502, 202);
-      this._query_ctrl.TabIndex = 0;
+      this._fl_settings.Dock = System.Windows.Forms.DockStyle.Fill;
+      this._fl_settings.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this._fl_settings.Location = new System.Drawing.Point(3, 65);
+      this._fl_settings.Name = "_fl_settings";
+      this._fl_settings.Padding = new System.Windows.Forms.Padding(3);
+      this._fl_settings.Size = new System.Drawing.Size(506, 280);
+      this._fl_settings.TabIndex = 5;
       // 
       // Main
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(510, 338);
+      this.BackColor = System.Drawing.SystemColors.Control;
+      this.ClientSize = new System.Drawing.Size(512, 527);
+      this.Controls.Add(this.tableLayoutPanel1);
       this.Controls.Add(this._tabctrl);
-      this.Controls.Add(this._btn_run);
       this.Controls.Add(this.menuStrip1);
       this.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
       this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.MainMenuStrip = this.menuStrip1;
       this.Name = "Main";
@@ -258,15 +242,14 @@
       this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
       this.menuStrip1.ResumeLayout(false);
       this.menuStrip1.PerformLayout();
-      this._tabctrl.ResumeLayout(false);
-      this._tp_console.ResumeLayout(false);
-      this._tp_filters.ResumeLayout(false);
-      this._tp_values.ResumeLayout(false);
-      ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.keyValuesBindingSource)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.valuesDataSet)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.valuesDataSetBindingSource)).EndInit();
-      this._tp_query.ResumeLayout(false);
+      this._tp_values.ResumeLayout(false);
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+      this._tp_console.ResumeLayout(false);
+      this._tabctrl.ResumeLayout(false);
+      this.tableLayoutPanel1.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -281,20 +264,18 @@
     private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem _mnu_save_filter_list;
     private System.Windows.Forms.SaveFileDialog saveFileDialog1;
-    private System.Windows.Forms.TabControl _tabctrl;
-    private System.Windows.Forms.TabPage _tp_console;
-    private System.Windows.Forms.TabPage _tp_filters;
-    private System.Windows.Forms.TabPage _tp_values;
-    private System.Windows.Forms.RichTextBox _rtb_console;
-    private FilterProperties _filter_properties;
-    private System.Windows.Forms.DataGridView dataGridView1;
     private System.Windows.Forms.BindingSource valuesDataSetBindingSource;
     private ValuesDataSet valuesDataSet;
     private System.Windows.Forms.BindingSource keyValuesBindingSource;
+    private System.Windows.Forms.TabPage _tp_values;
+    private System.Windows.Forms.DataGridView dataGridView1;
     private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
     private System.Windows.Forms.DataGridViewTextBoxColumn valueDataGridViewTextBoxColumn;
-    private System.Windows.Forms.TabPage _tp_query;
-    private QueryControl _query_ctrl;
+    private System.Windows.Forms.TabPage _tp_console;
+    private System.Windows.Forms.RichTextBox _rtb_console;
+    private System.Windows.Forms.TabControl _tabctrl;
+    private FilterSettings _fl_settings;
+    private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 
   }
 }

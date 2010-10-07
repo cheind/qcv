@@ -16,12 +16,21 @@ namespace Scripts {
       };
     }
     
-    public void Execute(Dictionary<string, object> b) {
+    public void OnSaveImage(Dictionary<string, object> b)
+    {
       bool result = b.FetchInteractor().Query("Continue?", null);
       if (!result) {
-        Console.WriteLine("abc");
         b["cancel"] = true;
       }
+    }
+    
+    public void OnCancelStuff(Dictionary<string, object> b)
+    {
+      Console.WriteLine("juhu");
+    }
+    
+    public void Execute(Dictionary<string, object> b) {
+      b.FetchInteractor().ExecutePendingEvents(this, b);
     }
   }
 }

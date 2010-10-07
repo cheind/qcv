@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Threading;
+
 using QCV.Extensions;
+using System.Threading;
 
 namespace QCV {
-  public partial class QueryControl : UserControl {
+  public partial class ShowQueryForm : Form {
+    
     ManualResetEvent _r = new ManualResetEvent(false);
+    Form _owner = null;
     bool _result;
 
     public delegate void OnQueryBeginEventHandler(object sender, string text, object query);
@@ -20,9 +23,13 @@ namespace QCV {
     public event OnQueryBeginEventHandler OnQueryBeginEvent;
     public event OnQueryEndEventHandler OnQueryEndEvent;
 
-    public QueryControl() {
+    public ShowQueryForm(Form owner) {
       InitializeComponent();
-      this.Enabled = false;
+      _owner = owner;
+    }
+
+    private ShowQueryForm() {
+      InitializeComponent();
     }
 
     public bool Query(string text, object query) {
@@ -37,8 +44,9 @@ namespace QCV {
           _pg.Visible = true;
           _pg.SelectedObject = query;
         }
-        this.Enabled = true;
       });
+
+      _owner.BeginInvoke(new MethodInvoker(() => this.Show()));
 
       _r.Reset();
       _r.WaitOne();
@@ -54,26 +62,27 @@ namespace QCV {
     }
 
     public void Commit() {
-      this.Enabled = false;
       _result = true;
       _r.Set();
     }
 
     public void Cancel() {
-      this.Enabled = false;
       _result = false;
       _r.Set();
     }
 
     private void _btn_ok_Click(object sender, EventArgs e) {
       Commit();
+      this.Hide();
     }
-
-
 
     private void _btn_cancel_Click(object sender, EventArgs e) {
       Cancel();
+      this.Hide();
     }
 
+    private void ShowQueryForm_FormClosing(object sender, FormClosingEventArgs e) {
+      this.Cancel();
+    }
   }
 }
