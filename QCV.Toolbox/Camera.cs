@@ -22,6 +22,7 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Runtime.Serialization;
 using System.Drawing;
+using log4net;
 
 namespace QCV.Toolbox {
   
@@ -31,7 +32,7 @@ namespace QCV.Toolbox {
   [Serializable]
   [Base.Addins.Addin]
   public class Camera : Source {
-
+    private static readonly ILog _logger = LogManager.GetLogger(typeof(Camera));
     private int _device_index = -1;
     private Emgu.CV.Capture _device = null;
     
@@ -89,6 +90,7 @@ namespace QCV.Toolbox {
               _device = null;
             }
           } catch (NullReferenceException) {
+            _logger.Warn(String.Format("Could not connect to camera at device index {0}", value));
             _device_index = -1;
             _device = null;
           }
