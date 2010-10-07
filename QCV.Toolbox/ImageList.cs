@@ -19,6 +19,7 @@ namespace QCV.Toolbox {
     private string _pattern = null;
     private int _id = 0;
     private string[] _files = new string[0];
+    private bool _loop = false;
 
     public ImageList() {
     }
@@ -33,6 +34,7 @@ namespace QCV.Toolbox {
       _id = 0;
       string path = (string)info.GetValue("directory_path", typeof(string));
       string pattern = (string)info.GetValue("pattern", typeof(string));
+      this.Loop = info.GetBoolean("loop");
       this.DirectoryPath = path;
       this.FilePattern = pattern;
     }
@@ -41,6 +43,7 @@ namespace QCV.Toolbox {
       base.GetObjectData(info, context);
       info.AddValue("directory_path", _directory_path);
       info.AddValue("pattern", _pattern);
+      info.AddValue("loop", _loop);
     }
 
 
@@ -58,6 +61,11 @@ namespace QCV.Toolbox {
         _pattern = value;
         UpdateFiles();
       }
+    }
+
+    public bool Loop {
+      get { return _loop; }
+      set { _loop = value; }
     }
 
     public Image<Bgr, byte> Frame() {
@@ -80,6 +88,8 @@ namespace QCV.Toolbox {
       b[this.Name] = i;
       b["cancel"] = (i == null);
     }
+
+
 
     void UpdateFiles() {
       lock (this) {

@@ -59,7 +59,7 @@
       // 
       this._btn_run.Location = new System.Drawing.Point(3, 3);
       this._btn_run.Name = "_btn_run";
-      this._btn_run.Size = new System.Drawing.Size(75, 56);
+      this._btn_run.Size = new System.Drawing.Size(75, 27);
       this._btn_run.TabIndex = 0;
       this._btn_run.Text = "Run";
       this._btn_run.UseVisualStyleBackColor = true;
@@ -219,10 +219,10 @@
       // 
       this._fl_settings.Dock = System.Windows.Forms.DockStyle.Fill;
       this._fl_settings.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this._fl_settings.Location = new System.Drawing.Point(3, 65);
+      this._fl_settings.Location = new System.Drawing.Point(3, 36);
       this._fl_settings.Name = "_fl_settings";
       this._fl_settings.Padding = new System.Windows.Forms.Padding(3);
-      this._fl_settings.Size = new System.Drawing.Size(506, 280);
+      this._fl_settings.Size = new System.Drawing.Size(506, 309);
       this._fl_settings.TabIndex = 5;
       // 
       // Main

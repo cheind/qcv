@@ -38,12 +38,7 @@ namespace QCV {
           OnQueryBeginEvent(this, text, query);
         }
         _lb_query_text.Text = text;
-        if (query == null) {
-          _pg.Visible = false;
-        } else {
-          _pg.Visible = true;
-          _pg.SelectedObject = query;
-        }
+        _pg.SelectedObject = query;        
       });
 
       _owner.BeginInvoke(new MethodInvoker(() => this.Show()));
@@ -83,6 +78,10 @@ namespace QCV {
 
     private void ShowQueryForm_FormClosing(object sender, FormClosingEventArgs e) {
       this.Cancel();
+    }
+
+    private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e) {
+
     }
   }
 }

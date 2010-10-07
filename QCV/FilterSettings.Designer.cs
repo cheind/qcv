@@ -98,18 +98,20 @@
       this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
       this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
       this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+      this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+      this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+      this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
       this.tableLayoutPanel1.Size = new System.Drawing.Size(647, 312);
       this.tableLayoutPanel1.TabIndex = 4;
       // 
       // label1
       // 
       this.label1.AutoSize = true;
-      this.tableLayoutPanel1.SetColumnSpan(this.label1, 2);
       this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
       this.label1.ForeColor = System.Drawing.SystemColors.ControlText;
       this.label1.Location = new System.Drawing.Point(6, 3);
       this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(635, 14);
+      this.label1.Size = new System.Drawing.Size(421, 14);
       this.label1.TabIndex = 4;
       this.label1.Text = "Select Filter";
       // 
