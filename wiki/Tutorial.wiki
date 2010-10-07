@@ -16,18 +16,58 @@ Does the following paragraph sound familiar to you?
 
 Sounds familiar? Then QCV is for you. It provides a complete setup to host and run your algorithms. You don't even need a integrated development environment to get started. QCV automatically detects changes in your algorithm source files and applies those changes online.
 
-=Prerequisites=
+=Installation=
 
-=Overview=
-=Basic Usage=
+In order to run QCV you need to install
+ * Install the Microsoft .Net Framework 3.5 Service Pack 1
+ * Install the Microsoft Visual C++ 2008 Redistributable Package (x86) Service Pack 1
+ * QCV
+
 ==Hello World==
+
+Save the following example as <tt>hello_world.cs</tt>.
+
+{{{
+using System;
+using System.Collections.Generic;
+
+using QCV.Base;
+using QCV.Base.Addins;
+
+namespace Tutorial {
+
+  [Addin]
+  public class HelloWorld : IFilter, IFilterListProvider {
+    
+    // Create a new FilterList containing a single HelloWorld filter.
+    public FilterList CreateFilterList(AddinHost host) {
+      return new FilterList() {
+        this
+      };
+    }
+    
+    // Execute filter
+    public void Execute(Dictionary<string, object> bundle) {
+      System.Console.WriteLine("Hello World!");
+      bundle["cancel"] = true;
+    }
+    
+  }
+}
+}}}
+
+
+
+
 ==Getting Input from Sources==
 ==Interaction==
 ===Displaying Images===
 ===Displaying Variables===
 ===Querying Variables===
+===Event Notifications===
 
 =Advanced Usage=
 ==Saving and Loading State==
 ==Exceptions==
+==Debugging==
 ==Commandline Arguments==
