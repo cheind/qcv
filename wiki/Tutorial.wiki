@@ -93,11 +93,11 @@ namespace Tutorial {
 }
 }}}
 
-Run the example by saving the code to <tt>hello_world.cs</tt> and then invoke
+Run the example by saving the code to <tt>hello_world.cs</tt> and typing
 {{{
 qcv.exe -s hello_world.cs Tutorial.HelloWorld
 }}}
-on your command line. This will tell <tt>qcv.exe</tt> to load and compile <tt>hello_world.cs</tt> and use instances of <tt>Tutorial.HelloWorld</tt> as provider for filter lists.
+in your command line. This will tell <tt>qcv.exe</tt> to load and compile <tt>hello_world.cs</tt> and use instances of <tt>Tutorial.HelloWorld</tt> as provider for filter lists.
 
 Next press 'Run' to start processing the filter list. The runtime will invoke each filter in the filter list retrieved by invoking <tt>Tutorial.HelloWorld.CreateFilterList</tt>. In our case the filter list is composed of a single filter that will print a message and use the bundle parameter to request a stop of the runtime.
 
