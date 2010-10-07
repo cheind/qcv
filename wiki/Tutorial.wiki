@@ -62,9 +62,9 @@ on your command line. This will startup <tt>qcv.exe</tt> which will display a gr
 
 http://qcv.googlecode.com/svn/trunk/etc/doc/qcv-callouts.png
 
+As in our example, <tt>qcv.exe</tt> automatically compiles all sources passed by the <tt>-s</tt> command line switch and makes them available for usage. Whether compilation succeeds or failed can be seen from the Console section.
 
-
-<tt>qcv.exe</tt> will automatically compile all sources passed with the <tt>-s</tt>  command line switch. Th
+<tt>qcv.exe</tt> additionally detects file modifications of all registered scripts. In case a change is detected all sources are recompiled and on success, existing objects are replaced when their type has changed.
 
 ==Getting Input from Sources==
 ==Interaction==
