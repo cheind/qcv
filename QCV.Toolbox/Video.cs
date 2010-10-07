@@ -23,7 +23,7 @@ using System.Runtime.Serialization;
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
 
-namespace QCV.Toolbox.Sources {
+namespace QCV.Toolbox {
   
   /// <summary>
   /// Represents a camera source
@@ -41,6 +41,17 @@ namespace QCV.Toolbox.Sources {
     public Video(string video_path) 
     {
       this.VideoPath = video_path;
+    }
+
+    public Video(string video_path, string name) {
+      this.Name = name;
+      this.VideoPath = video_path;
+    }
+
+    public Video(string video_path, string name, bool loop) {
+      this.Name = name;
+      this.VideoPath = video_path;
+      this.Loop = loop;
     }
 
     public Video(SerializationInfo info, StreamingContext context) : base (info, context)

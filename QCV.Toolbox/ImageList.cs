@@ -29,6 +29,19 @@ namespace QCV.Toolbox {
       this.FilePattern = file_pattern;
     }
 
+    public ImageList(string directory_path, string file_pattern, string name) {
+      this.DirectoryPath = directory_path;
+      this.FilePattern = file_pattern;
+      this.Name = name;
+    }
+
+    public ImageList(string directory_path, string file_pattern, string name, bool loop) {
+      this.DirectoryPath = directory_path;
+      this.FilePattern = file_pattern;
+      this.Name = name;
+      this.Loop = loop;
+    }
+
     public ImageList(SerializationInfo info, StreamingContext context) : base(info, context)
     {
       _id = 0;

@@ -9,7 +9,7 @@ namespace QCV.ConsoleExample {
   public class HelloVideo : IExample {
 
     public void Run(string[] args) {
-      QCV.Toolbox.Sources.Video v = new QCV.Toolbox.Sources.Video();
+      QCV.Toolbox.Video v = new QCV.Toolbox.Video();
       v.VideoPath = "../../etc/videos/a.avi";
       v.Name = "source";
 
