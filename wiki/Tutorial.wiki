@@ -108,6 +108,8 @@ Note that, <tt>qcv.exe</tt> automatically compiles all sources passed by the <tt
 The following shows how to retrieve images from a camera source.
 
 {{{
+// qcv.exe -s camera_input.cs Tutorial.CameraInput
+
 using System;
 using System.Collections.Generic;
 
@@ -133,10 +135,6 @@ namespace Tutorial {
 }
 }}}
 
-{{{
-qcv.exe -s camera_input.cs Tutorial.CameraInput
-}}}
-
 A filter of type <tt>QCV.Toolbox.Camera</tt> connects to a camera specified by its <tt>Camera.DeviceIndex</tt>. The <tt>Camera.Name</tt> property specifies the name of the key used to place the image in the bundle.
 
 QCV ships with support for the following image input sources
@@ -148,6 +146,7 @@ You can, of course, connect from multiple sources within a single filter list.
 
 {{{
 // qcv.exe -s multiple_image_input.cs Tutorial.MultipleImageInput
+
 using System;
 using System.Collections.Generic;
 
@@ -177,9 +176,7 @@ namespace Tutorial {
 }
 }}}
 
-{{{
-qcv.exe -s multiple_image_input.cs Tutorial.MultipleImageInput
-}}}
+Note that, the video and image list source is set into looping mode. Otherwise, they would request the runtime to stop if the video has ended or all images from disk have been displayed.
 
 ==Interaction==
 ===Displaying Images===
