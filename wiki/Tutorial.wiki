@@ -23,6 +23,25 @@ In order to run QCV you need to install
  * Install the Microsoft Visual C++ 2008 Redistributable Package (x86) Service Pack 1
  * QCV
 
+=How does QCV work?=
+Simply speaking, QCV processes a list of objects in a loop until one of the stopping criteria are met. 
+
+These objects are termed filters and have to implement the <tt>QCV.Base.IFilter</tt> interface. The chronological order of filters is determined by their absolute position in an instance of <tt>QCV.Base.FilterList</tt>. 
+
+Such list of filters can then be passed to <tt>QCV.Base.Runtime</tt> to process the filters asynchronously. The runtime invokes each filter and passes a so called bundle, an open dictionary of objects, containing parameters for the filter. 
+
+The filter can read from and write to this bundle to communicate with other filters in the current filter list. To interact with the user, an instance of <tt>QCV.Base.IDataInteractor</tt> is contained in the filters bundle. 
+
+The data interactor allows the filter to
+  * expose events,
+  * show values and images to the user,
+  * query values from the user.
+
+The runtime stops processing of the filter list if one of the following conditions are met
+  * a filter requests the stop,
+  * a user requests stops the runtime, or
+  * an exception occurred while processing one of the filters.
+
 ==Hello World==
 
 {{{
@@ -58,13 +77,18 @@ You can run the above example by saving it to <tt>hello_world.cs</tt> and then i
 {{{
 qcv.exe -s hello_world.cs Tutorial.HelloWorld
 }}}
-on your command line. This will startup <tt>qcv.exe</tt> which will display a graphical user interface allowing you to interact with hosted filters. The following image annotates parts of <tt>qcv.exe</tt>. Don't worry if you don't understand all the annotations at this point of the tutorial.
+on your command line. This will tell <tt>qcv.exe</tt> to load and compile <tt>hello_world.cs</tt> and use instances of <tt>Tutorial.HelloWorld</tt> as provider for filter lists.
+
+
+
+
+This will startup <tt>qcv.exe</tt> which will display a graphical user interface allowing you to interact with hosted filters. The following image annotates parts of <tt>qcv.exe</tt>. Don't worry if you don't understand all the annotations at this point of the tutorial.
 
 http://qcv.googlecode.com/svn/trunk/etc/doc/qcv-callouts.png
 
-As in our example, <tt>qcv.exe</tt> automatically compiles all sources passed by the <tt>-s</tt> command line switch and makes them available for usage. Whether compilation succeeds or failed can be seen from the Console section.
+As in our example, <tt>qcv.exe</tt> automatically compiles all sources passed by the <tt>-s</tt> command line switch and makes them available for usage. Whether compilation succeeds or failed can be seen from the Console section. <tt>qcv.exe</tt> additionally detects file modifications of all registered scripts. In case a change is detected all sources are recompiled and on success, existing objects are replaced with instances of their new types.
 
-<tt>qcv.exe</tt> additionally detects file modifications of all registered scripts. In case a change is detected all sources are recompiled and on success, existing objects are replaced when their type has changed.
+
 
 ==Getting Input from Sources==
 ==Interaction==
