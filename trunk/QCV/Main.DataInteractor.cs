@@ -10,7 +10,8 @@ using System.Drawing;
 
 namespace QCV {
   public partial class Main : QCV.Base.IDataInteractor {
-    private Dictionary<string, ShowImageForm> _show_forms = new Dictionary<string, ShowImageForm>();    
+    private Dictionary<string, ShowImageForm> _show_forms = new Dictionary<string, ShowImageForm>();
+    private QCV.Base.EventInvocationCache _ev_cache = new QCV.Base.EventInvocationCache();
 
     public void Show(string id, object o) {
       if (o == null) {
@@ -52,7 +53,20 @@ namespace QCV {
     }
 
     public bool Query(string text, object o) {
-      return _query_ctrl.Query(text, o);
+      return _query_form.Query(text, o);
     }
+
+    #region IDataInteractor Members
+
+
+    public void CacheEvent(object instance, System.Reflection.MethodInfo mi) {
+      _ev_cache.Add(instance, mi);
+    }
+
+    public void ExecutePendingEvents(object instance, Dictionary<string, object> bundle) {
+      _ev_cache.InvokeEvents(instance, bundle);
+    }
+
+    #endregion
   }
 }
