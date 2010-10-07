@@ -143,6 +143,8 @@ QCV ships with support for the following image input sources
   * <tt>QCV.Toolbox.Video</tt> -  Images from a video stored at disk.
   * <tt>QCV.Toolbox.ImageList</tt> - Images from a collection of images stored at disk.
 
+=Image Input from Multiple Sources=
+
 You can, of course, connect from multiple sources within a single filter list.
 
 {{{
