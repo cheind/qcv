@@ -24,9 +24,11 @@ In order to run QCV you need to install
  * QCV
 
 =How does QCV work?=
-Simply speaking, QCV processes a list of objects in a loop until one of the stopping criteria are met. 
 
-These objects are termed filters and have to implement the <tt>QCV.Base.IFilter</tt> interface. The chronological order of filters is determined by their absolute position in an instance of <tt>QCV.Base.FilterList</tt>. 
+==Class Library==
+Simply speaking, QCV processes a list of objects in a loop until a stopping criterium is met. 
+
+These objects are termed filters and have to implement the <tt>QCV.Base.IFilter</tt> interface. The chronological order of filters is determined by their absolute position in an instance of <tt>QCV.Base.FilterList</tt>. Classes that support creating of filter lists have to implement <tt>QCV.Base.IFilterListProvider</tt>.
 
 Such list of filters can then be passed to <tt>QCV.Base.Runtime</tt> to process the filters asynchronously. The runtime invokes each filter and passes a so called bundle, an open dictionary of objects, containing parameters for the filter. 
 
@@ -42,7 +44,23 @@ The runtime stops processing of the filter list if one of the following conditio
   * a user requests stops the runtime, or
   * an exception occurred while processing one of the filters.
 
-==Hello World==
+QCV makes heavy use of plugins, termed addins in QCV. Any class carrying the <tt>QCV.Base.Addins.AddinAttribute</tt> is considered an addin. QCV can detects plugins loaded assemblies and assemblies stored at disk. Addins are collected in instances of <tt>QCV.Base.Addins.AddinHost</tt>. The host supports addin queries and is responsible for creating addins. All filters should be addins, so that they can be created by filter list providers implemented as addin. 
+
+==QCV - Application==
+QCV provides a graphical user interface application for hosting and running filters that is started by 
+{{{
+qcv.exe
+}}}
+
+The following image annotates parts of <tt>qcv.exe</tt>. Don't worry if you don't understand all the annotations at this point of the tutorial.
+
+http://qcv.googlecode.com/svn/trunk/etc/doc/qcv-callouts.png
+
+The remaining part of this tutorial will make heavy use of <tt>qcv.exe</tt> to illustrate previously described concepts.
+
+=Hello World=
+
+The famous HelloWorld in QCV.
 
 {{{
 using System;
