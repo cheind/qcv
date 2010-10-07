@@ -57,7 +57,8 @@
       // 
       // _btn_run
       // 
-      this._btn_run.Location = new System.Drawing.Point(3, 3);
+      this._btn_run.Location = new System.Drawing.Point(8, 3);
+      this._btn_run.Margin = new System.Windows.Forms.Padding(8, 3, 3, 3);
       this._btn_run.Name = "_btn_run";
       this._btn_run.Size = new System.Drawing.Size(75, 27);
       this._btn_run.TabIndex = 0;
@@ -204,8 +205,8 @@
       // 
       this.tableLayoutPanel1.ColumnCount = 1;
       this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-      this.tableLayoutPanel1.Controls.Add(this._btn_run, 0, 0);
       this.tableLayoutPanel1.Controls.Add(this._fl_settings, 0, 1);
+      this.tableLayoutPanel1.Controls.Add(this._btn_run, 0, 0);
       this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
       this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 24);
       this.tableLayoutPanel1.Name = "tableLayoutPanel1";
