@@ -99,15 +99,88 @@ qcv.exe -s hello_world.cs Tutorial.HelloWorld
 }}}
 in your command line. This will tell <tt>qcv.exe</tt> to load and compile <tt>hello_world.cs</tt> and use instances of <tt>Tutorial.HelloWorld</tt> as provider for filter lists.
 
-Next press 'Run' to start processing the filter list. The runtime will invoke each filter in the filter list retrieved by invoking <tt>Tutorial.HelloWorld.CreateFilterList</tt>. In our case the filter list is composed of a single filter that will print a message and use the bundle parameter to request a stop of the runtime.
+Next press 'Run' to start processing the filter list. The runtime will invoke each filter in the list as retrieved by calling <tt>Tutorial.HelloWorld.CreateFilterList</tt>. In our case the filter list is composed of a single filter that will print a message and use the bundle parameter to request a stop of the runtime.
 
 Note that, <tt>qcv.exe</tt> automatically compiles all sources passed by the <tt>-s</tt> command line switch and makes them available for usage. Whether compilation succeeds or failed can be seen in the 'Console'. <tt>qcv.exe</tt> detects file modifications of all sources. In case a change is detected all sources are recompiled and on success, existing objects are replaced with instances of their new types.
 
+=Getting Image Input=
 
+The following shows how to retrieve images from a camera source.
 
+{{{
+using System;
+using System.Collections.Generic;
 
+using QCV.Base;
+using QCV.Base.Addins;
 
-==Getting Input from Sources==
+namespace Tutorial {
+
+  [Addin]
+  public class CameraInput : IFilterListProvider {
+    
+    // Create a new FilterList containing a camera filter
+    public FilterList CreateFilterList(AddinHost host) {
+      
+      QCV.Toolbox.Camera c = new QCV.Toolbox.Camera();
+      c.DeviceIndex = 0;
+      c.Name = "source";
+      
+      return new FilterList() {c};
+    }
+
+  }
+}
+}}}
+
+{{{
+qcv.exe -s camera_input.cs Tutorial.CameraInput
+}}}
+
+A filter of type <tt>QCV.Toolbox.Camera</tt> connects to a camera specified by its <tt>Camera.DeviceIndex</tt>. The <tt>Camera.Name</tt> property specifies the name of the key used to place the image in the bundle.
+
+QCV ships with support for the following image input sources
+  * <tt>QCV.Toolbox.Camera</tt> - Images from a Video-For-Windows camera device.
+  * <tt>QCV.Toolbox.Video</tt> -  Images from a video stored at disk.
+  * <tt>QCV.Toolbox.ImageList</tt> - Images from a collection of images stored at disk.
+
+You can, of course, connect from multiple sources within a single filter list.
+
+{{{
+// file: multiple_image_input.cs
+using System;
+using System.Collections.Generic;
+
+using QCV.Base;
+using QCV.Base.Addins;
+
+namespace Tutorial {
+
+  [Addin]
+  public class MultipleImageInput : IFilterListProvider {
+    
+    // Create a new FilterList containing multiple image sources
+    public FilterList CreateFilterList(AddinHost host) {
+      
+      return new FilterList() {
+        // Camera with requested frame dimensions
+        new QCV.Toolbox.Camera(0, 320, 200, "camera"),
+        // Video from disk - looping enabled
+        new QCV.Toolbox.Video("../../etc/videos/a.avi", "video", true),
+        // Image list from disk - looping enabled
+        new QCV.Toolbox.ImageList("../../etc/images", "*.png", "images", true)
+      };
+      
+    }
+    
+  }
+}
+}}}
+
+{{{
+qcv.exe -s multiple_image_input.cs Tutorial.MultipleImageInput
+}}}
+
 ==Interaction==
 ===Displaying Images===
 ===Displaying Variables===
