@@ -40,6 +40,7 @@ namespace QCV {
         } else {
           if (_cmb_filters.Items.Count > 0) {
             _cmb_filters.SelectedItem = _cmb_filters.Items[0];
+            GenerateUI(_cmb_filters.SelectedItem);
           }
         }
       });

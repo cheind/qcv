@@ -10,7 +10,6 @@ using QCV.Toolbox;
 using QCV.Base.Extensions;
 using System.Drawing;
 using System.Diagnostics;
-using QCV.Toolbox.Sources;
 using NDesk.Options;
 using log4net.Config;
 

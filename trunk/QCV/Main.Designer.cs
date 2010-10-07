@@ -73,7 +73,7 @@
             this.helpToolStripMenuItem});
       this.menuStrip1.Location = new System.Drawing.Point(0, 0);
       this.menuStrip1.Name = "menuStrip1";
-      this.menuStrip1.Size = new System.Drawing.Size(512, 24);
+      this.menuStrip1.Size = new System.Drawing.Size(598, 24);
       this.menuStrip1.TabIndex = 3;
       this.menuStrip1.Text = "menuStrip1";
       // 
@@ -174,7 +174,7 @@
       this._tp_console.Location = new System.Drawing.Point(4, 23);
       this._tp_console.Name = "_tp_console";
       this._tp_console.Padding = new System.Windows.Forms.Padding(3);
-      this._tp_console.Size = new System.Drawing.Size(504, 128);
+      this._tp_console.Size = new System.Drawing.Size(590, 128);
       this._tp_console.TabIndex = 0;
       this._tp_console.Text = "Console";
       this._tp_console.UseVisualStyleBackColor = true;
@@ -185,7 +185,7 @@
       this._rtb_console.Dock = System.Windows.Forms.DockStyle.Fill;
       this._rtb_console.Location = new System.Drawing.Point(3, 3);
       this._rtb_console.Name = "_rtb_console";
-      this._rtb_console.Size = new System.Drawing.Size(498, 122);
+      this._rtb_console.Size = new System.Drawing.Size(584, 122);
       this._rtb_console.TabIndex = 0;
       this._rtb_console.Text = "";
       // 
@@ -194,11 +194,11 @@
       this._tabctrl.Controls.Add(this._tp_console);
       this._tabctrl.Controls.Add(this._tp_values);
       this._tabctrl.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this._tabctrl.Location = new System.Drawing.Point(0, 372);
+      this._tabctrl.Location = new System.Drawing.Point(0, 336);
       this._tabctrl.Multiline = true;
       this._tabctrl.Name = "_tabctrl";
       this._tabctrl.SelectedIndex = 0;
-      this._tabctrl.Size = new System.Drawing.Size(512, 155);
+      this._tabctrl.Size = new System.Drawing.Size(598, 155);
       this._tabctrl.TabIndex = 4;
       // 
       // tableLayoutPanel1
@@ -213,7 +213,7 @@
       this.tableLayoutPanel1.RowCount = 2;
       this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
       this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-      this.tableLayoutPanel1.Size = new System.Drawing.Size(512, 348);
+      this.tableLayoutPanel1.Size = new System.Drawing.Size(598, 312);
       this.tableLayoutPanel1.TabIndex = 6;
       // 
       // _fl_settings
@@ -223,7 +223,7 @@
       this._fl_settings.Location = new System.Drawing.Point(3, 36);
       this._fl_settings.Name = "_fl_settings";
       this._fl_settings.Padding = new System.Windows.Forms.Padding(3);
-      this._fl_settings.Size = new System.Drawing.Size(506, 309);
+      this._fl_settings.Size = new System.Drawing.Size(592, 273);
       this._fl_settings.TabIndex = 5;
       // 
       // Main
@@ -231,7 +231,7 @@
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.BackColor = System.Drawing.SystemColors.Control;
-      this.ClientSize = new System.Drawing.Size(512, 527);
+      this.ClientSize = new System.Drawing.Size(598, 491);
       this.Controls.Add(this.tableLayoutPanel1);
       this.Controls.Add(this._tabctrl);
       this.Controls.Add(this.menuStrip1);
