@@ -59,21 +59,21 @@ namespace QCV {
     public void Commit() {
       _result = true;
       _r.Set();
+      this.InvokeIfRequired(() => this.Hide());
     }
 
     public void Cancel() {
       _result = false;
       _r.Set();
+      this.InvokeIfRequired(() => this.Hide());
     }
 
     private void _btn_ok_Click(object sender, EventArgs e) {
       Commit();
-      this.Hide();
     }
 
     private void _btn_cancel_Click(object sender, EventArgs e) {
       Cancel();
-      this.Hide();
     }
 
     private void ShowQueryForm_FormClosing(object sender, FormClosingEventArgs e) {

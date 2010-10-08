@@ -54,6 +54,10 @@ namespace QCV.Base {
       get { return _last_error != null; }
     }
 
+    public bool CancellationPending {
+      get { return _bw.CancellationPending; }
+    }
+
     public Exception Error {
       get { return _last_error; }
     }
