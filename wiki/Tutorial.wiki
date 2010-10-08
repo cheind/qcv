@@ -221,9 +221,9 @@ namespace Tutorial {
     
     public void Execute(Dictionary<string, object> bundle) {
       // Fetch the interactor from the bundle
-      IDataInteractor idi = bundle.FetchInteractor();
+      IDataInteractor idi = bundle.GetInteractor();
       // Fetch the current image from camera
-      Image<Bgr, byte> image = bundle.FetchImage("camera");
+      Image<Bgr, byte> image = bundle.GetImage("camera");
       // Request showing the image.
       idi.Show("camera live feed", image);
     }
@@ -265,7 +265,7 @@ namespace Tutorial {
     public void Execute(Dictionary<string, object> bundle) {
       if (_sw.IsRunning) {
         _sw.Stop();
-        IDataInteractor idi = bundle.FetchInteractor();
+        IDataInteractor idi = bundle.GetInteractor();
         idi.Show("DisplayingValues.FPS", 1.0 / _sw.Elapsed.TotalSeconds);
         _sw.Reset();
       }
@@ -377,7 +377,7 @@ namespace Tutorial {
     }
     
     public void Execute(Dictionary<string, object> bundle) {
-      IDataInteractor idi = bundle.FetchInteractor();
+      IDataInteractor idi = bundle.GetInteractor();
       // Process all pending events, supplying them with the current bundle information
       idi.ExecutePendingEvents(this, bundle);
     }
@@ -435,7 +435,7 @@ namespace Tutorial {
     }
     
     public void OnPrintGreeting(Dictionary<string, object> bundle) {
-      IDataInteractor idi = bundle.FetchInteractor();
+      IDataInteractor idi = bundle.GetInteractor();
       Name n = new Name();
       
       if (idi.Query("What's your name?", n)) {
@@ -446,7 +446,7 @@ namespace Tutorial {
     }
     
     public void Execute(Dictionary<string, object> bundle) {
-      IDataInteractor idi = bundle.FetchInteractor();
+      IDataInteractor idi = bundle.GetInteractor();
       // Process all pending events, supplying them with the current bundle information
       idi.ExecutePendingEvents(this, bundle);
     }
