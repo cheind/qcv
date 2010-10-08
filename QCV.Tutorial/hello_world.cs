@@ -1,3 +1,5 @@
+// qcv.exe -s hello_world.cs Tutorial.HelloWorld --run
+
 using System;
 using System.Collections.Generic;
 
