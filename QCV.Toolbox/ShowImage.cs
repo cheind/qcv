@@ -38,8 +38,8 @@ namespace QCV.Toolbox {
     }
 
     public void Execute(Dictionary<string, object> b) {
-      Image<Bgr, byte> i = b.FetchImage(_bundle_name);
-      Base.IDataInteractor ii = b.FetchInteractor();
+      Image<Bgr, byte> i = b.GetImage(_bundle_name);
+      Base.IDataInteractor ii = b.GetInteractor();
       ii.Show(_show_name, i);
     }
   }

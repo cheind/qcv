@@ -23,9 +23,9 @@ namespace QCV.ConsoleExample {
       f.Add(
         new QCV.Base.AnonymousFilter(
           (b) => {
-            Image<Bgr, byte> i = b.FetchImage("input 1");
+            Image<Bgr, byte> i = b.GetImage("input 1");
             i.Draw(new Rectangle(0, 0, i.Width, i.Height), new Bgr(Color.Green), 4);
-            b.FetchInteractor().Show("from input 1", i);
+            b.GetInteractor().Show("from input 1", i);
           })
       );
 

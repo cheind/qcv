@@ -24,7 +24,7 @@ namespace Tutorial {
     }
     
     public void Execute(Dictionary<string, object> bundle) {
-      IDataInteractor idi = bundle.FetchInteractor();
+      IDataInteractor idi = bundle.GetInteractor();
       // Process all pending events, supplying them with the current bundle information
       idi.ExecutePendingEvents(this, bundle);
     }

@@ -38,7 +38,7 @@ namespace QCV.Toolbox {
       DateTime now = DateTime.Now;
       double elapsed = (now - _last_update).TotalSeconds;
       if (elapsed > _update_frequency) {
-        b.FetchInteractor().Show("FPS", _iterations / elapsed );
+        b.GetInteractor().Show("FPS", _iterations / elapsed );
         _last_update = now;
         _iterations = 0;
       }

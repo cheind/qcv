@@ -20,7 +20,7 @@ namespace QCV.ConsoleExample {
       f.Add(
         new QCV.Base.AnonymousFilter(
           (b) => {
-            ILog l = b.FetchDefaultLogger();
+            ILog l = b.GetDefaultLogger();
             l.Debug("A debugging greeting message!");
             b["cancel"] = true;
           })

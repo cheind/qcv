@@ -39,7 +39,7 @@ namespace Tutorial {
     }
     
     public void OnPrintGreeting(Dictionary<string, object> bundle) {
-      IDataInteractor idi = bundle.FetchInteractor();
+      IDataInteractor idi = bundle.GetInteractor();
       Name n = new Name();
       
       if (idi.Query("What's your name?", n)) {
@@ -50,7 +50,7 @@ namespace Tutorial {
     }
     
     public void Execute(Dictionary<string, object> bundle) {
-      IDataInteractor idi = bundle.FetchInteractor();
+      IDataInteractor idi = bundle.GetInteractor();
       // Process all pending events, supplying them with the current bundle information
       idi.ExecutePendingEvents(this, bundle);
     }
