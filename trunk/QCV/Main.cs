@@ -139,6 +139,12 @@ namespace QCV {
             typeof(Base.IFilterListProvider),
             (ai) => (ai.DefaultConstructible && _args.filterlist_providers.Contains(ai.FullName)));
 
+        int target_prov_count = _args.filterlist_providers.Count;
+        int performance_prov_count = providers.Count();
+        if (target_prov_count > performance_prov_count) {
+          _logger.Warn("Not all specified IFilterListProvider were found.");
+        }
+
         foreach (Base.Addins.AddinInfo ai in providers) {
           Base.IFilterListProvider p = _ah.CreateInstance(ai) as Base.IFilterListProvider;
           _fl.AddRange(p.CreateFilterList(_ah));
