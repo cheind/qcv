@@ -1,4 +1,4 @@
-// qcv.exe -s displaying_images.cs Tutorial.DisplayingImages
+// qcv.exe -s displaying_images.cs Tutorial.DisplayingImages --run
 
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-// qcv.exe -s multiple_image_input.cs Tutorial.MultipleImageInput
+// qcv.exe -s multiple_image_input.cs Tutorial.MultipleImageInput --run
 using System;
 using System.Collections.Generic;
 
