@@ -49,10 +49,14 @@ namespace QCV {
       CommandLine cl = new CommandLine();
       _args = cl.Args;
 
+      if (_args.help) {
+        Console.WriteLine(cl.GetHelp());
+      }
+
       // Compile all scripts
       _ic = new QCV.Base.InstantCompiler(
-        _args.script_paths,
-        _args.references.Union(new string[] { 
+        _args.source_paths,
+        _args.compile_references.Union(new string[] { 
             "mscorlib.dll", "System.dll", "System.Drawing.dll", "System.Xml.dll",
             "QCV.Base.dll", "QCV.Toolbox.dll", "Emgu.CV.dll", "Emgu.Util.dll"}).Distinct(),
         _args.enable_debugger
@@ -66,12 +70,11 @@ namespace QCV {
       _runtime = new QCV.Base.Runtime();
       _runtime.RuntimeStartingEvent += new EventHandler(RuntimeStartingEvent);
       _runtime.RuntimeStoppedEvent += new EventHandler(RuntimeStoppedEvent);
+      _runtime.FPS =_args.target_fps;
+
+      _nrc_fps.Value = (Decimal)_args.target_fps;
 
       _ic.Compile();
-
-      if (_args.immediate_execute) {
-        _runtime.Run(_fl, _env, 0);
-      }
     }
 
     void ConsoleStringAppendedEvent(object sender, string text) {
@@ -142,7 +145,7 @@ namespace QCV {
           _fl.AddRange(p.CreateFilterList(_ah));
         }
 
-        foreach (string lpath in _args.load_paths) {
+        foreach (string lpath in _args.load_filterlist_paths) {
           string path = Path.GetFullPath(lpath);
           if (File.Exists(path)) {
             try {
@@ -159,8 +162,12 @@ namespace QCV {
             _logger.Error(String.Format("Path '{0}' does not exist.", lpath));
           }
         }
-
         _logger.Info(String.Format("Created {0} filters.", _fl.Count));
+
+        if (_args.immediate_execute) {
+          _runtime.Run(_fl, _env, 0);
+        }
+
       } else {
         _ah.MergeByFullName(tmp);
         // Subsequent runs
@@ -214,8 +221,7 @@ namespace QCV {
     }
 
     private void _mnu_help_arguments_Click(object sender, EventArgs e) {
-      CommandLine cl = new CommandLine();
-      MessageBox.Show(cl.GetHelp(), "qcv.exe", MessageBoxButtons.OK, MessageBoxIcon.Information);
+      Console.WriteLine(new CommandLine().GetHelp());
     }
 
     private void _mnu_save_filter_list_Click(object sender, EventArgs e) {
@@ -229,6 +235,14 @@ namespace QCV {
           );
         }
       }
+    }
+
+    private void ConsoleLinkClicked(object sender, LinkClickedEventArgs e) {
+      System.Diagnostics.Process.Start(e.LinkText);
+    }
+
+    private void _nrc_fps_ValueChanged(object sender, EventArgs e) {
+      _runtime.FPS = (double)_nrc_fps.Value;
     }
   }
 }
