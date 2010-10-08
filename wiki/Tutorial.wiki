@@ -284,7 +284,7 @@ Try playing around with the FPS setting in the graphical user interface and noti
 
 || *Tip* You can pass a predefined FPS value via the commandline by specifying <tt>--fps=VALUE</tt> or disabling cycle time control by supplying <tt>--nofps</tt>. Alternatively you can adjust the FPS setting via the graphical user interface.||
 
-=Displaying Properties=
+=Accessing Properties=
 Any public readable property exposed by a filter is by default shown in property section of <tt>qcv.exe</tt>. Writable properties can be modified by the user. Here's a sample illustrating usage of properties.
 
 {{{
