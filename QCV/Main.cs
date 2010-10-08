@@ -72,7 +72,6 @@ namespace QCV {
       _runtime.RuntimeStoppedEvent += new EventHandler(RuntimeStoppedEvent);
       
       _nrc_fps.Value = (Decimal)_args.target_fps;
-      this.SetCycleTime(_args.target_fps);
 
       _ic.Compile();
     }
