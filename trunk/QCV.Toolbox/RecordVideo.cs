@@ -68,7 +68,7 @@ namespace QCV.Toolbox {
       if (_vw == null) {
         _vw = new VideoWriter(_path, _fps, _frame_width, _frame_height, true);
       }
-      Image<Bgr, byte> i = b.FetchImage(_bag_name);
+      Image<Bgr, byte> i = b.GetImage(_bag_name);
       Size s = i.Size;
       if (s != new Size(_frame_width, _frame_height)) {
         i = i.Resize(_frame_width, _frame_height, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);

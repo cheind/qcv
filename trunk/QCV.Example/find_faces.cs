@@ -37,12 +37,12 @@ namespace Example {
     
     public void Execute(Dictionary<string, object> b) {
       while (_hc == null) {
-        if (!b.FetchInteractor().Query("Please specify a correct cascade file", this)) {
+        if (!b.GetInteractor().Query("Please specify a correct cascade file", this)) {
           b["cancel"] = true;
         }
       }
       
-      Image<Bgr, byte> i = b.FetchImage("source");
+      Image<Bgr, byte> i = b.GetImage("source");
       Image<Gray, byte> gray = i.Convert<Gray, byte>();
       
       foreach(MCvAvgComp comp in gray.DetectHaarCascade(_hc)[0]) {

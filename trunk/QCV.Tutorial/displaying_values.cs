@@ -25,7 +25,7 @@ namespace Tutorial {
     public void Execute(Dictionary<string, object> bundle) {
       if (_sw.IsRunning) {
         _sw.Stop();
-        IDataInteractor idi = bundle.FetchInteractor();
+        IDataInteractor idi = bundle.GetInteractor();
         idi.Show("DisplayingValues.FPS", 1.0 / _sw.Elapsed.TotalSeconds);
         _sw.Reset();
       }

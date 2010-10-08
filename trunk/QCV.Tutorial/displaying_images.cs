@@ -29,9 +29,9 @@ namespace Tutorial {
     
     public void Execute(Dictionary<string, object> bundle) {
       // Fetch the interactor from the bundle
-      IDataInteractor idi = bundle.FetchInteractor();
+      IDataInteractor idi = bundle.GetInteractor();
       // Fetch the current image from camera
-      Image<Bgr, byte> image = bundle.FetchImage("camera");
+      Image<Bgr, byte> image = bundle.GetImage("camera");
       // Request showing the image.
       idi.Show("camera live feed", image);
     }

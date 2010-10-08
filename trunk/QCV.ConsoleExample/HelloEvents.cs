@@ -19,7 +19,7 @@ namespace QCV.ConsoleExample {
     }
 
     public void Execute(Dictionary<string, object> b) {
-      b.FetchInteractor().ExecutePendingEvents(this, b);
+      b.GetInteractor().ExecutePendingEvents(this, b);
     }
   }
 
