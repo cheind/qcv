@@ -20,16 +20,29 @@ namespace QCV.Base {
   /// last 50 invocations.</remarks>
   [Serializable]
   public class FixedTimeStep {
+
+    public enum EPauseMode {
+      Sleep,
+      SpinWait,
+      Adaptive
+    };
+
     private Stopwatch _sw;
+    private long _ns_per_tick;
     private double _fps;
-    private long _cycle_time_ms;
+    private long _cycle_time_ticks;
+    private EPauseMode _pause_mode;
+    private bool _enabled;
 
     /// <summary>
     /// Construct new fixed time-step helper
     /// </summary>
     public FixedTimeStep(double fps) {
       _sw = new Stopwatch();
+      _ns_per_tick = 1000000000 / Stopwatch.Frequency;
       this.FPS = fps;
+      this.PauseMode = EPauseMode.Adaptive;
+      _enabled = true;
     }
 
     /// <summary>
@@ -48,8 +61,18 @@ namespace QCV.Base {
           throw new ArgumentException("FPS must be greater than zero");
         }
         _fps = value;
-        _cycle_time_ms = (long)((1.0 / _fps) * 1000);
+        _cycle_time_ticks = (long)(((1.0 / _fps) * 1000000000) / _ns_per_tick);
       }
+    }
+
+    public EPauseMode PauseMode {
+      get { return _pause_mode; }
+      set { _pause_mode = value; }
+    }
+
+    public bool Enabled {
+      get { return _enabled; }
+      set { _enabled = value; }
     }
 
     /// <summary>
@@ -57,16 +80,51 @@ namespace QCV.Base {
     /// to satisfy cycle time
     /// </summary>
     public void UpdateAndWait() {
+      if (this.Enabled) {
+        PerformWait();
+      }
+    }
+
+    private void PerformWait() {
       if (_sw.IsRunning) {
         _sw.Stop();
-        long elapsed = _sw.ElapsedMilliseconds;
-        long wait_time = _cycle_time_ms - elapsed;
-        if (wait_time > 0) {
-          System.Threading.Thread.Sleep((int)wait_time);
+        long elapsed_ticks = _sw.ElapsedTicks;
+
+        long wait_time_ticks = _cycle_time_ticks - elapsed_ticks;
+        long wait_time_ms = (wait_time_ticks * _ns_per_tick) / 1000000;
+        if (wait_time_ticks > 0) {
+          switch (_pause_mode) {
+            case EPauseMode.Sleep:
+              SleepWait(wait_time_ms);
+              break;
+            case EPauseMode.SpinWait:
+              SpinWait(wait_time_ticks);
+              break;
+            case EPauseMode.Adaptive:
+              if (wait_time_ms > 50) {
+                SleepWait(wait_time_ms);
+              } else {
+                SpinWait(wait_time_ticks);
+              }
+              break;
+          }
         }
         _sw.Reset();
       }
       _sw.Start();
+    }
+
+    private static void SleepWait(long wait_time_ms) {
+      System.Threading.Thread.Sleep((int)wait_time_ms);
+    }
+
+    private void SpinWait(long wait_time_ticks) {
+      _sw.Reset();
+      _sw.Start();
+      while (_sw.ElapsedTicks < wait_time_ticks) {
+        System.Threading.Thread.SpinWait(1000);
+      }
+      _sw.Stop();
     }
   }
 }

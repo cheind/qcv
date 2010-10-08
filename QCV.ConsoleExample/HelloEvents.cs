@@ -44,7 +44,7 @@ namespace QCV.ConsoleExample {
         {"interactor", i}
       };
 
-      runtime.FPS = 30.0;
+      runtime.CycleTime.FPS = 30.0;
       runtime.Run(fl, env, 0);
 
       Console.WriteLine("Press any key to trigger event");

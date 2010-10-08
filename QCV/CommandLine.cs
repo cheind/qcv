@@ -44,6 +44,8 @@ namespace QCV {
           v => _args.enable_debugger = v != null },
         { "fps=", "target FPS to achieve", 
           v => _args.target_fps = Double.Parse(v) },
+        { "nofps", "disable FPS control", 
+          v => _args.target_fps = 0.0 },
         { "h|help", "show this help", 
           v => _args.help = v != null }
       };

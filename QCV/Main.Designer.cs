@@ -37,8 +37,8 @@
       this.valuesDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
       this._tp_values = new System.Windows.Forms.TabPage();
       this.dataGridView1 = new System.Windows.Forms.DataGridView();
-      this.valueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.valueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this._tp_console = new System.Windows.Forms.TabPage();
       this._rtb_console = new System.Windows.Forms.RichTextBox();
       this._tabctrl = new System.Windows.Forms.TabControl();
@@ -90,7 +90,7 @@
       // _mnu_save_filter_list
       // 
       this._mnu_save_filter_list.Name = "_mnu_save_filter_list";
-      this._mnu_save_filter_list.Size = new System.Drawing.Size(152, 22);
+      this._mnu_save_filter_list.Size = new System.Drawing.Size(148, 22);
       this._mnu_save_filter_list.Text = "Save Filter List";
       this._mnu_save_filter_list.Click += new System.EventHandler(this._mnu_save_filter_list_Click);
       // 
@@ -152,14 +152,6 @@
       this.dataGridView1.Size = new System.Drawing.Size(590, 129);
       this.dataGridView1.TabIndex = 0;
       // 
-      // valueDataGridViewTextBoxColumn
-      // 
-      this.valueDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-      this.valueDataGridViewTextBoxColumn.DataPropertyName = "Value";
-      this.valueDataGridViewTextBoxColumn.HeaderText = "Value";
-      this.valueDataGridViewTextBoxColumn.Name = "valueDataGridViewTextBoxColumn";
-      this.valueDataGridViewTextBoxColumn.ReadOnly = true;
-      // 
       // idDataGridViewTextBoxColumn
       // 
       this.idDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
@@ -168,6 +160,14 @@
       this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
       this.idDataGridViewTextBoxColumn.ReadOnly = true;
       this.idDataGridViewTextBoxColumn.Width = 43;
+      // 
+      // valueDataGridViewTextBoxColumn
+      // 
+      this.valueDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+      this.valueDataGridViewTextBoxColumn.DataPropertyName = "Value";
+      this.valueDataGridViewTextBoxColumn.HeaderText = "Value";
+      this.valueDataGridViewTextBoxColumn.Name = "valueDataGridViewTextBoxColumn";
+      this.valueDataGridViewTextBoxColumn.ReadOnly = true;
       // 
       // _tp_console
       // 
@@ -227,13 +227,13 @@
       this._nrc_fps.DecimalPlaces = 1;
       this._nrc_fps.Dock = System.Windows.Forms.DockStyle.Left;
       this._nrc_fps.Location = new System.Drawing.Point(76, 3);
-      this._nrc_fps.Minimum = new decimal(new int[] {
-            1,
+      this._nrc_fps.Maximum = new decimal(new int[] {
+            10000,
             0,
             0,
-            65536});
+            0});
       this._nrc_fps.Name = "_nrc_fps";
-      this._nrc_fps.Size = new System.Drawing.Size(48, 22);
+      this._nrc_fps.Size = new System.Drawing.Size(74, 22);
       this._nrc_fps.TabIndex = 6;
       this._nrc_fps.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
       this._nrc_fps.Value = new decimal(new int[] {
