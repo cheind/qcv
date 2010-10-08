@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+# Visual C# Express 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QCV.Base", "QCV.Base\QCV.Base.csproj", "{3B845908-9A44-4907-81C2-BCA17C462A19}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QCV.ConsoleExample", "QCV.ConsoleExample\QCV.ConsoleExample.csproj", "{C4513306-582B-4A99-BBAD-E2B0FEC3FEC0}"
@@ -8,6 +8,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QCV", "QCV\QCV.csproj", "{CB11BFF8-626E-4B4D-BEC5-00C313DE553A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QCV.Toolbox", "QCV.Toolbox\QCV.Toolbox.csproj", "{96DFF61A-A988-4F7D-977D-634EFC2E6BF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QCV.Tutorial", "QCV.Tutorial\QCV.Tutorial.csproj", "{62E47AB5-CFB3-42DE-BB11-9EB5DF8FFE8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QCV.Example", "QCV.Example\QCV.Example.csproj", "{734E2768-AFF6-4773-A5BB-277E24CDB482}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +69,26 @@ Global
 		{96DFF61A-A988-4F7D-977D-634EFC2E6BF1}.Release|x64.Build.0 = Release|x64
 		{96DFF61A-A988-4F7D-977D-634EFC2E6BF1}.Release|x86.ActiveCfg = Release|x86
 		{96DFF61A-A988-4F7D-977D-634EFC2E6BF1}.Release|x86.Build.0 = Release|x86
+		{62E47AB5-CFB3-42DE-BB11-9EB5DF8FFE8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62E47AB5-CFB3-42DE-BB11-9EB5DF8FFE8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62E47AB5-CFB3-42DE-BB11-9EB5DF8FFE8D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{62E47AB5-CFB3-42DE-BB11-9EB5DF8FFE8D}.Debug|x86.ActiveCfg = Debug|x86
+		{62E47AB5-CFB3-42DE-BB11-9EB5DF8FFE8D}.Debug|x86.Build.0 = Debug|x86
+		{62E47AB5-CFB3-42DE-BB11-9EB5DF8FFE8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62E47AB5-CFB3-42DE-BB11-9EB5DF8FFE8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62E47AB5-CFB3-42DE-BB11-9EB5DF8FFE8D}.Release|x64.ActiveCfg = Release|Any CPU
+		{62E47AB5-CFB3-42DE-BB11-9EB5DF8FFE8D}.Release|x86.ActiveCfg = Release|x86
+		{62E47AB5-CFB3-42DE-BB11-9EB5DF8FFE8D}.Release|x86.Build.0 = Release|x86
+		{734E2768-AFF6-4773-A5BB-277E24CDB482}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{734E2768-AFF6-4773-A5BB-277E24CDB482}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{734E2768-AFF6-4773-A5BB-277E24CDB482}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{734E2768-AFF6-4773-A5BB-277E24CDB482}.Debug|x86.ActiveCfg = Debug|x86
+		{734E2768-AFF6-4773-A5BB-277E24CDB482}.Debug|x86.Build.0 = Debug|x86
+		{734E2768-AFF6-4773-A5BB-277E24CDB482}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{734E2768-AFF6-4773-A5BB-277E24CDB482}.Release|Any CPU.Build.0 = Release|Any CPU
+		{734E2768-AFF6-4773-A5BB-277E24CDB482}.Release|x64.ActiveCfg = Release|Any CPU
+		{734E2768-AFF6-4773-A5BB-277E24CDB482}.Release|x86.ActiveCfg = Release|x86
+		{734E2768-AFF6-4773-A5BB-277E24CDB482}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
