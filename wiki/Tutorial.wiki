@@ -274,6 +274,9 @@ namespace Tutorial {
 
 Similar to [Tutorial#Displaying_Images] we use the <tt>QCV.Base.IDataInteractor</tt> interface to show arbitrary values. In this example, the number of frames per second is calculated and shown at each invocation of the <tt>Tutorial.DisplayingValues</tt> filter.
 
+||*Note*||
+||dasdadasdad dadad dadadad adads asda dasd a da dad a d ad a dadadadd||
+
 ===Querying Variables===
 ===Event Notifications===
 
