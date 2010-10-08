@@ -1,3 +1,5 @@
+// qcv.exe -s camera_input.cs Tutorial.CameraInput --run
+
 using System;
 using System.Collections.Generic;
 

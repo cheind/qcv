@@ -1,4 +1,4 @@
-// qcv.exe -s displaying_values.cs Tutorial.DisplayingValues
+// qcv.exe -s displaying_values.cs Tutorial.DisplayingValues --run
 
 using System;
 using System.Collections.Generic;
