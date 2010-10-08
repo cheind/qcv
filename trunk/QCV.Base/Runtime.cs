@@ -11,6 +11,7 @@ using Emgu.CV.Structure;
 using System.ComponentModel;
 using System.Threading;
 using log4net;
+using System.Reflection;
 
 namespace QCV.Base {
 
@@ -132,6 +133,9 @@ namespace QCV.Base {
           }
           stop |= bw.CancellationPending;
         }
+      } catch (TargetInvocationException ex) {
+        _logger.Error(String.Format("Runtime catched error {0} {1}", ex.InnerException.Message, ex.InnerException.StackTrace));
+        e.Result = ex.InnerException;
       } catch (Exception ex) {
         _logger.Error(String.Format("Runtime catched error {0} {1}", ex.Message, ex.StackTrace));
         e.Result = ex;

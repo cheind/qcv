@@ -36,10 +36,14 @@ namespace QCV.Base {
         } else {
           object[] param = new object[]{bundle};
           List<MethodInfo> li = _cache[instance];
-          foreach (MethodInfo mi in li.Distinct()) {
-            mi.Invoke(instance, param);
+          try {
+            foreach (MethodInfo mi in li.Distinct()) {
+              mi.Invoke(instance, param);
+            }
+          } finally {
+            li.Clear();
+            _cache.Remove(instance);
           }
-          _cache.Remove(instance);
         }
       }
     }
