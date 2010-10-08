@@ -284,7 +284,7 @@ Try playing around with the FPS setting in the graphical user interface and noti
 
 || *Tip* You can pass a predefined FPS value via the commandline by specifying <tt>--fps=VALUE</tt> or disabling cycle time control by supplying <tt>--nofps</tt>. Alternatively you can adjust the FPS setting via the graphical user interface.||
 
-=Properties=
+=Displaying Properties=
 Any public readable property exposed by a filter is by default shown in property section of <tt>qcv.exe</tt>. Writable properties can be modified by the user. Here's a sample illustrating usage of properties.
 
 {{{
@@ -340,7 +340,9 @@ namespace Tutorial {
 }
 }}}
 
+Note that changing properties is asynchronous event. QCV currently reflects any change to a property directly to the instance of the object. Therefore you might need to synchronize access to the property yourself. In future versions of QCV property changes will be cached and executed when the filter asks for it (see [Tutorial#Event_Notifications] for details.
 
+|| *Tip* <tt>qcv.exe</tt> uses <tt>System.Windows.Forms.PropertyGrid</tt> to show properties of the selected filter. As such, it supports all attributes that are known and processed by the <tt>PropertyGrid</tt> class. Consult the <tt>PropertyGrid</tt> documentation for details.||
 
 =Event Notifications=
 
