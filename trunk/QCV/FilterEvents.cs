@@ -28,6 +28,7 @@ namespace QCV {
       MethodInfo[] event_methods = QCV.Base.MethodInfoScanner.FindEventMethods(instance);
       foreach (MethodInfo mi in event_methods) {
         Button b = new Button();
+        b.AutoSize = true;
         b.Text = mi.Name.Substring(2); // Remove On
         var lambda_mi = mi;
         var lambda_instance = instance;
