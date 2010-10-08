@@ -34,7 +34,7 @@ namespace QCV.ConsoleExample {
       Dictionary<string, object> env = new Dictionary<string,object>() {
         {"interactor", new QCV.Base.ConsoleDataInteractor(runtime)}
       };
-      runtime.FPS = 1.0;
+      runtime.CycleTime.FPS = 1.0;
       runtime.Run(f, env, -1);
       runtime.Shutdown();
     }

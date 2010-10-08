@@ -21,7 +21,7 @@ namespace QCV.ConsoleExample {
       f.Add(si);
 
       QCV.Base.Runtime runtime = new QCV.Base.Runtime();
-      runtime.FPS = 30.0;
+      runtime.CycleTime.FPS = 30.0;
 
       Dictionary<string, object> env = new Dictionary<string, object>()
       {

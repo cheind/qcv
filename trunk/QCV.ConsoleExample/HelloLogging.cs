@@ -26,8 +26,8 @@ namespace QCV.ConsoleExample {
           })
       );
 
-      QCV.Base.Runtime runtime = new QCV.Base.Runtime();        
-      runtime.FPS = 30.0;
+      QCV.Base.Runtime runtime = new QCV.Base.Runtime();
+      runtime.CycleTime.FPS = 30.0;
       runtime.Run(f, 10);
     }
   }

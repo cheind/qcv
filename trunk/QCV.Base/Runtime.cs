@@ -41,13 +41,8 @@ namespace QCV.Base {
       }
     }
 
-    public double FPS {
-      get {
-        return _fts.FPS;
-      }
-      set {
-        _fts.FPS = value;
-      }
+    public FixedTimeStep CycleTime {
+      get { return _fts; }
     }
 
     public bool Running {
