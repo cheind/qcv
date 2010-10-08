@@ -43,6 +43,7 @@
       this._rtb_console = new System.Windows.Forms.RichTextBox();
       this._tabctrl = new System.Windows.Forms.TabControl();
       this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+      this._nrc_fps = new System.Windows.Forms.NumericUpDown();
       this._fl_settings = new QCV.FilterSettings();
       this.menuStrip1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.keyValuesBindingSource)).BeginInit();
@@ -53,6 +54,7 @@
       this._tp_console.SuspendLayout();
       this._tabctrl.SuspendLayout();
       this.tableLayoutPanel1.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this._nrc_fps)).BeginInit();
       this.SuspendLayout();
       // 
       // _btn_run
@@ -60,7 +62,7 @@
       this._btn_run.Location = new System.Drawing.Point(8, 3);
       this._btn_run.Margin = new System.Windows.Forms.Padding(8, 3, 3, 3);
       this._btn_run.Name = "_btn_run";
-      this._btn_run.Size = new System.Drawing.Size(75, 27);
+      this._btn_run.Size = new System.Drawing.Size(62, 22);
       this._btn_run.TabIndex = 0;
       this._btn_run.Text = "Run";
       this._btn_run.UseVisualStyleBackColor = true;
@@ -88,7 +90,7 @@
       // _mnu_save_filter_list
       // 
       this._mnu_save_filter_list.Name = "_mnu_save_filter_list";
-      this._mnu_save_filter_list.Size = new System.Drawing.Size(148, 22);
+      this._mnu_save_filter_list.Size = new System.Drawing.Size(152, 22);
       this._mnu_save_filter_list.Text = "Save Filter List";
       this._mnu_save_filter_list.Click += new System.EventHandler(this._mnu_save_filter_list_Click);
       // 
@@ -103,8 +105,8 @@
       // _mnu_help_arguments
       // 
       this._mnu_help_arguments.Name = "_mnu_help_arguments";
-      this._mnu_help_arguments.Size = new System.Drawing.Size(133, 22);
-      this._mnu_help_arguments.Text = "Arguments";
+      this._mnu_help_arguments.Size = new System.Drawing.Size(212, 22);
+      this._mnu_help_arguments.Text = "Commandline Arguments";
       this._mnu_help_arguments.Click += new System.EventHandler(this._mnu_help_arguments_Click);
       // 
       // keyValuesBindingSource
@@ -128,7 +130,7 @@
       this._tp_values.Controls.Add(this.dataGridView1);
       this._tp_values.Location = new System.Drawing.Point(4, 23);
       this._tp_values.Name = "_tp_values";
-      this._tp_values.Size = new System.Drawing.Size(504, 128);
+      this._tp_values.Size = new System.Drawing.Size(590, 128);
       this._tp_values.TabIndex = 2;
       this._tp_values.Text = "Values";
       this._tp_values.UseVisualStyleBackColor = true;
@@ -147,7 +149,7 @@
       this.dataGridView1.Location = new System.Drawing.Point(0, 0);
       this.dataGridView1.Name = "dataGridView1";
       this.dataGridView1.ReadOnly = true;
-      this.dataGridView1.Size = new System.Drawing.Size(504, 129);
+      this.dataGridView1.Size = new System.Drawing.Size(590, 129);
       this.dataGridView1.TabIndex = 0;
       // 
       // valueDataGridViewTextBoxColumn
@@ -183,11 +185,13 @@
       // 
       this._rtb_console.BorderStyle = System.Windows.Forms.BorderStyle.None;
       this._rtb_console.Dock = System.Windows.Forms.DockStyle.Fill;
+      this._rtb_console.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
       this._rtb_console.Location = new System.Drawing.Point(3, 3);
       this._rtb_console.Name = "_rtb_console";
       this._rtb_console.Size = new System.Drawing.Size(584, 122);
       this._rtb_console.TabIndex = 0;
       this._rtb_console.Text = "";
+      this._rtb_console.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.ConsoleLinkClicked);
       // 
       // _tabctrl
       // 
@@ -203,10 +207,12 @@
       // 
       // tableLayoutPanel1
       // 
-      this.tableLayoutPanel1.ColumnCount = 1;
+      this.tableLayoutPanel1.ColumnCount = 2;
+      this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
       this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
       this.tableLayoutPanel1.Controls.Add(this._fl_settings, 0, 1);
       this.tableLayoutPanel1.Controls.Add(this._btn_run, 0, 0);
+      this.tableLayoutPanel1.Controls.Add(this._nrc_fps, 1, 0);
       this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
       this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 24);
       this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -216,14 +222,36 @@
       this.tableLayoutPanel1.Size = new System.Drawing.Size(598, 312);
       this.tableLayoutPanel1.TabIndex = 6;
       // 
+      // _nrc_fps
+      // 
+      this._nrc_fps.DecimalPlaces = 1;
+      this._nrc_fps.Dock = System.Windows.Forms.DockStyle.Left;
+      this._nrc_fps.Location = new System.Drawing.Point(76, 3);
+      this._nrc_fps.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+      this._nrc_fps.Name = "_nrc_fps";
+      this._nrc_fps.Size = new System.Drawing.Size(48, 22);
+      this._nrc_fps.TabIndex = 6;
+      this._nrc_fps.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+      this._nrc_fps.Value = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+      this._nrc_fps.ValueChanged += new System.EventHandler(this._nrc_fps_ValueChanged);
+      // 
       // _fl_settings
       // 
+      this.tableLayoutPanel1.SetColumnSpan(this._fl_settings, 2);
       this._fl_settings.Dock = System.Windows.Forms.DockStyle.Fill;
       this._fl_settings.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this._fl_settings.Location = new System.Drawing.Point(3, 36);
+      this._fl_settings.Location = new System.Drawing.Point(3, 31);
       this._fl_settings.Name = "_fl_settings";
       this._fl_settings.Padding = new System.Windows.Forms.Padding(3);
-      this._fl_settings.Size = new System.Drawing.Size(592, 273);
+      this._fl_settings.Size = new System.Drawing.Size(592, 278);
       this._fl_settings.TabIndex = 5;
       // 
       // Main
@@ -251,6 +279,7 @@
       this._tp_console.ResumeLayout(false);
       this._tabctrl.ResumeLayout(false);
       this.tableLayoutPanel1.ResumeLayout(false);
+      ((System.ComponentModel.ISupportInitialize)(this._nrc_fps)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -277,6 +306,7 @@
     private System.Windows.Forms.TabControl _tabctrl;
     private FilterSettings _fl_settings;
     private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+    private System.Windows.Forms.NumericUpDown _nrc_fps;
 
   }
 }
