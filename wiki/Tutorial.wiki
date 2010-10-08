@@ -274,7 +274,11 @@ namespace Tutorial {
 
 Similar to [Tutorial#Displaying_Images] we use the <tt>QCV.Base.IDataInteractor</tt> interface to show arbitrary values. In this example, the number of frames per second is calculated and shown at each invocation of the <tt>Tutorial.DisplayingValues</tt> filter.
 
+Try playing around with the FPS setting in the graphical user interface and notice how <tt>qcv.exe</tt> comes close to achieving the desired frame rate.
+
 || *Tip* You might want to use <tt>QCV.Toolbox.ShowFPS</tt> because it reduces the stress on <tt>qcv.exe</tt> by definining a frequency for updating the frame rate value.||
+
+|| *Tip* You can pass a predefined FPS value via the commandline by specifying <tt>--fps=VALUE</tt> or disabling cycle time control by supplying <tt>--nofps</tt>. Alternatively you can adjust the FPS setting via the graphical user interface.||
 
 ===Querying Variables===
 ===Event Notifications===
