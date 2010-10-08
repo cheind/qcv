@@ -55,7 +55,7 @@ namespace QCV {
       _args.addin_paths = new List<string>(_args.addin_paths.Distinct());
       _args.source_paths = new List<string>(_args.source_paths.Distinct());
       _args.compile_references = new List<string>(_args.compile_references.Distinct());
-      _args.target_fps = Math.Max(0.1, _args.target_fps);
+      _args.target_fps = Math.Max(0.0, _args.target_fps);
     }
 
     public CLIArgs Args {
