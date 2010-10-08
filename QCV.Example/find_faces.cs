@@ -37,8 +37,12 @@ namespace Example {
     
     public void Execute(Dictionary<string, object> b) {
       while (_hc == null) {
-        if (!b.GetInteractor().Query("Please specify a correct cascade file", this)) {
+        bool query_result = b.GetInteractor().Query("Please specify a correct cascade file", this);
+        bool should_cancel = b.GetRuntime().CancellationPending;
+        
+        if (!query_result || should_cancel) {
           b["cancel"] = true;
+          return;
         }
       }
       
