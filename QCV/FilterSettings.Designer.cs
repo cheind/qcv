@@ -88,6 +88,7 @@
       this._cmb_filters.Name = "_cmb_filters";
       this._cmb_filters.Size = new System.Drawing.Size(266, 22);
       this._cmb_filters.TabIndex = 2;
+      this._cmb_filters.SelectedIndexChanged += new System.EventHandler(this._cmb_filters_SelectedIndexChanged);
       // 
       // label1
       // 
