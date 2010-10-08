@@ -116,6 +116,14 @@ namespace QCV {
     }
 
     void BuildSucceededEvent(object sender, QCV.Base.Compiler compiler) {
+      try {
+        UpdateFilterList(compiler);
+      } catch (Exception ex) {
+        _logger.Error(String.Format("Failed to update/create filter list - {0}", ex.Message));
+      }
+    }
+
+    private void UpdateFilterList(QCV.Base.Compiler compiler) {
       bool running = _runtime.Running;
       if (running) {
         _query_form.Cancel();
@@ -124,7 +132,7 @@ namespace QCV {
 
       QCV.Base.Addins.AddinHost tmp = new QCV.Base.Addins.AddinHost();
       tmp.DiscoverInAssembly(compiler.CompiledAssemblies);
-      
+
 
       if (_fl == null) {
 
@@ -147,7 +155,11 @@ namespace QCV {
 
         foreach (Base.Addins.AddinInfo ai in providers) {
           Base.IFilterListProvider p = _ah.CreateInstance(ai) as Base.IFilterListProvider;
-          _fl.AddRange(p.CreateFilterList(_ah));
+          try {
+            _fl.AddRange(p.CreateFilterList(_ah));
+          } catch (Exception ex) {
+            _logger.Error(String.Format("Error raised while creating filter list {0} - {1}", p.GetType().FullName, ex.Message));
+          }
         }
 
         foreach (string lpath in _args.load_filterlist_paths) {
@@ -158,11 +170,11 @@ namespace QCV {
               _fl.AddRange(tmp_fl);
             } catch (Exception err) {
               _logger.Error(
-                String.Format("Failed to load FilterList from '{0}' {1}", 
+                String.Format("Failed to load FilterList from '{0}' {1}",
                 path, err.Message)
               );
             }
-               
+
           } else {
             _logger.Error(String.Format("Path '{0}' does not exist.", lpath));
           }
