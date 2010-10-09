@@ -1,64 +1,73 @@
-﻿/*
- * RDVision http://rdvision.googlecode.com
- * Copyright (c) 2010, Christoph Heindl. All rights reserved.
- * Code license:	New BSD License
- */
-
-/*
- * Parsley http://parsley.googlecode.com
- * Copyright (c) 2010, Christoph Heindl. All rights reserved.
- * Code license:	New BSD License
- */
+﻿// ----------------------------------------------------------
+// <project>QCV</project>
+// <author>Christoph Heindl</author>
+// <copyright>Copyright (c) Christoph Heindl 2010</copyright>
+// <license>New BSD</license>
+// ----------------------------------------------------------
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Reflection;
 
 namespace QCV.Base.Addins {
 
   /// <summary>
-  /// Info on an addin
+  /// Holds information about a particular addin.
   /// </summary>
-  /// <remarks>Modelled after System.Addin</remarks>
   public class AddinInfo {
+
+    /// <summary>
+    /// Reflection type of addin
+    /// </summary>
     private Type _type;
 
     /// <summary>
-    /// Construct from assembly and type
+    /// Initializes a new instance of the AddinInfo class.
     /// </summary>
-    /// <param name="t"></param>
+    /// <param name="t">Type this info refers to.</param>
     public AddinInfo(Type t) {
       _type = t;
     }
 
     /// <summary>
-    /// Get assembly that contains this addin
+    /// Gets the assembly the addin is defined in.
     /// </summary>
     public Assembly Assembly {
       get { return _type.Assembly; }
     }
 
     /// <summary>
-    /// Get addin type
+    /// Gets the reflection type of the addin.
     /// </summary>
     public Type Type {
       get { return _type; }
     }
 
     /// <summary>
-    /// Get addin's full name
+    /// Gets the full name of the addin type.
     /// </summary>
     public string FullName {
       get { return _type.FullName; }
     }
 
     /// <summary>
-    /// Get addin's inner namespace name
+    /// Gets the addins inner namespace name.
     /// </summary>
     public string Name {
       get { return _type.Name; }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether the addin is default constructible or not.
+    /// </summary>
+    public bool DefaultConstructible {
+      get {
+        return
+            _type.IsAbstract == false
+            && _type.IsGenericTypeDefinition == false
+            && _type.IsInterface == false
+            && _type.GetConstructor(Type.EmptyTypes) != null;
+      }
     }
 
     /// <summary>
@@ -82,19 +91,6 @@ namespace QCV.Base.Addins {
     }
 
     /// <summary>
-    /// True if type is default constructible
-    /// </summary>
-    public bool DefaultConstructible {
-      get {
-        return
-            _type.IsAbstract == false
-            && _type.IsGenericTypeDefinition == false
-            && _type.IsInterface == false
-            && _type.GetConstructor(Type.EmptyTypes) != null;
-      }
-    }
-
-    /// <summary>
     /// Test if addin is of given type
     /// </summary>
     /// <param name="t"></param>
@@ -104,13 +100,16 @@ namespace QCV.Base.Addins {
     }
   }
 
-  class AddinInfoFullNameComparer : IEqualityComparer<AddinInfo> {
+  /// <summary>
+  /// Compare two instances of AddinInfo by their types full name.
+  /// </summary>
+  class AddinInfoFullNameComparer : EqualityComparer<AddinInfo> {
 
-    public bool Equals(AddinInfo a, AddinInfo b) {
+    public override bool Equals(AddinInfo a, AddinInfo b) {
       return a.FullName == b.FullName;
     }
 
-    public int GetHashCode(AddinInfo a) {
+    public override int GetHashCode(AddinInfo a) {
       return a.FullName.GetHashCode();
     }
   }

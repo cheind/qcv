@@ -1,7 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// ----------------------------------------------------------
+// <project>QCV</project>
+// <author>Christoph Heindl</author>
+// <copyright>Copyright (c) Christoph Heindl 2010</copyright>
+// <license>New BSD</license>
+// ----------------------------------------------------------
+
+using System;
 using System.Linq;
-using System.Text;
 using System.Reflection;
 
 namespace QCV.Base {
@@ -47,8 +52,7 @@ namespace QCV.Base {
               return pi.CanWrite &&
                      pi.PropertyType == fpi.PropertyType &&
                      pi.Name == fpi.Name;
-            }
-          );
+            });
           if (tpi != null) {
             tpi.SetValue(dest, fpi.GetValue(source, null), null);
           }

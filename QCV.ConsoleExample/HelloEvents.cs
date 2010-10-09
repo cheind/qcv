@@ -38,7 +38,7 @@ namespace QCV.ConsoleExample {
       
       
       QCV.Base.Runtime runtime = new QCV.Base.Runtime();
-      QCV.Base.IDataInteractor i = new QCV.Base.ConsoleDataInteractor(runtime);
+      QCV.Base.ConsoleDataInteractor i = new QCV.Base.ConsoleDataInteractor(runtime);
 
       Dictionary<string, object> env = new Dictionary<string, object>() {
         {"interactor", i}

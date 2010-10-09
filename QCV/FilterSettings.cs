@@ -15,9 +15,9 @@ namespace QCV {
       InitializeComponent();
     }
 
-    public QCV.Base.IDataInteractor DataInteractor {
+    public QCV.Base.EventInvocationCache EventCache {
       set {
-        _fl_events.DataInteractor = value;
+        _fl_events.EventCache = value;
       }
     }
 

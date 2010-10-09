@@ -10,15 +10,15 @@ using System.Reflection;
 
 namespace QCV {
   public partial class FilterEvents : UserControl {
-    private QCV.Base.IDataInteractor _interactor = null;
+    private QCV.Base.EventInvocationCache _cache = null;
 
     public FilterEvents() {
       InitializeComponent();
     }
 
-    public QCV.Base.IDataInteractor DataInteractor {
+    public QCV.Base.EventInvocationCache EventCache {
       set {
-        _interactor = value;
+        _cache = value;
       }
     }
 
@@ -33,7 +33,7 @@ namespace QCV {
         var lambda_mi = mi;
         var lambda_instance = instance;
         b.Click += new EventHandler((sender, ev) => {
-          _interactor.CacheEvent(lambda_instance, lambda_mi);
+          _cache.Add(lambda_instance, lambda_mi);
         });
         _layouter.Controls.Add(b);
       }
