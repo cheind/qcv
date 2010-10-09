@@ -36,7 +36,7 @@ namespace QCV {
       _query_form = new ShowQueryForm(this);
       _query_form.FormClosing += new FormClosingEventHandler(AnyFormClosing);
 
-      _fl_settings.DataInteractor = this;
+      _fl_settings.EventCache = _ev_cache;
 
       // Redirect console output
       _console_hook.StringAppendedEvent += new HookableTextWriter.StringAppendedEventHandler(ConsoleStringAppendedEvent);

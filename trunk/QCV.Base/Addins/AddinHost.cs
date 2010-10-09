@@ -1,31 +1,34 @@
-﻿/*
- * RDVision http://rdvision.googlecode.com
- * Copyright (c) 2010, Christoph Heindl. All rights reserved.
- * Code license:	New BSD License
- */
-
-/*
- * Parsley http://parsley.googlecode.com
- * Copyright (c) 2010, Christoph Heindl. All rights reserved.
- * Code license:	New BSD License
- */
+﻿// ----------------------------------------------------------
+// <project>QCV</project>
+// <author>Christoph Heindl</author>
+// <copyright>Copyright (c) Christoph Heindl 2010</copyright>
+// <license>New BSD</license>
+// ----------------------------------------------------------
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
-
+using System.Linq;
 using System.Reflection;
 using log4net;
 
 namespace QCV.Base.Addins {
 
+  /// <summary>
+  /// Hosts AddinInfo instances.
+  /// </summary>
+  /// <remarks>
+  /// AddinHost provides methods to discover plugins in files and 
+  /// assemblies, create instance of plugins and find addins.
+  /// </remarks>
   public class AddinHost : List<AddinInfo> {
+    /// <summary>
+    /// Logger object used to log messages.
+    /// </summary>
     private static readonly ILog _logger = LogManager.GetLogger(typeof(AddinHost));
 
     /// <summary>
-    /// Discovers add-ins from current set of loaded assemblies
+    /// Discover addins in the current set of loaded assemblies
     /// </summary>
     public void DiscoverInDomain() {
       foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies()) {
@@ -33,22 +36,20 @@ namespace QCV.Base.Addins {
       }
     }
 
+    /// <summary>
+    /// Discover addins in the specified assemblies.
+    /// </summary>
+    /// <param name="assemblies">The collection of assemblies.</param>
     public void DiscoverInAssembly(IEnumerable<Assembly> assemblies) {
       foreach (Assembly a in assemblies) {
         DiscoverInAssembly(a);
       }
     }
 
-    public void MergeByFullName(AddinHost other) {
-      AddinHost tmp = new AddinHost();
-      tmp.AddRange(other.Union(this, new AddinInfoFullNameComparer()));
-      this.Clear();
-      this.AddRange(tmp);      
-    }
-
     /// <summary>
-    /// Discovers add-ins from current set of loaded assemblies
+    /// Discover addins in the specified assembly
     /// </summary>
+    /// <param name="a">The assembly to search in.</param>
     public void DiscoverInAssembly(Assembly a) {
       List<AddinInfo> addins = new List<AddinInfo>();
       foreach (Type t in a.GetExportedTypes()) {
@@ -57,6 +58,20 @@ namespace QCV.Base.Addins {
         }
       }
       this.AddRange(addins);
+    }
+
+    /// <summary>
+    /// Merge the content of other AddinHost with this addin host.
+    /// </summary>
+    /// <remarks>Uses the addins full name for equality testing.
+    /// In case of duplicates, the values in other take precedence 
+    /// over values in this.</remarks>
+    /// <param name="other">AddinHost to merge with</param>
+    public void MergeByFullName(AddinHost other) {
+      AddinHost tmp = new AddinHost();
+      tmp.AddRange(other.Union(this, new AddinInfoFullNameComparer()));
+      this.Clear();
+      this.AddRange(tmp);      
     }
 
     /// <summary>
@@ -150,8 +165,6 @@ namespace QCV.Base.Addins {
         return default(T);
       }
     }
-
-
 
     /// <summary>
     /// Test if type is flagged as addin

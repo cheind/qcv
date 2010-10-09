@@ -1,19 +1,11 @@
-﻿/*
- * RDVision http://rdvision.googlecode.com
- * Copyright (c) 2010, Christoph Heindl. All rights reserved.
- * Code license:	New BSD License
- */
-
-/*
- * Parsley http://parsley.googlecode.com
- * Copyright (c) 2010, Christoph Heindl. All rights reserved.
- * Code license:	New BSD License
- */
+﻿// ----------------------------------------------------------
+// <project>QCV</project>
+// <author>Christoph Heindl</author>
+// <copyright>Copyright (c) Christoph Heindl 2010</copyright>
+// <license>New BSD</license>
+// ----------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
 
 namespace QCV.Base {
@@ -79,7 +71,7 @@ namespace QCV.Base {
     }
 
     /// <summary>
-    /// Check if resource is disposed.
+    /// Gets a value indicating whether the resource is already disposed or not.
     /// </summary>
     [Browsable(false)]
     public virtual bool Disposed {
