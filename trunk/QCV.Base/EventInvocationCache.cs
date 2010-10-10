@@ -30,6 +30,7 @@ namespace QCV.Base {
         } else {
           li = _cache[instance];
         }
+
         li.AddRange(mi);
       }
     }
@@ -39,7 +40,7 @@ namespace QCV.Base {
         if (!_cache.ContainsKey(instance)) {
           return;
         } else {
-          object[] param = new object[]{bundle};
+          object[] param = new object[] { bundle };
           List<MethodInfo> li = _cache[instance];
           try {
             foreach (MethodInfo mi in li.Distinct()) {
