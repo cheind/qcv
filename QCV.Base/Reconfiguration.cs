@@ -11,6 +11,7 @@ using System.Reflection;
 
 namespace QCV.Base {
   public class Reconfiguration {
+
     public void Update(FilterList fl, Addins.AddinHost h, out FilterList fl_new) {
 
       fl_new = new FilterList();
@@ -41,7 +42,7 @@ namespace QCV.Base {
 
     }
 
-    void ProcessProperties(IFilter source, IFilter dest) {
+    private void ProcessProperties(IFilter source, IFilter dest) {
       PropertyInfo[] f = source.GetType().GetProperties();
       PropertyInfo[] t = dest.GetType().GetProperties();
 
