@@ -81,6 +81,7 @@ namespace QCV.Base.Addins {
     /// <summary>
     /// Fetch the first attribute of the given type
     /// </summary>
+    /// <returns>The attribute or null if not found.</returns>
     public T Attribute<T>() where T : System.Attribute {
       System.Attribute a = System.Attribute.GetCustomAttribute(this.Type, typeof(T));
       if (a != null) {
@@ -97,20 +98,6 @@ namespace QCV.Base.Addins {
     /// <returns></returns>
     public bool TypeOf(Type t) {
       return t.IsAssignableFrom(_type);
-    }
-  }
-
-  /// <summary>
-  /// Compare two instances of AddinInfo by their types full name.
-  /// </summary>
-  class AddinInfoFullNameComparer : EqualityComparer<AddinInfo> {
-
-    public override bool Equals(AddinInfo a, AddinInfo b) {
-      return a.FullName == b.FullName;
-    }
-
-    public override int GetHashCode(AddinInfo a) {
-      return a.FullName.GetHashCode();
     }
   }
 }

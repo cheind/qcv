@@ -81,6 +81,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Addins\AddinInfoFullNameComparer.cs" />
     <Compile Include="Addins\AddinAttribute.cs" />
     <Compile Include="Addins\AddinHost.cs" />
     <Compile Include="Addins\AddinInfo.cs" />

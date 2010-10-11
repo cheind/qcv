@@ -16,9 +16,6 @@ namespace QCV.Base {
     private List<FileSystemWatcher> _watchers;
     private IEnumerable<string> _files;
 
-    public delegate void BuildEventHandler(object sender, Compiler compiler);
-    public event BuildEventHandler BuildSucceededEvent;
-
     public InstantCompiler(IEnumerable<string> watch_files, bool debug)
     {
       _c = new Compiler(debug);
@@ -27,12 +24,30 @@ namespace QCV.Base {
     }
 
     public InstantCompiler(IEnumerable<string> watch_files,
-                           IEnumerable<string> references,
-                           bool debug) 
+           IEnumerable<string> references,
+           bool debug) 
     {
       _c = new Compiler(references, debug);
       _files = watch_files;
       InstallFileSystemWatch(watch_files);
+    }
+
+
+    public delegate void BuildEventHandler(object sender, Compiler compiler);
+    public event BuildEventHandler BuildSucceededEvent;
+
+    public void Compile() {
+      lock (_c) {
+        if (_c.CompileFromFile(_files)) {
+          if (BuildSucceededEvent != null) {
+            BuildSucceededEvent(this, _c);
+          }
+        }
+      }
+    }
+
+    protected override void DisposeManaged() {
+      _watchers.ForEach((w) => w.Dispose());
     }
 
     private void InstallFileSystemWatch(IEnumerable<string> watch_files) {
@@ -45,14 +60,14 @@ namespace QCV.Base {
         watch.Filter = fi.Name;
         watch.NotifyFilter = System.IO.NotifyFilters.LastWrite;
         watch.IncludeSubdirectories = false;
-        watch.Changed +=new FileSystemEventHandler(FileChanged);
+        watch.Changed += new FileSystemEventHandler(FileChanged);
 
         _watchers.Add(watch);
       }
       _watchers.ForEach((w) => w.EnableRaisingEvents = true);
     }
 
-    void FileChanged(object sender, FileSystemEventArgs e) {
+    private void FileChanged(object sender, FileSystemEventArgs e) {
       if ((DateTime.Now - _last_update).TotalSeconds > 1.0) {
         // Open file handles
         System.Threading.Thread.Sleep(50); 
@@ -60,20 +75,5 @@ namespace QCV.Base {
         _last_update = DateTime.Now;
       }
     }
-
-    protected override void DisposeManaged() {
-      _watchers.ForEach((w) => w.Dispose());
-    }
-
-    public void Compile() {
-      lock (_c) {
-        if (_c.CompileFromFile(_files)) {
-          if (BuildSucceededEvent != null) {
-            BuildSucceededEvent(this, _c);
-          }
-        }
-      }
-    }
-
   }
 }
