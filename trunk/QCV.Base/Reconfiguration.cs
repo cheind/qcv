@@ -19,8 +19,7 @@ namespace QCV.Base {
         Type t = f.GetType();
         Addins.AddinInfo fai = h.FindAddins(
           typeof(IFilter),
-          (ai) => { return ai.DefaultConstructible && ai.FullName == t.FullName; }
-        ).FirstOrDefault();
+          (ai) => { return ai.DefaultConstructible && ai.FullName == t.FullName; }).FirstOrDefault();
 
         if (fai == null || t == fai.Type) {
           // Just move filter over
