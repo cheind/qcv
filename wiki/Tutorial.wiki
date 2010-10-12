@@ -455,6 +455,53 @@ namespace Tutorial {
 }
 }}}
 
+=Transporting Values Between Filter=
+
+Transporting Values between filters is something that has been done from the very beginning: the camera writes the image to the bundle and another filter reads from it. The bundle isn't restricted to images, you can use it to read and write arbitrary values.
+
+The following example illustrates this concept.
+
+{{{
+// qcv.exe -s transporting_values.cs Tutorial.TransportingValues --run
+
+using System;
+using System.Collections.Generic;
+
+using QCV.Base;
+using QCV.Base.Addins;
+using QCV.Base.Extensions;
+
+namespace Tutorial {
+
+  class AFilter : IFilter {
+    
+    public void Execute(Dictionary<string, object> bundle) {
+      bundle["A"] = DateTime.Now;
+    }
+  }
+
+  class BFilter : IFilter {
+
+    public void Execute(Dictionary<string, object> bundle) {
+      System.Console.WriteLine(String.Format("A:{0}", bundle.Get<DateTime>("A")));
+    }
+  }
+
+  [Addin]
+  public class TransportingValues : IFilterListProvider {
+
+    public FilterList CreateFilterList(AddinHost host) {
+      return new FilterList() {
+        new AFilter(),
+        new BFilter()
+      };
+    }
+
+  }
+}
+}}}
+
+|| *Tip* Currently the state of the bundle is kept over iterations in the filter list. Depending on your situation this is either a good thing or a bad thing. Make sure to delete values from the bundle once they are not required anymore. ||
 
 =Advanced Usage=
 ==Saving and Loading State==
