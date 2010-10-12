@@ -10,7 +10,7 @@ namespace QCV {
     public delegate void StringAppendedEventHandler(object sender, string text);
     public event StringAppendedEventHandler StringAppendedEvent;
 
-    public HookableTextWriter()
+    public HookableTextWriter() 
     {}
 
     public override System.Text.Encoding Encoding { 
