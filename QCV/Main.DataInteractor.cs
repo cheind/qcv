@@ -33,7 +33,7 @@ namespace QCV {
             f = _show_forms[id];
           }
           Rectangle r = f.ClientRectangle;
-          f.Image = img.Resize(r.Width, r.Height, Emgu.CV.CvEnum.INTER.CV_INTER_NN, true);
+          f.Image = img.Resize(r.Width, r.Height, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR, true);
         }));
       } else {
         // Show stringified version in datagrid
