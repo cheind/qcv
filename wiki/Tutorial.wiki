@@ -457,7 +457,7 @@ namespace Tutorial {
 
 =Transporting Values Between Filter=
 
-Transporting Values between filters is something that has been done from the very beginning: the camera writes the image to the bundle and another filter reads from it. The bundle isn't restricted to images, you can use it to read and write arbitrary values.
+Transporting values between filters is something that we were doing from the very beginning: the camera writes the image to the bundle and another filter reads it. The bundle isn't restricted to images, you can use it to read and write arbitrary values.
 
 The following example illustrates this concept.
 
