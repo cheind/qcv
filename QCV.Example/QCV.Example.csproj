@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="calibrate_camera.cs" />
     <Compile Include="detect_marker.cs" />
     <Compile Include="draw_border.cs" />
     <Compile Include="find_faces.cs" />

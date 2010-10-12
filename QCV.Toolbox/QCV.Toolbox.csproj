@@ -84,7 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera.cs" />
-    <Compile Include="Drawing\Points.cs" />
+    <Compile Include="Draw.cs" />
     <Compile Include="ImageList.cs" />
     <Compile Include="ImageTypeEditor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

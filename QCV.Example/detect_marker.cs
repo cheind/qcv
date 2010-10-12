@@ -26,7 +26,13 @@ namespace Example {
     private int _binary_threshold = 40;
     private double _max_error_normed = 0.4;
 
-    public DetectMarker() {
+    /// <summary>
+    /// Get or set threshold for binarization.
+    /// </summary>
+    [Description("Specifies the binary threshold for binarization")]
+    public int BinaryThreshold {
+      get { return _binary_threshold; }
+      set { _binary_threshold = value; }
     }
 
     /// <summary>
@@ -71,7 +77,7 @@ namespace Example {
 
       // Attribute image to show detection result
       if (marker_corners != null) {
-        QCV.Toolbox.Drawing.Points.OrderedList(image, marker_corners, Color.Green);
+        QCV.Toolbox.Draw.OrderedPointList(image, marker_corners, Color.Green);
       }
     }
 
