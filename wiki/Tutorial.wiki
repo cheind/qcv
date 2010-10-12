@@ -15,7 +15,9 @@ QCV is an acronym and stands for "Quick Computer Vision". QCV is a framework for
 Does the following paragraph sound familiar to you?
  Have you ever had a great idea for an algorithm but failed to implement it because setting up the environment took to much time? Have you ever felt frustrated setting up projects, managing dependencies, closing your application for a rebuilt to see the effects of your changed algorithm?
 
-Sounds familiar? Then QCV is for you. It provides a complete setup to host and run your algorithms. You don't even need a integrated development environment to get started. QCV automatically detects changes in your algorithm source files and applies those changes online.
+Sounds familiar? Then QCV is for you. It provides a complete setup to host and run your algorithms. You don't even need a integrated development environment to get started. QCV automatically detects changes in your algorithm source files and applies those changes online. 
+
+QCV frees your mind from user interface questions by providing functionality that allows your algorithm to communicate with the user. QCV frees your mind from thinking about user interface generation and lets you concentrate on a clean implementation of your algorithm. The result is a reusable component that is only loosely coupled to the QCV environment.
 
 =Installation=
 
