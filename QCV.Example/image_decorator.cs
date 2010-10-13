@@ -39,12 +39,15 @@ namespace Example {
     }
 
     public void OnSaveImage(Dictionary<string, object> bundle) {
-      string filename = String.Format("source_{0:yyyy-MM-dd_hh-mm-ss}.png", DateTime.Now);
-
-      bundle.GetImage("source").Save(filename);
-
       IDataInteractor idi = bundle.GetInteractor();
-      idi.Show("Last Image Saved", filename);
+
+      FilePathInfo fni = new FilePathInfo();
+      if (idi.Query("Choose the filename", fni)) {
+        string path = System.IO.Path.Combine(fni.Directory, fni.Filename);
+        bundle.GetImage("source").Save(path);
+        idi.Show("Last Image Saved", path);
+      }
+
     }
 
     public void Execute(Dictionary<string, object> bundle) {
@@ -54,6 +57,26 @@ namespace Example {
       IDataInteractor idi = bundle.GetInteractor();
       idi.Show("camera input", image);
       idi.ExecutePendingEvents(this, bundle);
+    }
+
+    class FilePathInfo {
+      private string _filename = "source.png";
+      private string _directory = Environment.CurrentDirectory;
+
+      [Description("Specify the directory to save to")]
+      [EditorAttribute(
+        typeof(System.Windows.Forms.Design.FolderNameEditor),
+        typeof(System.Drawing.Design.UITypeEditor))]
+      public string Directory {
+        get { return _directory; }
+        set { _directory = value; }
+      }
+
+      [Description("Specifiy the filename")]
+      public string Filename {
+        get { return _filename; }
+        set { _filename = value; }
+      }
     }
   }
 }
