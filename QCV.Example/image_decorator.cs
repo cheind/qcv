@@ -39,7 +39,12 @@ namespace Example {
     }
 
     public void OnSaveImage(Dictionary<string, object> bundle) {
-      bundle.GetImage("source").Save("source.png");
+      string filename = String.Format("source_{0:yyyy-MM-dd_hh-mm-ss}.png", DateTime.Now);
+
+      bundle.GetImage("source").Save(filename);
+
+      IDataInteractor idi = bundle.GetInteractor();
+      idi.Show("Last Image Saved", filename);
     }
 
     public void Execute(Dictionary<string, object> bundle) {
