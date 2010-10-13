@@ -26,7 +26,8 @@ namespace Example {
 
     public void Execute(Dictionary<string, object> bundle) {
       Image<Bgr, byte> image = bundle.GetImage("source");
-      Console.WriteLine(String.Format("Size: {0}", image.Size));
+      IDataInteractor idi = bundle.GetInteractor();
+      idi.Show("camera input", image);
     }
   }
 }
