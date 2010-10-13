@@ -19,12 +19,14 @@ namespace Example {
 
     public FilterList CreateFilterList(AddinHost host) {
       return new FilterList() {
+        new QCV.Toolbox.Camera(0, 640, 480, "source"),
         this,
       };
     }
 
-    public void Execute(Dictionary<string, object> b) {
-      Console.WriteLine("Hello World");
+    public void Execute(Dictionary<string, object> bundle) {
+      Image<Bgr, byte> image = bundle.GetImage("source");
+      Console.WriteLine(String.Format("Size: {0}", image.Size));
     }
   }
 }
