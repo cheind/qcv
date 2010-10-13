@@ -38,12 +38,17 @@ namespace Example {
       set { _color = value; }
     }
 
+    public void OnSaveImage(Dictionary<string, object> bundle) {
+      bundle.GetImage("source").Save("source.png");
+    }
+
     public void Execute(Dictionary<string, object> bundle) {
       Image<Bgr, byte> image = bundle.GetImage("source");
       image.Draw(new Rectangle(Point.Empty, image.Size), new Bgr(_color), _thickness);
 
       IDataInteractor idi = bundle.GetInteractor();
       idi.Show("camera input", image);
+      idi.ExecutePendingEvents(this, bundle);
     }
   }
 }
