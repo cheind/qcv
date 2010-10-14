@@ -2,8 +2,7 @@
 
 The following tutorial will incrementally build an application clalled <tt>ImageDecorator</tt> in eight steps in QCV. Each step will introduce new concepts supported in QCV.
 
-After completing the 8th step, the application will do the following
- <tt>ImageDecorator</tt> will process images from camera and draw a user defined border around these images. These images will be visualized to provide a user feedback. Optionally, the user has the ability to save images to disk.
+After completing the 8th step <tt>ImageDecorator</tt> will process images from camera and draw a user defined border around these images. These images will be visualized to provide a user feedback. Optionally, the user has the ability to save images to disk.
 
 <wiki:toc max_depth="3" />
 
@@ -281,455 +280,235 @@ Note that changing properties is asynchronous event. QCV currently reflects any 
 
 =Event Notifications=
 
+Besides properties your filter can expose events that user can click. For example, <tt>ImageDecorator</tt> will expose an event that allows the user to save a screenshot of the current camera image combined with the border drawn.
 
+Such events are implemented by defining a method called 'OnDoSomething' that takes a bundle as parameter and returns void. Such events are asynchronous by nature. QCV will not directly invoke your filter when an event occurs, i.e user clicks, but cache them. 
 
+When your filter is ready, it will execute the pending events. See below
 
-
-
-
-
-
-=Hello World=
 {{{
+// qcv.exe -s image_decorator.cs Example.ImageDecorator --run
+
 using System;
+using System.ComponentModel;
 using System.Collections.Generic;
+using System.Drawing;
 
 using QCV.Base;
 using QCV.Base.Addins;
+using QCV.Base.Extensions;
 
-namespace Tutorial {
-
-  [Addin]
-  public class HelloWorld : IFilter, IFilterListProvider {
-    
-    // Create a new FilterList containing a single HelloWorld filter.
-    public FilterList CreateFilterList(AddinHost host) {
-      return new FilterList() {
-        this
-      };
-    }
-    
-    // Execute filter
-    public void Execute(Dictionary<string, object> bundle) {
-      System.Console.WriteLine("Hello World!");
-      bundle["cancel"] = true;
-    }
-    
-  }
-}
-}}}
-
-Run the example by saving the code to <tt>hello_world.cs</tt> and typing
-{{{
-qcv.exe -s hello_world.cs Tutorial.HelloWorld
-}}}
-in your command line. This will tell <tt>qcv.exe</tt> to load and compile <tt>hello_world.cs</tt> and use instances of <tt>Tutorial.HelloWorld</tt> as provider for filter lists.
-
-Next press 'Run' to start processing the filter list. The runtime will invoke each filter in the list as retrieved by calling <tt>Tutorial.HelloWorld.CreateFilterList</tt>. In our case the filter list is composed of a single filter that will print a message and use the bundle parameter to request a stop of the runtime.
-
-|| *Tip* <tt>qcv.exe</tt> automatically compiles all sources passed by the <tt>-s</tt> command line switch and makes them available for usage. Whether compilation succeeds or failed can be seen in the 'Console'. <tt>qcv.exe</tt> detects file modifications of all sources. In case a change is detected all sources are recompiled and on success, existing objects are replaced with instances of their new types.||
-
-|| *Tip* To execute the filter list immediately after starting <tt>qcv.exe</tt> supply the <tt>--run</tt> argument.||
-
-=Getting Image Input=
-
-The following shows how to retrieve images from a camera source.
-
-{{{
-// qcv.exe -s camera_input.cs Tutorial.CameraInput --run
-
-using System;
-using System.Collections.Generic;
-
-using QCV.Base;
-using QCV.Base.Addins;
-
-namespace Tutorial {
-
-  [Addin]
-  public class CameraInput : IFilterListProvider {
-    
-    // Create a new FilterList containing a camera filter
-    public FilterList CreateFilterList(AddinHost host) {
-      
-      QCV.Toolbox.Camera c = new QCV.Toolbox.Camera();
-      c.DeviceIndex = 0;
-      c.Name = "source";
-      
-      return new FilterList() {c};
-    }
-
-  }
-}
-}}}
-
-A filter of type <tt>QCV.Toolbox.Camera</tt> connects to a camera specified by its <tt>Camera.DeviceIndex</tt>. The <tt>Camera.Name</tt> property specifies the name of the key used to place the image in the bundle.
-
-QCV ships with support for the following image input sources
-  * <tt>QCV.Toolbox.Camera</tt> - Images from a Video-For-Windows camera device.
-  * <tt>QCV.Toolbox.Video</tt> -  Images from a video stored at disk.
-  * <tt>QCV.Toolbox.ImageList</tt> - Images from a collection of images stored at disk.
-
-|| *Tip* You can read and modify the properties of filters by selecting the filter from the dropdown box in <tt>qcv.exe</tt>.||
-
-=Image Input from Multiple Sources=
-
-You can, of course, connect from multiple sources within a single filter list.
-
-{{{
-// qcv.exe -s multiple_image_input.cs Tutorial.MultipleImageInput --run
-
-using System;
-using System.Collections.Generic;
-
-using QCV.Base;
-using QCV.Base.Addins;
-
-namespace Tutorial {
-
-  [Addin]
-  public class MultipleImageInput : IFilterListProvider {
-    
-    // Create a new FilterList containing multiple image sources
-    public FilterList CreateFilterList(AddinHost host) {
-      
-      return new FilterList() {
-        // Camera with requested frame dimensions
-        new QCV.Toolbox.Camera(0, 320, 200, "camera"),
-        // Video from disk - looping enabled
-        new QCV.Toolbox.Video("../../etc/videos/a.avi", "video", true),
-        // Image list from disk - looping enabled
-        new QCV.Toolbox.ImageList("../../etc/images", "*.png", "images", true)
-      };
-      
-    }
-    
-  }
-}
-}}}
-
-Note that, the video and image list source is set into looping mode. Otherwise, they would request the runtime to stop if the video has ended or all images from disk have been displayed.
-
-=Displaying Images=
-
-The following example shows how-to use <tt>QCV.Base.IDataInteractor</tt> to display images.
-
-{{{
-// qcv.exe -s displaying_images.cs Tutorial.DisplayingImages --run
-
-using System;
-using System.Collections.Generic;
-
-using QCV.Base;
-using QCV.Base.Addins;
-using QCV.Base.Extensions; // ease access of bundle
-
-// Image types are Emgu types
 using Emgu.CV;
 using Emgu.CV.Structure;
 
-namespace Tutorial {
+namespace Example {
 
   [Addin]
-  public class DisplayingImages : IFilter, IFilterListProvider {
-    
+  public class ImageDecorator : IFilter, IFilterListProvider {
+
     public FilterList CreateFilterList(AddinHost host) {
-      
       return new FilterList() {
-        // Camera with requested frame dimensions
-        new QCV.Toolbox.Camera(0, 320, 200, "camera"),
-        // Display
-        this
+        new QCV.Toolbox.Camera(0, 640, 480, "source"),
+        this,
       };
-      
     }
-    
+
+    private int _thickness = 10;
+    [Description("Specifies the thickness of the border drawn.")]
+    public int Thickness {
+      get { return _thickness; }
+      set { _thickness = value; }
+    }
+
+    private Color _color = Color.Red;
+    [Description("Specifies the fill color of the border.")]
+    public Color Color {
+      get { return _color; }
+      set { _color = value; }
+    }
+
+    // Save image event
+    public void OnSaveImage(Dictionary<string, object> bundle) {
+      bundle.GetImage("source").Save("source.png");
+    }
+
     public void Execute(Dictionary<string, object> bundle) {
-      // Fetch the interactor from the bundle
+      Image<Bgr, byte> image = bundle.GetImage("source");
+      image.Draw(new Rectangle(Point.Empty, image.Size), new Bgr(_color), _thickness);
+
       IDataInteractor idi = bundle.GetInteractor();
-      // Fetch the current image from camera
-      Image<Bgr, byte> image = bundle.GetImage("camera");
-      // Request showing the image.
-      idi.Show("camera live feed", image);
+      idi.Show("camera input", image);
+ 
+      // Ready to execute pending events
+      idi.ExecutePendingEvents(this, bundle);
     }
-    
   }
 }
 }}}
 
+=Showing Arbitrary Values=
 
-=Displaying Variables=
+Besides image, QCV supports showing of arbitrary values using the <tt>Show</tt> method of <tt>QCV.Base.IDataInteractor</tt>. The way the variables are rendered depends on the available rendering capatibilities of the class that implements the data iteractor interface. Besides images, at least everything that converts to a string, via the <tt>Object.ToString</tt> method works.
 
-The following example shows how-to use <tt>QCV.Base.IDataInteractor</tt> to display values of variables that are not images.
-
-{{{
-// qcv.exe -s displaying_values.cs Tutorial.DisplayingValues --run
-
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-using QCV.Base;
-using QCV.Base.Addins;
-using QCV.Base.Extensions;
-
-namespace Tutorial {
-
-  [Addin]
-  public class DisplayingValues : IFilter, IFilterListProvider {
-    // Stopwatch to measure elapsed time between calls
-    private Stopwatch _sw = new Stopwatch();
-    
-    public FilterList CreateFilterList(AddinHost host) {
-      return new FilterList() {
-        // Display FPS
-        this
-      };
-    }
-    
-    public void Execute(Dictionary<string, object> bundle) {
-      if (_sw.IsRunning) {
-        _sw.Stop();
-        IDataInteractor idi = bundle.GetInteractor();
-        idi.Show("DisplayingValues.FPS", 1.0 / _sw.Elapsed.TotalSeconds);
-        _sw.Reset();
-      }
-      _sw.Start();      
-    }
-    
-  }
-}
-}}}
-
-Similar to [Tutorial#Displaying_Images] we use the <tt>QCV.Base.IDataInteractor</tt> interface to show arbitrary values. In this example, the number of frames per second is calculated and shown at each invocation of the <tt>Tutorial.DisplayingValues</tt> filter.
-
-Try playing around with the FPS setting in the graphical user interface and notice how <tt>qcv.exe</tt> comes close to achieving the desired frame rate.
-
-|| *Tip* You might want to use <tt>QCV.Toolbox.ShowFPS</tt> because it reduces the stress on <tt>qcv.exe</tt> by definining a frequency for updating the frame rate value.||
-
-|| *Tip* You can pass a predefined FPS value via the commandline by specifying <tt>--fps=VALUE</tt> or disabling cycle time control by supplying <tt>--nofps</tt>. Alternatively you can adjust the FPS setting via the graphical user interface.||
-
-=Accessing Properties=
-Any public readable property exposed by a filter is by default shown in property section of <tt>qcv.exe</tt>. Writable properties can be modified by the user. Here's a sample illustrating usage of properties.
+What holds true for showing images is also true for showing arbitrary values. If a name occurs more than one time, the new value will override the visualization of the old value.
 
 {{{
-// qcv.exe -s properties.cs Tutorial.Properties --run
+// qcv.exe -s image_decorator.cs Example.ImageDecorator --run
 
 using System;
 using System.ComponentModel;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Drawing;
 
 using QCV.Base;
 using QCV.Base.Addins;
 using QCV.Base.Extensions;
 
-namespace Tutorial {
+using Emgu.CV;
+using Emgu.CV.Structure;
+
+namespace Example {
 
   [Addin]
-  public class Properties : IFilter, IFilterListProvider {
-    
+  public class ImageDecorator : IFilter, IFilterListProvider {
+
     public FilterList CreateFilterList(AddinHost host) {
       return new FilterList() {
-        this
+        new QCV.Toolbox.Camera(0, 640, 480, "source"),
+        this,
       };
     }
-    
-    private string _name = "John Doe";
-    [Description("This specifies your name used for accounting.")]
-    public string Name {
-      get { return _name; }
-      set {_name = value; }
+
+    private int _thickness = 10;
+    [Description("Specifies the thickness of the border drawn.")]
+    public int Thickness {
+      get { return _thickness; }
+      set { _thickness = value; }
     }
-    
-    private int _id = 10;
-    [Description("This is your unique identifier as generated by the system.")]
-    [ReadOnly(true)]
-    public int Id {
-      get { return _id; }
-      set {_id = value; }
+
+    private Color _color = Color.Red;
+    [Description("Specifies the fill color of the border.")]
+    public Color Color {
+      get { return _color; }
+      set { _color = value; }
     }
-    
-    private int _hidden = 10;
-    [Description("This property won't show up.")]
-    [Browsable(false)]
-    public int Hidden {
-      get { return _hidden; }
-      set {_hidden = value; }
-    }
-    
-    public void Execute(Dictionary<string, object> bundle) 
-    {}
-    
-  }
-}
-}}}
 
-Note that changing properties is asynchronous event. QCV currently reflects any change to a property directly to the instance of the object. Therefore you might need to synchronize access to the property yourself. In future versions of QCV property changes will be cached and executed when the filter asks for it (see [Tutorial#Event_Notifications] for details.
+    public void OnSaveImage(Dictionary<string, object> bundle) {
+      // Filename based on current date and time
+      string filename = String.Format("source_{0:yyyy-MM-dd_hh-mm-ss}.png", DateTime.Now);
+      bundle.GetImage("source").Save(filename);
 
-|| *Tip* <tt>qcv.exe</tt> uses <tt>System.Windows.Forms.PropertyGrid</tt> to show properties of the selected filter. As such, it supports all attributes that are known and processed by the <tt>PropertyGrid</tt> class. Consult the <tt>PropertyGrid</tt> documentation for details.||
-
-=Event Notifications=
-
-Events are one way for the user to interact with your filters. Events are asynchronous notifications with no parameters. <tt>qcv.exe</tt> renders them as buttons in the event section of the selected filter. Because of its asynchronous nature, QCV provides a thread-safe method to handle them in your filter.
-
-The following example defines an <tt>OnPrintGreeting</tt> event.
-
-{{{
-// qcv.exe -s event_notifications.cs Tutorial.EventNotifications --run
-
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-using QCV.Base;
-using QCV.Base.Addins;
-using QCV.Base.Extensions;
-
-namespace Tutorial {
-
-  [Addin]
-  public class EventNotifications : IFilter, IFilterListProvider {
-    
-    public FilterList CreateFilterList(AddinHost host) {
-      return new FilterList() {
-        this
-      };
-    }
-    
-    public void OnPrintGreeting(Dictionary<string, object> bundle) {
-      Console.WriteLine("Hello EventNotifications!");
-    }
-    
-    public void Execute(Dictionary<string, object> bundle) {
       IDataInteractor idi = bundle.GetInteractor();
-      // Process all pending events, supplying them with the current bundle information
+      // Show the filename
+      idi.Show("Last Image Saved", filename);
+    }
+
+    public void Execute(Dictionary<string, object> bundle) {
+      Image<Bgr, byte> image = bundle.GetImage("source");
+      image.Draw(new Rectangle(Point.Empty, image.Size), new Bgr(_color), _thickness);
+
+      IDataInteractor idi = bundle.GetInteractor();
+      idi.Show("camera input", image);
       idi.ExecutePendingEvents(this, bundle);
     }
-    
   }
 }
 }}}
 
 
-=Querying Variables=
+=Queries=
 
-Besides event notifications, a filter can query the user for immediate input. Querying values this way will stop the filter list until the user has answered the query.
+Finally, we'd like to extend <tt>ImageDecorator</tt> to allow the user to specify a location to save the screenshot to. We can achieve this by so called queries. Queries will  hold the execution of the workflow until the user positively responds (clicks Ok) or cancels.
 
-The following example extends the example from [Tutorial#Event_Notifications] by querying for a name to greet once the event has been triggered.
+You can attach any object to a query. The properties of this object are additional parameters the user has to specify. In our case this corresponds to specifying the directory and the filename.
 
 {{{
-// qcv.exe -s variable_query.cs Tutorial.VariableQuery --run
+// qcv.exe -s image_decorator.cs Example.ImageDecorator --run
 
 using System;
 using System.ComponentModel;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Drawing;
 
 using QCV.Base;
 using QCV.Base.Addins;
 using QCV.Base.Extensions;
 
-namespace Tutorial {
+using Emgu.CV;
+using Emgu.CV.Structure;
+
+namespace Example {
 
   [Addin]
-  public class VariableQuery : IFilter, IFilterListProvider {
-    
-    // User will be queried to complete the values in this struct
-    class Name {
-      string _first_name = "John";
-      string _last_name = "Doe";
-      
-      [Description("Your first name")]
-      public String FirstName {
-        get { return _first_name; }
-        set { _first_name = value; }
-      }
-      
-      [Description("Your last name")]
-      public String LastName {
-        get { return _last_name; }
-        set { _last_name = value; }
-      }
-    };
-    
+  public class ImageDecorator : IFilter, IFilterListProvider {
+
     public FilterList CreateFilterList(AddinHost host) {
       return new FilterList() {
-        this
+        new QCV.Toolbox.Camera(0, 640, 480, "source"),
+        this,
       };
     }
-    
-    public void OnPrintGreeting(Dictionary<string, object> bundle) {
-      IDataInteractor idi = bundle.GetInteractor();
-      Name n = new Name();
-      
-      if (idi.Query("What's your name?", n)) {
-        // User positively responded to our query
-        Console.WriteLine(String.Format("Hello {0} {1}", n.FirstName, n.LastName));
-      } 
-      
+
+    private int _thickness = 10;
+    [Description("Specifies the thickness of the border drawn.")]
+    public int Thickness {
+      get { return _thickness; }
+      set { _thickness = value; }
     }
-    
-    public void Execute(Dictionary<string, object> bundle) {
+
+    private Color _color = Color.Red;
+    [Description("Specifies the fill color of the border.")]
+    public Color Color {
+      get { return _color; }
+      set { _color = value; }
+    }
+
+    public void OnSaveImage(Dictionary<string, object> bundle) {
       IDataInteractor idi = bundle.GetInteractor();
-      // Process all pending events, supplying them with the current bundle information
+      
+      // Will be attached to the query
+      FilePathInfo fni = new FilePathInfo();
+      // Post the query
+      if (idi.Query("Choose the filename", fni)) {
+        // User responded positively
+        string path = System.IO.Path.Combine(fni.Directory, fni.Filename);
+        bundle.GetImage("source").Save(path);
+        idi.Show("Last Image Saved", path);
+      }
+
+    }
+
+    public void Execute(Dictionary<string, object> bundle) {
+      Image<Bgr, byte> image = bundle.GetImage("source");
+      image.Draw(new Rectangle(Point.Empty, image.Size), new Bgr(_color), _thickness);
+
+      IDataInteractor idi = bundle.GetInteractor();
+      idi.Show("camera input", image);
       idi.ExecutePendingEvents(this, bundle);
     }
-    
+
+    // Attached to query
+    class FilePathInfo {
+      private string _filename = "source.png";
+      private string _directory = Environment.CurrentDirectory;
+
+      [Description("Specify the directory to save to")]
+      [EditorAttribute(
+        typeof(System.Windows.Forms.Design.FolderNameEditor),
+        typeof(System.Drawing.Design.UITypeEditor))]
+      public string Directory {
+        get { return _directory; }
+        set { _directory = value; }
+      }
+
+      [Description("Specifiy the filename")]
+      public string Filename {
+        get { return _filename; }
+        set { _filename = value; }
+      }
+    }
   }
 }
 }}}
 
-=Transporting Values Between Filter=
-
-Transporting values between filters is something that we were doing from the very beginning: the camera writes the image to the bundle and another filter reads it. The bundle isn't restricted to images, you can use it to read and write arbitrary values.
-
-The following example illustrates this concept.
-
-{{{
-// qcv.exe -s transporting_values.cs Tutorial.TransportingValues --run
-
-using System;
-using System.Collections.Generic;
-
-using QCV.Base;
-using QCV.Base.Addins;
-using QCV.Base.Extensions;
-
-namespace Tutorial {
-
-  class AFilter : IFilter {
-    
-    public void Execute(Dictionary<string, object> bundle) {
-      bundle["A"] = DateTime.Now;
-    }
-  }
-
-  class BFilter : IFilter {
-
-    public void Execute(Dictionary<string, object> bundle) {
-      System.Console.WriteLine(String.Format("A:{0}", bundle.Get<DateTime>("A")));
-    }
-  }
-
-  [Addin]
-  public class TransportingValues : IFilterListProvider {
-
-    public FilterList CreateFilterList(AddinHost host) {
-      return new FilterList() {
-        new AFilter(),
-        new BFilter()
-      };
-    }
-
-  }
-}
-}}}
-
-|| *Tip* Currently the state of the bundle is kept over iterations in the filter list. Depending on your situation this is either a good thing or a bad thing. Make sure to delete values from the bundle once they are not required anymore. ||
-
-=Advanced Usage=
-==Saving and Loading State==
-==Exceptions==
-==Debugging==
-==Commandline Arguments==
+You have successfully completed the tutorial!
