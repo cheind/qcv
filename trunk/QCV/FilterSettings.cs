@@ -33,14 +33,14 @@ namespace QCV {
           foreach (object o in _cmb_filters.Items) {
             if (o.GetType().FullName == t.FullName) {
               _cmb_filters.SelectedItem = o;
-              GenerateUI(o);
+              GenerateUI(o as QCV.Base.IFilter);
               break;
             }
           }
         } else {
           if (_cmb_filters.Items.Count > 0) {
             _cmb_filters.SelectedItem = _cmb_filters.Items[0];
-            GenerateUI(_cmb_filters.SelectedItem);
+            GenerateUI(_cmb_filters.SelectedItem as QCV.Base.IFilter);
           }
         }
       });
@@ -48,11 +48,11 @@ namespace QCV {
 
     private void _cmb_filters_SelectedIndexChanged(object sender, EventArgs e) {
       if (_cmb_filters.SelectedIndex >= 0) {
-        GenerateUI(_cmb_filters.SelectedItem);
+        GenerateUI(_cmb_filters.SelectedItem as QCV.Base.IFilter);
       }
     }
 
-    private void GenerateUI(object target) {
+    private void GenerateUI(QCV.Base.IFilter target) {
       _fl_events.InvokeIfRequired(() => _fl_events.GenerateUI(target));
       _fl_properties.InvokeIfRequired(() => _fl_properties.GenerateUI(target));
     }

@@ -189,8 +189,7 @@ namespace QCV {
         _ah.MergeByFullName(tmp);
         // Subsequent runs
         QCV.Base.Reconfiguration r = new QCV.Base.Reconfiguration();
-        QCV.Base.FilterList fl_new;
-        r.Update(_fl, _ah, out fl_new);
+        QCV.Base.FilterList fl_new = r.Update(_fl, _ah);
         r.CopyPropertyValues(_fl, fl_new);
         _fl = fl_new;
       }
