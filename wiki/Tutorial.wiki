@@ -1,72 +1,295 @@
 #summary A Five Minute Tutorial
-#sidebar TableOfContents
+
+The following tutorial will incrementally build an application clalled <tt>ImageDecorator</tt> in eight steps in QCV. Each step will introduce new concepts supported in QCV.
+
+After completing the 8th step, the application will do the following
+ <tt>ImageDecorator</tt> will process images from camera and draw a user defined border around these images. These images will be visualized to provide a user feedback. Optionally, the user has the ability to save images to disk.
 
 <wiki:toc max_depth="3" />
 
-=What is QCV?=
-
-QCV is an acronym and stands for "Quick Computer Vision". QCV is a framework for rapid development of computer vision algorithms. It is split into the following parts
-  # an application (qcv.exe) to host and run your algorithms,
-  # a class library (QCV.Toolbox.dll) containing commonly used algorithms,
-  # a class library (QCV.Base.dll) representing the core entities QCV and
-  # Third-party libraries (such as Emgu/OpenCV) providing additional data structures and algorithms.
-
-=Motivation=
-Does the following paragraph sound familiar to you?
- Have you ever had a great idea for an algorithm but failed to implement it because setting up the environment took to much time? Have you ever felt frustrated setting up projects, managing dependencies, closing your application for a rebuilt to see the effects of your changed algorithm?
-
-Sounds familiar? Then QCV is for you. It provides a complete setup to host and run your algorithms. You don't even need a integrated development environment to get started. QCV automatically detects changes in your algorithm source files and applies those changes online. 
-
-QCV frees your mind from user interface questions by providing functionality that allows your algorithm to communicate with the user. QCV frees your mind from thinking about user interface generation and lets you concentrate on a clean implementation of your algorithm. The result is a reusable component that is only loosely coupled to the QCV environment.
-
-=Installation=
-
-In order to run QCV you need to install
- * Install the Microsoft .Net Framework 3.5 Service Pack 1
- * Install the Microsoft Visual C++ 2008 Redistributable Package (x86) Service Pack 1
- * QCV
-
-=How does QCV work?=
-
-==Class Library==
-Simply speaking, QCV processes a list of objects in a loop until a stopping criterium is met. 
-
-These objects are termed filters and have to implement the <tt>QCV.Base.IFilter</tt> interface. The chronological order of filters is determined by their absolute position in an instance of <tt>QCV.Base.FilterList</tt>. Classes that support creating of filter lists have to implement <tt>QCV.Base.IFilterListProvider</tt>.
-
-Such list of filters can then be passed to <tt>QCV.Base.Runtime</tt> to process the filters asynchronously. The runtime invokes each filter and passes a so called bundle, an open dictionary of objects, containing parameters for the filter. 
-
-The filter can read from and write to this bundle to communicate with other filters in the current filter list. To interact with the user, an instance of <tt>QCV.Base.IDataInteractor</tt> is contained in the filters bundle. 
-
-The data interactor allows the filter to
-  * expose events,
-  * show values and images to the user,
-  * query values from the user.
-
-The runtime stops processing of the filter list if one of the following conditions are met
-  * a filter requests the stop,
-  * a user requests stops the runtime, or
-  * an exception occurred while processing one of the filters.
-
-QCV makes heavy use of plugins, termed addins in QCV. Any class carrying the <tt>QCV.Base.Addins.AddinAttribute</tt> is considered an addin. QCV can detects plugins in loaded assemblies, assemblies stored at disk, and assemblies generated on-the-fly by compiling code. 
-
-Addins are collected in instances of <tt>QCV.Base.Addins.AddinHost</tt>. The host supports addin queries and is responsible for creating addins. All filters should be addins, so that they can be created by filter list providers implemented as addin. 
-
-==QCV - Application==
-QCV provides a graphical user interface application for hosting and running filters that is started by 
-{{{
-qcv.exe
-}}}
-
-The following image annotates parts of <tt>qcv.exe</tt>. Don't worry if you don't understand all the annotations at this point of the tutorial.
-
-http://qcv.googlecode.com/svn/trunk/etc/doc/qcv-callouts.png
-
-The remaining part of this tutorial will make heavy use of <tt>qcv.exe</tt> to illustrate previously described concepts.
-
 =Hello World=
 
-The famous HelloWorld in QCV.
+Every programming language starts with a so called HelloWorld. We can do the same for QCV and write a filter that does nothing, except writing 'HelloWorld' to the console.
 
+Open a file called <tt>image_decorator.cs</tt> in your favorite editor and paste the following code.
+
+{{{
+// qcv.exe -s image_decorator.cs Example.ImageDecorator --run
+
+using System;
+using System.ComponentModel;
+using System.Collections.Generic;
+using System.Drawing;
+
+// QCV namespaces
+using QCV.Base;
+using QCV.Base.Addins;
+using QCV.Base.Extensions;
+
+// Emgu namespaces
+using Emgu.CV;
+using Emgu.CV.Structure;
+
+namespace Example {
+ 
+  [Addin]
+  public class ImageDecorator : IFilter, IFilterListProvider {
+
+    // Create a filter list containing just us.
+    public FilterList CreateFilterList(AddinHost host) {
+      return new FilterList() {
+        this,
+      };
+    }
+
+    // On each execution of this filter print a console message.
+    public void Execute(Dictionary<string, object> b) {
+      Console.WriteLine("Hello World");
+      b["cancel"] = true;
+    }
+  }
+}
+}}}
+
+In the above example, <tt>ImageDecorator</tt> implements the <tt>QCV.Base.IFilter</tt> and <tt>QCV.Base.IFilterListProvider</tt> interface. In our HelloWorld scenario, the filter list contains a single filter, <tt>ImageDecorator</tt> itself. The filter implementation is pretty unspectacular as it just prints a console message.
+
+Run the example by typing
+{{{
+qcv.exe -s image_decorator.cs Example.ImageDecorator
+}}}
+in your command line. This will tell <tt>qcv.exe</tt> to load and compile <tt>image_decorator.cs</tt> and use instances of <tt>Example.ImageDecorator</tt> as provider for filter lists.
+
+Next press 'Run' to start processing the filter list. The runtime will invoke each filter in the list as retrieved by calling <tt>Example.ImageDecorator.CreateFilterList</tt>. In our case the filter list is composed of a single filter that will print a message and use the bundle parameter to request a stop of the runtime.
+
+|| *Tip* <tt>qcv.exe</tt> automatically compiles all sources passed by the <tt>-s</tt> command line switch and makes them available for usage. Whether compilation succeeds or failed can be seen in the 'Console'. <tt>qcv.exe</tt> detects file modifications of all sources. In case a change is detected all sources are recompiled and on success, existing objects are replaced with instances of their new types.||
+
+|| *Tip* To execute the filter list immediately after starting <tt>qcv.exe</tt> supply the <tt>--run</tt> argument.||
+
+=Camera Input=
+
+QCV provides a toolbox commonly used filters. Among those filters are so called sources that read input from devices. On such source is called <tt>QCV.Toolbox.Camera</tt> and supports reading images from cameras.
+
+To read images from a camera, an instance of <tt>QCV.Toolbox.Camera</tt> needs to be initialized. All sources have a name attribute that allows you to customize the key that is used to place the image in the bundle.
+
+Modify the previous example to become
+
+{{{
+// qcv.exe -s image_decorator.cs Example.ImageDecorator --run
+
+using System;
+using System.ComponentModel;
+using System.Collections.Generic;
+using System.Drawing;
+
+using QCV.Base;
+using QCV.Base.Addins;
+using QCV.Base.Extensions;
+
+using Emgu.CV;
+using Emgu.CV.Structure;
+
+namespace Example {
+
+  [Addin]
+  public class ImageDecorator : IFilter, IFilterListProvider {
+
+    public FilterList CreateFilterList(AddinHost host) {
+      return new FilterList() {
+        new QCV.Toolbox.Camera(0, 640, 480, "source"),
+        this,
+      };
+    }
+
+    public void Execute(Dictionary<string, object> bundle) {
+      Image<Bgr, byte> image = bundle.GetImage("source");
+      Console.WriteLine(String.Format("Size: {0}", image.Size));
+    }
+  }
+}
+}}}
+
+QCV ships with support for the following image input sources
+  * <tt>QCV.Toolbox.Camera</tt> - Images from a Video-For-Windows camera device.
+  * <tt>QCV.Toolbox.Video</tt> -  Images from a video stored at disk.
+  * <tt>QCV.Toolbox.ImageList</tt> - Images from a collection of images stored at disk.
+
+|| *Tip* You can read and modify the properties of filters by selecting the filter from the dropdown box in <tt>qcv.exe</tt>.||
+
+|| *Tip* To connect to multiple sources, simply put more such sources in your filter list and make sure that they produce images under a different key name. ||
+
+=Showing Images=
+
+To visualize the images produced by the camera we will use the <tt>Show</tt> method of the <tt>QCV.Base.IDataInteractor</tt> interface. An instance of a class that implements this interface is stored in the bundle parameter that is passed to our filter.
+
+Modify your code to become
+
+{{{
+// qcv.exe -s image_decorator.cs Example.ImageDecorator --run
+
+using System;
+using System.ComponentModel;
+using System.Collections.Generic;
+using System.Drawing;
+
+using QCV.Base;
+using QCV.Base.Addins;
+using QCV.Base.Extensions;
+
+using Emgu.CV;
+using Emgu.CV.Structure;
+
+namespace Example {
+
+  [Addin]
+  public class ImageDecorator : IFilter, IFilterListProvider {
+
+    public FilterList CreateFilterList(AddinHost host) {
+      return new FilterList() {
+        new QCV.Toolbox.Camera(0, 640, 480, "source"),
+        this,
+      };
+    }
+
+    public void Execute(Dictionary<string, object> bundle) {
+      Image<Bgr, byte> image = bundle.GetImage("source");
+      // Get the interactor and show the image
+      IDataInteractor idi = bundle.GetInteractor();
+      idi.Show("camera input", image);
+    }
+  }
+}
+}}}
+
+Showing requires a name to pass along, 'camera input' in our case. Since our filter is executed in a loop, we'd like to use the same window to visualize an updated version of the camera image to achieve the effect of a live video. <tt>qcv.exe</tt> is smart enough to reuse visualizations when duplicate names are passed. If you'd like to open a second visualization showing with equal content, modify the <tt>Execute</tt> to become
+
+{{{
+    public void Execute(Dictionary<string, object> bundle) {
+      Image<Bgr, byte> image = bundle.GetImage("source");
+      // Get the interactor and show the image
+      IDataInteractor idi = bundle.GetInteractor();
+      idi.Show("camera input", image);
+      idi.Show("another window", image);
+    }
+}}}
+
+=Implementing the Algorithm=
+
+The next step will add code to modify the cameras image to draw fixed border around it, that is the color of the border and its thickness will be modifiable.
+
+{{{
+// qcv.exe -s image_decorator.cs Example.ImageDecorator --run
+
+using System;
+using System.ComponentModel;
+using System.Collections.Generic;
+using System.Drawing;
+
+using QCV.Base;
+using QCV.Base.Addins;
+using QCV.Base.Extensions;
+
+using Emgu.CV;
+using Emgu.CV.Structure;
+
+namespace Example {
+
+  [Addin]
+  public class ImageDecorator : IFilter, IFilterListProvider {
+
+    public FilterList CreateFilterList(AddinHost host) {
+      return new FilterList() {
+        new QCV.Toolbox.Camera(0, 640, 480, "source"),
+        this,
+      };
+    }
+
+    public void Execute(Dictionary<string, object> bundle) {
+      Image<Bgr, byte> image = bundle.GetImage("source");
+      // Modify the image
+      image.Draw(new Rectangle(Point.Empty, image.Size), new Bgr(Color.Red), 10);
+
+      IDataInteractor idi = bundle.GetInteractor();
+      idi.Show("camera input", image);
+    }
+  }
+}
+}}}
+
+Try changing the color and thickness in your source while <tt>qcv.exe</tt> is running. It should detect changes to your file, recompile and on success exchange types at runtime.
+
+=Algorithm Parameters=
+
+The previous version of our algorithm specifies the thickness and the color of the border.   Actually these constants should become variables that the user can modify. Such user definable parameters are implemented by properties. <tt>qcv.exe</tt> will allow the user to read and modify the state of such properties.
+
+{{{
+// qcv.exe -s image_decorator.cs Example.ImageDecorator --run
+
+using System;
+using System.ComponentModel;
+using System.Collections.Generic;
+using System.Drawing;
+
+using QCV.Base;
+using QCV.Base.Addins;
+using QCV.Base.Extensions;
+
+using Emgu.CV;
+using Emgu.CV.Structure;
+
+namespace Example {
+
+  [Addin]
+  public class ImageDecorator : IFilter, IFilterListProvider {
+
+    public FilterList CreateFilterList(AddinHost host) {
+      return new FilterList() {
+        new QCV.Toolbox.Camera(0, 640, 480, "source"),
+        this,
+      };
+    }
+
+    private int _thickness = 10;
+    [Description("Specifies the thickness of the border drawn.")]
+    public int Thickness {
+      get { return _thickness; }
+      set { _thickness = value; }
+    }
+
+    private Color _color = Color.Red;
+    [Description("Specifies the fill color of the border.")]
+    public Color Color {
+      get { return _color; }
+      set { _color = value; }
+    }
+
+    public void Execute(Dictionary<string, object> bundle) {
+      Image<Bgr, byte> image = bundle.GetImage("source");
+      image.Draw(new Rectangle(Point.Empty, image.Size), new Bgr(_color), _thickness);
+
+      IDataInteractor idi = bundle.GetInteractor();
+      idi.Show("camera input", image);
+    }
+  }
+}
+}}}
+
+When running, select the <tt>ImageDecorator</tt> filter in the drop-down box of <tt>qcv.exe</tt> and try to modify the values.
+
+Note that changing properties is asynchronous event. QCV currently reflects any change to a property directly to the instance of the object. Therefore you might need to synchronize access to the property yourself. In future versions of QCV property changes will be cached and executed when the filter asks for it (see [Tutorial#Event_Notifications] for details.
+
+|| *Tip* <tt>qcv.exe</tt> uses <tt>System.Windows.Forms.PropertyGrid</tt> to show properties of the selected filter. As such, it supports all attributes that are known and processed by the <tt>PropertyGrid</tt> class. Consult the <tt>PropertyGrid</tt> documentation for details.||
+
+=Event Notifications=
+
+
+
+
+
+
+
+
+
+=Hello World=
 {{{
 using System;
 using System.Collections.Generic;
