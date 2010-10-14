@@ -1,4 +1,4 @@
-#summary What's the motivation for QCV?
+#summary Why would one use QCV?
 
 Does the following paragraph sound familiar to you?
  Have you ever had a great idea for an algorithm but failed to implement it because setting up the environment took to much time? Have you ever felt frustrated setting up projects, managing dependencies, closing your application for a rebuilt to see the effects of your changed algorithm?
