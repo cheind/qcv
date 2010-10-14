@@ -14,16 +14,9 @@ namespace QCV.Base {
   /// Provides methods to control the cylce time.
   /// </summary>
   /// <remarks>If the cycle-time is not eaten up by code, FixedTimeStep will block the calling thread to
-  /// stick with the cylce time. The wait time is calculated by taking the average calculation of the 
-  /// last 50 invocations.</remarks>
+  /// stick with the cylce time.</remarks>
   [Serializable]
   public class FixedTimeStep {
-
-    public enum EPauseMode {
-      Sleep,
-      SpinWait,
-      Adaptive
-    };
 
     private Stopwatch _sw;
     private long _ns_per_tick;
@@ -49,15 +42,25 @@ namespace QCV.Base {
     public FixedTimeStep() : this(Double.MaxValue) {
     }
 
+    public enum EPauseMode {
+      Sleep,
+      SpinWait,
+      Adaptive
+    }
+
     /// <summary>
     /// Control the desired frame-rate (frames per second)
     /// </summary>
     public double FPS {
-      get { return _fps; }
+      get { 
+        return _fps; 
+      }
+
       set {
         if (value <= 0.0) {
           throw new ArgumentException("FPS must be greater than zero");
         }
+
         _fps = value;
         _cycle_time_ticks = (long)(((1.0 / _fps) * 1000000000) / _ns_per_tick);
       }
@@ -104,15 +107,18 @@ namespace QCV.Base {
               } else {
                 SpinWait(wait_time_ticks);
               }
+
               break;
           }
         }
+
         _sw.Reset();
       }
+
       _sw.Start();
     }
 
-    private static void SleepWait(long wait_time_ms) {
+    private void SleepWait(long wait_time_ms) {
       System.Threading.Thread.Sleep((int)wait_time_ms);
     }
 
@@ -122,6 +128,7 @@ namespace QCV.Base {
       while (_sw.ElapsedTicks < wait_time_ticks) {
         System.Threading.Thread.SpinWait(1000);
       }
+
       _sw.Stop();
     }
   }

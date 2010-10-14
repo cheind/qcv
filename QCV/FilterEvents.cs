@@ -23,7 +23,7 @@ namespace QCV {
     }
 
 
-    public void GenerateUI(object instance) {
+    public void GenerateUI(QCV.Base.IFilter instance) {
       _layouter.Controls.Clear();
       MethodInfo[] event_methods = QCV.Base.MethodInfoScanner.FindEventMethods(instance);
       foreach (MethodInfo mi in event_methods) {

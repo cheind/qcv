@@ -168,22 +168,22 @@ namespace QCV.Base {
       /// <summary>
       /// The function to be carried out on the worker thread.
       /// </summary>
-      public Func<object> Fnc;
+      private Func<object> _fnc;
 
       /// <summary>
       /// The synchronizaton primitive to realize a wait.
       /// </summary>
-      public ManualResetEvent Wait;
+      private ManualResetEvent _wait;
 
       /// <summary>
       /// The result of invoking the function.
       /// </summary>
-      public object Result;
+      private object _result;
 
       /// <summary>
       /// Any error that occurred during the processing of the function.
       /// </summary>
-      public Exception Error;
+      private Exception _error;
 
       /// <summary>
       /// Initializes a new instance of the QueueEntry class.
@@ -194,6 +194,38 @@ namespace QCV.Base {
         Wait = new ManualResetEvent(false);
         Result = null;
         Error = null;
+      }
+
+      /// <summary>
+      /// Gets or sets the function to be executed.
+      /// </summary>
+      public Func<object> Fnc {
+        get { return _fnc; }
+        set { _fnc = value; }
+      }
+
+      /// <summary>
+      /// Gets or sets the syncronization event
+      /// </summary>
+      public ManualResetEvent Wait {
+        get { return _wait; }
+        set { _wait = value; }
+      }
+
+      /// <summary>
+      /// Gets or sets the result of the invocation
+      /// </summary>
+      public object Result {
+        get { return _result; }
+        set { _result = value; }
+      }
+
+      /// <summary>
+      /// Gets or sets the exception
+      /// </summary>
+      public Exception Error {
+        get { return _error; }
+        set { _error = value; }
       }
     }
   }

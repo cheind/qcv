@@ -56,17 +56,14 @@ namespace QCV {
       return _query_form.Query(text, o);
     }
 
-    #region IDataInteractor Members
 
-
-    public void CacheEvent(object instance, System.Reflection.MethodInfo mi) {
+    public void CacheEvent(QCV.Base.IFilter instance, System.Reflection.MethodInfo mi) {
       _ev_cache.Add(instance, mi);
     }
 
-    public void ExecutePendingEvents(object instance, Dictionary<string, object> bundle) {
+    public void ExecutePendingEvents(QCV.Base.IFilter instance, Dictionary<string, object> bundle) {
       _ev_cache.InvokeEvents(instance, bundle);
     }
 
-    #endregion
   }
 }

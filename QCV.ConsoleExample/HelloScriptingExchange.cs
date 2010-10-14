@@ -59,8 +59,7 @@ namespace QCV.ConsoleExample {
         } else {
           runtime.Stop(true);
           QCV.Base.Reconfiguration r = new QCV.Base.Reconfiguration();
-          QCV.Base.FilterList fl_new;
-          r.Update(fl, h, out fl_new);
+          QCV.Base.FilterList fl_new = r.Update(fl, h);
           r.CopyPropertyValues(fl, fl_new);
           fl = fl_new;
         }

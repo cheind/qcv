@@ -10,18 +10,41 @@ using System.Linq;
 using System.Reflection;
 
 namespace QCV.Base {
-  public class EventInvocationCache {
-    private Dictionary<object, List<MethodInfo>> _cache;
 
+  /// <summary>
+  /// Caches event notifcations for filter.
+  /// </summary>
+  /// <remarks>Events are cached to provide a thread safe mechanism to
+  /// synchronize events with the filters execute method.</remarks>
+  public class EventInvocationCache {
+
+    /// <summary>
+    /// A lookup from filter to list of cached invocations.
+    /// </summary>
+    private Dictionary<IFilter, List<MethodInfo>> _cache;
+
+    /// <summary>
+    /// Initializes a new instance of the EventInvocationCache class.
+    /// </summary>
     public EventInvocationCache() {
-      _cache = new Dictionary<object, List<MethodInfo>>(new EqualReferencesComparer());
+      _cache = new Dictionary<IFilter, List<MethodInfo>>(new EqualReferencesComparer());
     }
 
-    public void Add(object instance, MethodInfo mi) {
+    /// <summary>
+    /// Cache an event.
+    /// </summary>
+    /// <param name="instance">Target filter</param>
+    /// <param name="mi">Reflected method info</param>
+    public void Add(QCV.Base.IFilter instance, MethodInfo mi) {
       this.AddRange(instance, new MethodInfo[] { mi });
     }
 
-    public void AddRange(object instance, MethodInfo[] mi) {
+    /// <summary>
+    /// Add a range of cached events.
+    /// </summary>
+    /// <param name="instance">Target filter</param>
+    /// <param name="mi">Reflected method infos</param>
+    public void AddRange(IFilter instance, MethodInfo[] mi) {
       lock (_cache) {
         List<MethodInfo> li;
         if (!_cache.ContainsKey(instance)) {
@@ -35,7 +58,14 @@ namespace QCV.Base {
       }
     }
 
-    public void InvokeEvents(object instance, Dictionary<string, object> bundle) {
+    /// <summary>
+    /// Invoke cached events
+    /// </summary>
+    /// <remarks>After events are executed the target instance is removed
+    /// from the internal lookup.</remarks>
+    /// <param name="instance">Instance to invoke cached events for.</param>
+    /// <param name="bundle">Bundle of information to pass to instance</param>
+    public void InvokeEvents(IFilter instance, Dictionary<string, object> bundle) {
       lock (_cache) {
         if (!_cache.ContainsKey(instance)) {
           return;

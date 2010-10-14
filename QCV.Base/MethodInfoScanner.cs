@@ -12,10 +12,22 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace QCV.Base {
+
+  /// <summary>
+  /// Find methods per reflection.
+  /// </summary>
   public class MethodInfoScanner {
 
-    public static MethodInfo[] FindEventMethods(object instance) {
-      if (instance == null) throw new ArgumentException("Instance is null");
+    /// <summary>
+    /// Find all event methods exposed the filter
+    /// </summary>
+    /// <param name="instance">The filter to search for events</param>
+    /// <returns>A collection of event methods</returns>
+    public static MethodInfo[] FindEventMethods(IFilter instance) {
+      if (instance == null) {
+        throw new ArgumentException("Instance is null");
+      }
+
       Regex r = new Regex("^On.+");
 
       return instance.GetType().GetMethods().Where(
@@ -26,6 +38,7 @@ namespace QCV.Base {
                  parms.Length == 1 &&
                  parms[0].ParameterType == typeof(Dictionary<string, object>);
         }
+
       ).ToArray();
     }
   }

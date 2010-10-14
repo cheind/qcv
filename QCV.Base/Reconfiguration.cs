@@ -10,11 +10,25 @@ using System.Linq;
 using System.Reflection;
 
 namespace QCV.Base {
+
+  /// <summary>
+  /// Reconfigures a filter list. 
+  /// </summary>
   public class Reconfiguration {
 
-    public void Update(FilterList fl, Addins.AddinHost h, out FilterList fl_new) {
+    /// <summary>
+    /// Creates a new filter list from an existing one.
+    /// </summary>
+    /// <remarks>If the filter is not found in the addin host or
+    /// the type hasn't changed, the old filter is copied by reference to the new
+    /// filter list. Otherwise, a new instance of the new type is initialized and
+    /// added to the new filter list</remarks>
+    /// <param name="fl">Current filter list</param>
+    /// <param name="h">List of available addins</param>
+    /// <returns>The new filter list</returns>
+    public FilterList Update(FilterList fl, Addins.AddinHost h) {
 
-      fl_new = new FilterList();
+      FilterList fl_new = new FilterList();
       foreach (IFilter f in fl) {
         Type t = f.GetType();
         Addins.AddinInfo fai = h.FindAddins(
@@ -29,19 +43,33 @@ namespace QCV.Base {
           fl_new.Add(h.CreateInstance(fai) as IFilter);
         }
       }
+
+      return fl_new;
     }
 
+    /// <summary>
+    /// Copy property values between two filter lists
+    /// </summary>
+    /// <param name="from">The filter list to read properties from</param>
+    /// <param name="to">The filter list to copy properties to</param>
     public void CopyPropertyValues(FilterList from, FilterList to) {
 
       for (int i = 0; i < from.Count; ++i) {
         if (!Object.ReferenceEquals(from[i], to[i])) {
-          ProcessProperties(from[i], to[i]);
+          CopyPropertyValues(from[i], to[i]);
         }
       }
 
     }
 
-    private void ProcessProperties(IFilter source, IFilter dest) {
+    /// <summary>
+    /// Copy property values between to filters.
+    /// </summary>
+    /// <remarks>A property value will only be copied if
+    /// the target property is writable and has the same type.</remarks>
+    /// <param name="source">The filter to copy from</param>
+    /// <param name="dest">The filter to copy to</param>
+    private void CopyPropertyValues(IFilter source, IFilter dest) {
       PropertyInfo[] f = source.GetType().GetProperties();
       PropertyInfo[] t = dest.GetType().GetProperties();
 

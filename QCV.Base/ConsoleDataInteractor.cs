@@ -79,11 +79,11 @@ namespace QCV.Base {
     }
 
 
-    public void ExecutePendingEvents(object instance, Dictionary<string, object> bundle) {
+    public void ExecutePendingEvents(IFilter instance, Dictionary<string, object> bundle) {
       _eic.InvokeEvents(instance, bundle);
     }
 
-    public void CacheEvent(object instance, MethodInfo mi) {
+    public void CacheEvent(IFilter instance, MethodInfo mi) {
       _eic.Add(instance, mi);
     }
 

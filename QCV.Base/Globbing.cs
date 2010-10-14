@@ -11,8 +11,18 @@ using System.IO;
 
 namespace QCV.Base {
 
+  /// <summary>
+  /// Provides file system globbing functionality
+  /// </summary>
   public static class Globbing {
 
+    /// <summary>
+    /// Find all files matching the glob pattern.
+    /// </summary>
+    /// <remarks>The implementation is currently limited to the most simple globbing expression
+    /// of the form 'x/y/*.cs'.</remarks>
+    /// <param name="glob">The globbing pattern</param>
+    /// <returns>File paths matching the globbing expression</returns>
     public static IEnumerable<string> Glob(string glob) {
       string new_glob = glob.Replace('/', '\\');
       int last_dir_pos = new_glob.LastIndexOf(Path.DirectorySeparatorChar);

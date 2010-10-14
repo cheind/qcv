@@ -56,6 +56,6 @@ namespace QCV.Base {
     /// <seealso cref="EventInvocationCache"/>
     /// <param name="instance">The filter requesting to execute its pending events</param>
     /// <param name="bundle">The bundle parameter to pass to the event methods to be invoked.</param>
-    void ExecutePendingEvents(object instance, Dictionary<string, object> bundle);
+    void ExecutePendingEvents(IFilter instance, Dictionary<string, object> bundle);
   }
 }
