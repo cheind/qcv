@@ -1,0 +1,11 @@
+#summary What's the motivation for QCV?
+
+Does the following paragraph sound familiar to you?
+ Have you ever had a great idea for an algorithm but failed to implement it because setting up the environment took to much time? Have you ever felt frustrated setting up projects, managing dependencies, closing your application for a rebuilt to see the effects of your changed algorithm?
+
+Sounds familiar? Then QCV might be for you. It provides a complete setup to host and run your algorithms. You don't even need a integrated development environment to get started. QCV automatically detects changes in your algorithm source files and applies those changes online. 
+
+QCV 
+ * allows you to concentrate on the *data flow* of your algorithm,
+ * frees your mind from *user interface* questions and designing forms,
+ * enforces a class design that encourages *reusability* of algorithms.
