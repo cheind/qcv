@@ -1,7 +1,5 @@
 #summary Introducing QCV.
 
-<img src="http://qcv.googlecode.com/svn/trunk/etc/logos/qcv_logo.png" width="350">
-
 QCV is an acronym and stands for "Quick Computer Vision". QCV is a framework for rapid development of computer vision algorithms. It is split into the following parts
   # an application (qcv.exe) to host and run your algorithms,
   # a class library (QCV.Toolbox.dll) containing commonly used algorithms,
