@@ -18,16 +18,40 @@ namespace QCV.Base {
   [Serializable]
   public class FixedTimeStep {
 
+    /// <summary>
+    /// The stopwatch measuring the timespan between two cycles.
+    /// </summary>
     private Stopwatch _sw;
+
+    /// <summary>
+    /// Number of nanosecs per machine tick.
+    /// </summary>
     private long _ns_per_tick;
+
+    /// <summary>
+    /// Target cycle time to achieve (frames-per-second).
+    /// </summary>
     private double _fps;
+
+    /// <summary>
+    /// The cycle time measured in ticks.
+    /// </summary>
     private long _cycle_time_ticks;
+
+    /// <summary>
+    /// The sleep mode to use.
+    /// </summary>
     private EPauseMode _pause_mode;
+
+    /// <summary>
+    /// A boolean value indicating whether the cylce control is active or not.
+    /// </summary>
     private bool _enabled;
 
     /// <summary>
-    /// Construct new fixed time-step helper
+    /// Initializes a new instance of the FixedTimeStep class.
     /// </summary>
+    /// <param name="fps">The target cycle time in cycles per second</param>
     public FixedTimeStep(double fps) {
       _sw = new Stopwatch();
       _ns_per_tick = 1000000000 / Stopwatch.Frequency;
@@ -37,19 +61,35 @@ namespace QCV.Base {
     }
 
     /// <summary>
-    /// Construct new fixed time-step helper
+    /// Initializes a new instance of the FixedTimeStep class.
     /// </summary>
     public FixedTimeStep() : this(Double.MaxValue) {
     }
 
+    /// <summary>
+    /// The various sleep modes to block the calling
+    /// thread in order to enforce the cycle time.
+    /// </summary>
     public enum EPauseMode {
+
+      /// <summary>
+      /// Put the thread asleep.
+      /// </summary>
       Sleep,
+
+      /// <summary>
+      /// Employ busy waiting.
+      /// </summary>
       SpinWait,
+
+      /// <summary>
+      /// Choose between Sleep and SpinWait depending on the time interval to wait.
+      /// </summary>
       Adaptive
     }
 
     /// <summary>
-    /// Control the desired frame-rate (frames per second)
+    /// Gets or sets the desired cycle time in (frames-per-second)
     /// </summary>
     public double FPS {
       get { 
@@ -66,27 +106,35 @@ namespace QCV.Base {
       }
     }
 
+    /// <summary>
+    /// Gets or sets the sleep mode.
+    /// </summary>
     public EPauseMode PauseMode {
       get { return _pause_mode; }
       set { _pause_mode = value; }
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the control is enabled or disabled.
+    /// </summary>
     public bool Enabled {
       get { return _enabled; }
       set { _enabled = value; }
     }
 
     /// <summary>
-    /// Fetch latest amount of time elapsed and wait
-    /// to satisfy cycle time
+    /// Fetch latest amount of time elapsed and wait to satisfy cycle time
     /// </summary>
     public void UpdateAndWait() {
       if (this.Enabled) {
-        PerformWait();
+        DoWait();
       }
     }
 
-    private void PerformWait() {
+    /// <summary>
+    /// Wait to enforce cylce time.
+    /// </summary>
+    private void DoWait() {
       if (_sw.IsRunning) {
         _sw.Stop();
         long elapsed_ticks = _sw.ElapsedTicks;
@@ -118,10 +166,18 @@ namespace QCV.Base {
       _sw.Start();
     }
 
+    /// <summary>
+    /// Put the thread a sleep in a resource friendly way.
+    /// </summary>
+    /// <param name="wait_time_ms">Number of minimum milliseconds to sleep</param>
     private void SleepWait(long wait_time_ms) {
       System.Threading.Thread.Sleep((int)wait_time_ms);
     }
 
+    /// <summary>
+    /// Put the thread a sleep by spinning
+    /// </summary>
+    /// <param name="wait_time_ticks">Number of iterations to spin</param>
     private void SpinWait(long wait_time_ticks) {
       _sw.Reset();
       _sw.Start();
