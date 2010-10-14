@@ -1,0 +1,6 @@
+#summary Getting started with QCV.
+
+In order to run QCV you need to install
+ * Install the Microsoft .Net Framework 3.5 Service Pack 1
+ * Install the Microsoft Visual C++ 2008 Redistributable Package (x86) Service Pack 1
+ * QCV
