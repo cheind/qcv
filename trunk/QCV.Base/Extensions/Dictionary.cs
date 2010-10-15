@@ -23,7 +23,7 @@ namespace QCV.Base.Extensions {
     /// <typeparam name="T">Type to cast element to</typeparam>
     /// <param name="b">Dictionary to query</param>
     /// <param name="key">The name of the element</param>
-    /// <returns></returns>
+    /// <returns>The requested element</returns>
     public static T Get<T>(this Dictionary<string, object> b, string key) {
       return (T)b[key];
     }
@@ -33,7 +33,7 @@ namespace QCV.Base.Extensions {
     /// </summary>
     /// <param name="b">Dictionary to query</param>
     /// <param name="key">The name of the element</param>
-    /// <returns>The image</returns>
+    /// <returns>The requested image</returns>
     public static Image<Bgr, byte> GetImage(this Dictionary<string, object> b, string key) {
       return b.Get<Image<Bgr, byte>>(key);
     }

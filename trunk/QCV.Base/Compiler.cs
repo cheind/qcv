@@ -34,10 +34,8 @@ namespace QCV.Base {
     {}
 
     public Compiler(bool debug)
-      : this(new string[] { }, debug) 
-    {
-    }
-
+      : this(new string[] {}, debug) 
+    {}
 
     public Compiler(IEnumerable<string> references, bool debug) {
       _cp = new CompilerParameters(references.ToArray());
@@ -84,12 +82,15 @@ namespace QCV.Base {
 
       try {
         _results = new List<CompilerResults>();
+
         if (csharp.Count() > 0) {
           _results.Add(_csharp.CompileAssemblyFromFile(_cp, csharp.ToArray()));
         }
+
         if (vb.Count() > 0) {
           _results.Add(_vb.CompileAssemblyFromFile(_cp, vb.ToArray()));
         }
+
         if (cpp.Count() > 0) {
           _results.Add(_cpp.CompileAssemblyFromFile(_cp, cpp.ToArray()));
         }
@@ -101,6 +102,7 @@ namespace QCV.Base {
         } else {
           _logger.Error(FormatCompilerResults());
         }
+
         return success;
 
       } catch (IOException err) {
@@ -112,7 +114,7 @@ namespace QCV.Base {
       }
     }
 
-    public String FormatCompilerResults() {
+    public string FormatCompilerResults() {
       StringBuilder sb = new StringBuilder();
 
       bool success = _results.All((cr) => { return !cr.Errors.HasErrors; });
@@ -125,14 +127,16 @@ namespace QCV.Base {
           sb.Append(FormatErrors(cr));
         }
       }
+
       return sb.ToString();
     }
 
     public string FormatErrors(CompilerResults cr) {
       StringBuilder sb = new StringBuilder();
 
-      for (int i = 0; i < cr.Errors.Count; i++)
+      for (int i = 0; i < cr.Errors.Count; i++) {
         sb.AppendLine(i.ToString() + ": " + cr.Errors[i].ToString());
+      }
 
       string nl = Environment.NewLine;
       string final = sb.ToString();
