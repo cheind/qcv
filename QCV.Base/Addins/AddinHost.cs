@@ -57,6 +57,7 @@ namespace QCV.Base.Addins {
           addins.Add(new AddinInfo(t));
         }
       }
+
       this.AddRange(addins);
     }
 
@@ -98,11 +99,13 @@ namespace QCV.Base.Addins {
         Assembly a = Assembly.LoadFrom(assembly_path);
         DiscoverInAssembly(a);
       } catch (System.BadImageFormatException) {
-        //_logger.Debug(String.Format("'{0}' is not a valid assembly.", assembly_path));
+        // _logger.Debug(String.Format("'{0}' is not a valid assembly.", assembly_path));
       } catch (System.IO.FileLoadException) {
-        //_logger.Debug(String.Format("'{0}' already loaded.", assembly_path));
+
+        // _logger.Debug(String.Format("'{0}' already loaded.", assembly_path));
       } catch (System.TypeLoadException) {
-        //_logger.Warn(String.Format("Type load exception during loading of '{0}' occurred.", assembly_path));
+
+        // _logger.Warn(String.Format("Type load exception during loading of '{0}' occurred.", assembly_path));
       }
     }
 
@@ -170,7 +173,7 @@ namespace QCV.Base.Addins {
     /// Test if type is flagged as addin
     /// </summary>
     /// <param name="t"></param>
-    /// <returns></returns>
+    /// <returns>True if type is an addin, false otherwise.</returns>
     private bool IsAddin(Type t) {
       return Attribute.IsDefined(t, typeof(AddinAttribute));
     }
