@@ -30,7 +30,7 @@ namespace Tutorial {
     public void Execute(Dictionary<string, object> bundle) {
 
       // If you have a long running operation, make sure 
-      // to stay responsive cancellation events.
+      // to stay responsive to cancellation events.
 
       while (true) {
         // Test if a cancellation request is pending
