@@ -1,16 +1,23 @@
-﻿using System.Reflection;
+﻿// ----------------------------------------------------------
+// <project>QCV</project>
+// <author>Christoph Heindl</author>
+// <copyright>Copyright (c) Christoph Heindl 2010</copyright>
+// <license>New BSD</license>
+// ----------------------------------------------------------
+
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("RDV.Sources")]
+[assembly: AssemblyTitle("QCV.Toolbox")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("RDV.Sources")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2010")]
+[assembly: AssemblyCompany("Christoph Heindl")]
+[assembly: AssemblyProduct("QCV.Toolbox")]
+[assembly: AssemblyCopyright("Copyright © Christoph Heindl 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
