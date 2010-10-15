@@ -9,4 +9,4 @@ If you intend to contribute to QCV you may want to optionally install [http://st
 
 To compile QCV open the solution <tt>qcv.sln</tt> and make sure you select <tt>x86</tt> as platform target.
 
-|| *Note* QCV will update to Visual Studio 2010 and .Net Framework 4.0 shortly because the Visual Studio 2008 Express editions are not available for download anymore. ||
+QCV may upgrade to Visual Studio 2010 and .Net Framework 4.0 in the near future. This move is motivated by the fact that Visual Studio 2008 Express editions are not available for download anymore.
