@@ -35,7 +35,7 @@ namespace QCV.Base.Extensions {
     /// <param name="key">The name of the element</param>
     /// <returns>The image</returns>
     public static Image<Bgr, byte> GetImage(this Dictionary<string, object> b, string key) {
-      return b.Get< Image<Bgr, byte> >(key);
+      return b.Get<Image<Bgr, byte>>(key);
     }
 
     /// <summary>
