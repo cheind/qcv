@@ -1,6 +1,12 @@
 #summary Getting started with QCV.
 
-In order to run QCV you need to install
- * Install the Microsoft .Net Framework 3.5 Service Pack 1
- * Install the Microsoft Visual C++ 2008 Redistributable Package (x86) Service Pack 1
- * QCV
+Currently the only way to use QCV is by compiling QCV yourself. To compile QCV you need to
+ # install the Microsoft .Net Framework 3.5 Service Pack 1,
+ # install Visual Studio 2008 or Visual Studio 2008 Express, and
+ # follow the [http://code.google.com/p/qcv/source/checkout instructions] to get the source code.
+
+If you intend to contribute to QCV you may want to optionally install [http://stylecop.codeplex.com/ StyleCop] in order to verify QCVs documentation and coding guidelines.
+
+To compile QCV open the solution <tt>qcv.sln</tt> and make sure you select <tt>x86</tt> as platform target.
+
+|| *Note* QCV will update to Visual Studio 2010 and .Net Framework 4.0 shortly because the Visual Studio 2008 Express editions are not available for download anymore. ||
