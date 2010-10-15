@@ -30,12 +30,13 @@ namespace QCV.Base {
     private Dictionary<string, string> _pp;
 
     public Compiler() 
-      : this(new string[]{}, false)
+      : this(new string[] {}, false) 
     {}
 
     public Compiler(bool debug)
       : this(new string[] { }, debug) 
-    { }
+    {
+    }
 
 
     public Compiler(IEnumerable<string> references, bool debug) {
@@ -45,8 +46,9 @@ namespace QCV.Base {
       _cp.IncludeDebugInformation = debug;
       _cp.TempFiles.KeepFiles = debug;
 
-      _pp = new Dictionary<string, string>() 
-      {{"CompilerVersion", "v3.5"}};
+      _pp = new Dictionary<string, string>() {
+        { "CompilerVersion", "v3.5" } 
+      };
 
       _csharp = new CSharpCodeProvider(_pp);
       _vb = new VBCodeProvider(_pp);
@@ -126,7 +128,7 @@ namespace QCV.Base {
       return sb.ToString();
     }
 
-    public String FormatErrors(CompilerResults cr) {
+    public string FormatErrors(CompilerResults cr) {
       StringBuilder sb = new StringBuilder();
 
       for (int i = 0; i < cr.Errors.Count; i++)
