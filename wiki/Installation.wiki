@@ -3,7 +3,7 @@
 Currently the only way to use QCV is by compiling QCV yourself. To compile QCV you need to
  # install the Microsoft .Net Framework 3.5 Service Pack 1,
  # install Visual Studio 2008 or Visual Studio 2008 Express,
- # follow the [http://code.google.com/p/qcv/source/checkout instructions] to get the source code.
+ # follow the [http://code.google.com/p/qcv/source/checkout instructions] to get the source code,
  # open the solution <tt>qcv.sln</tt> file, and
  # compile QCV using the <tt>x86</tt> platform target.
 
