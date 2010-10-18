@@ -4,7 +4,7 @@
 
 =Stop the Runtime from Within a Filter=
 
-To stop the runtime from further execution can be accomplished through the <tt>QCV.Base.IRuntime</tt> interface. An instance of the described interface can be found in the bundle provided.
+Stopping the runtime can be accomplished through the <tt>QCV.Base.IRuntime</tt> interface. An instance of the described interface can be found in the bundle provided.
 
 {{{
 // qcv.exe -s stop_runtime.cs Example.Basic.StopRuntime --run
