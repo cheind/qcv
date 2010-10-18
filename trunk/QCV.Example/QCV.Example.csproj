@@ -75,6 +75,7 @@
     <Compile Include="Basic\stay_responsive.cs" />
     <Compile Include="Basic\stop_runtime.cs" />
     <Compile Include="Basic\transporting_values.cs" />
+    <Compile Include="Basic\using_addins.cs" />
     <Compile Include="Basic\variable_query.cs" />
     <Compile Include="calibrate_camera.cs" />
     <Compile Include="detect_marker.cs" />
