@@ -2,7 +2,53 @@
 
 <wiki:toc max_depth="1" />
 
-=Staying Responsive to Cancellation Requests=
+=Stop the Runtime from Within a Filter=
+
+To stop the runtime from further execution can be accomplished through the <tt>QCV.Base.IRuntime</tt> interface. An instance of the described interface can be found in the bundle provided.
+
+{{{
+// qcv.exe -s stop_runtime.cs Example.Basic.StopRuntime --run
+
+using System;
+using System.Collections.Generic;
+
+using QCV.Base;
+using QCV.Base.Addins;
+using QCV.Base.Extensions;
+
+namespace Example.Basic {
+
+  [Addin]
+  public class StopRuntime : IFilter, IFilterListProvider {
+
+    public FilterList CreateFilterList(AddinHost host) {
+      return new FilterList() {
+        this
+      };
+    }
+
+    public void Execute(Dictionary<string, object> bundle) {
+      // Request a stop of the runtime.
+      // The runtime will process the request as soon as possible,
+      // but not before the filter has completed its work.
+      bool request_ok = bundle.GetRuntime().RequestStop();
+      
+      if (!request_ok) {
+        // In case the request wasn't posted with success and stopping
+        // is a must one can force the runtime to stop by triggering
+        // an exception.
+        throw new ApplicationException("Failed to request a stop of runtime.");
+      }
+    }
+
+  }
+}
+}}}
+
+
+
+
+=Stay Responsive to Cancellation Requests=
 
 When you have a long running operation carried out in your filter, make sure that you periodically test for a pending cancellation request. In case a cancellation event is pending, gracefully abort the filters work. Doing so ensures a responsive behaviour of the runtime.
 
