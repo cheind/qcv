@@ -8,7 +8,7 @@ using QCV.Base.Extensions;
 
 namespace QCV.Toolbox {
 
-  [Base.Addins.Addin]
+  [Base.Addin]
   [Serializable]
   public class ShowFPS : Base.IFilter, ISerializable {
     private int _iterations = 0;

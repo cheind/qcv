@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace QCV.ConsoleExample {
 
-  [Base.Addins.Addin]
+  [Base.Addin]
   public class DemoFilter : QCV.Base.IFilter {
     private string _message = "no message given";
 
@@ -22,13 +22,13 @@ namespace QCV.ConsoleExample {
   }
 
 
-  [Base.Addins.Addin]
+  [Base.Addin]
   public class HelloAddin : IExample {
 
     public void Run(string[] args) {
       
       // Make sure addin framework scans current assembly
-      QCV.Base.Addins.AddinHost h = new QCV.Base.Addins.AddinHost();
+      QCV.Base.AddinHost h = new QCV.Base.AddinHost();
       h.DiscoverInAssembly(Assembly.GetExecutingAssembly());
 
       QCV.Base.IFilter filter =

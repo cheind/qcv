@@ -11,17 +11,18 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using log4net;
+using QCV.Base.Extensions;
 
-namespace QCV.Base.Addins {
+namespace QCV.Base {
 
   /// <summary>
-  /// Hosts AddinInfo instances.
+  /// A host for addins.
   /// </summary>
   /// <remarks>
   /// AddinHost provides methods to discover plugins in files and 
   /// assemblies, create instance of plugins and find addins.
   /// </remarks>
-  public class AddinHost : List<AddinInfo> {
+  public class AddinHost : List<Type> {
     /// <summary>
     /// Logger object used to log messages.
     /// </summary>
@@ -51,10 +52,10 @@ namespace QCV.Base.Addins {
     /// </summary>
     /// <param name="a">The assembly to search in.</param>
     public void DiscoverInAssembly(Assembly a) {
-      List<AddinInfo> addins = new List<AddinInfo>();
+      List<Type> addins = new List<Type>();
       foreach (Type t in a.GetExportedTypes()) {
-        if (IsAddin(t) && !this.Any(ai => ai.Type == t)) {
-          addins.Add(new AddinInfo(t));
+        if (t.IsAddin() && !this.Any(type => type == t)) {
+          addins.Add(t);
         }
       }
 
@@ -70,7 +71,7 @@ namespace QCV.Base.Addins {
     /// <param name="other">AddinHost to merge with</param>
     public void MergeByFullName(AddinHost other) {
       AddinHost tmp = new AddinHost();
-      tmp.AddRange(other.Union(this, new AddinInfoFullNameComparer()));
+      tmp.AddRange(other.Union(this, new TypeFullNameComparer()));
       this.Clear();
       this.AddRange(tmp);      
     }
@@ -113,8 +114,8 @@ namespace QCV.Base.Addins {
     /// </summary>
     /// <param name="type_of">Addin type</param>
     /// <returns>Enumeration of addin infos</returns>
-    public IEnumerable<AddinInfo> FindAddins(Type type_of) {
-      return this.Select(ai => ai).Where(ai => ai.TypeOf(type_of));
+    public IEnumerable<Type> FindAddins(Type type_of) {
+      return this.Select(ai => ai).Where(ai => ai.IsTypeOf(type_of));
     }
 
     /// <summary>
@@ -122,28 +123,28 @@ namespace QCV.Base.Addins {
     /// </summary>
     /// <param name="type_of">Addin type</param>
     /// <param name="predicate">Search predicate</param>
-    /// <returns>Enumeration of addin infos</returns>
-    public IEnumerable<AddinInfo> FindAddins(Type type_of, Func<AddinInfo, bool> predicate) {
-      return this.Where(ai => ai.TypeOf(type_of) && predicate(ai));
+    /// <returns>Enumeration of addin types</returns>
+    public IEnumerable<Type> FindAddins(Type type_of, Func<Type, bool> predicate) {
+      return this.Where(t => t.IsTypeOf(type_of) && predicate(t));
     }
 
     /// <summary>
     /// Create default constructed instance of addin
     /// </summary>
-    /// <param name="ai">Info of addin</param>
+    /// <param name="addin">Type of addin</param>
     /// <returns>Initialized addin instance or null</returns>
-    public object CreateInstance(AddinInfo ai) {
-      return CreateInstance(ai, null);
+    public object CreateInstance(Type addin) {
+      return CreateInstance(addin, null);
     }
 
     /// <summary>
     /// Create instance of addin.
     /// </summary>
-    /// <param name="ai">Info of addin</param>
+    /// <param name="addin">Type of addin</param>
     /// <param name="args">Arguments passed to the addins constructor</param>
     /// <returns>Initialized addin instance or null</returns>
-    public object CreateInstance(AddinInfo ai, object[] args) {
-      return Activator.CreateInstance(ai.Type, args);
+    public object CreateInstance(Type addin, object[] args) {
+      return Activator.CreateInstance(addin, args);
     }
 
     /// <summary>
@@ -153,12 +154,12 @@ namespace QCV.Base.Addins {
     /// <param name="full_name">Fullname of addin</param>
     /// <returns>Created instance on success, null otherwise</returns>
     public T CreateInstance<T>(string full_name) {
-      AddinInfo ai = FindAddins(
+      Type addin = FindAddins(
         typeof(T), 
-        (e) => { return e.DefaultConstructible && e.FullName == full_name; }
-      ).FirstOrDefault() as AddinInfo;
-      if (ai != null) {
-        return (T)CreateInstance(ai);
+        (e) => { return e.IsDefaultConstructible() && e.FullName == full_name; }
+      ).FirstOrDefault() as Type;
+      if (addin != null) {
+        return (T)CreateInstance(addin);
       } else {
         return default(T);
       }
@@ -172,24 +173,16 @@ namespace QCV.Base.Addins {
     /// <param name="args">Arguments to be passed to the addins constructor</param>
     /// <returns>Created instance on success, null otherwise</returns>
     public T CreateInstance<T>(string full_name, object[] args) {
-      AddinInfo ai = FindAddins(
+      Type addin = FindAddins(
         typeof(T),
         (e) => { return e.FullName == full_name; }
-      ).FirstOrDefault() as AddinInfo;
-      if (ai != null) {
-        return (T)CreateInstance(ai, args);
+      ).FirstOrDefault() as Type;
+      if (addin != null) {
+        return (T)CreateInstance(addin, args);
       } else {
         return default(T);
       }
     }
 
-    /// <summary>
-    /// Test if type is flagged as addin
-    /// </summary>
-    /// <param name="t">Type to test</param>
-    /// <returns>True if type is an addin, false otherwise.</returns>
-    private bool IsAddin(Type t) {
-      return Attribute.IsDefined(t, typeof(AddinAttribute));
-    }
   }
 }

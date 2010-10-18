@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using log4net;
 
 using QCV.Base;
-using QCV.Base.Addins;
 using QCV.Base.Extensions;
 
 namespace Example.Basic {

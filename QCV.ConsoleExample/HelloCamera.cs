@@ -5,7 +5,7 @@ using System.Text;
 
 namespace QCV.ConsoleExample {
 
-  [Base.Addins.Addin]
+  [Base.Addin]
   public class HelloCamera : IExample {
 
     public void Run(string[] args) {

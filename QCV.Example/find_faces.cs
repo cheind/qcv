@@ -9,7 +9,6 @@ using System.Drawing.Design;
 using System.Windows.Forms.Design;
 
 using QCV.Base;
-using QCV.Base.Addins;
 using QCV.Base.Extensions; 
 
 using Emgu.CV;

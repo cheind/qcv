@@ -7,7 +7,7 @@ using log4net;
 
 namespace QCV.ConsoleExample {
 
-  [Base.Addins.Addin]
+  [Base.Addin]
   public class HelloScripting : IExample {
     public void Run(string[] args) {
 
@@ -23,7 +23,7 @@ namespace QCV.ConsoleExample {
         return;
       }
 
-      QCV.Base.Addins.AddinHost h = new QCV.Base.Addins.AddinHost();
+      QCV.Base.AddinHost h = new QCV.Base.AddinHost();
       h.DiscoverInAssembly(s.CompiledAssemblies);
       QCV.Base.IFilter say_hello = h.CreateInstance<QCV.Base.IFilter>("Scripts.SayHello");
       QCV.Base.FilterList f = new QCV.Base.FilterList();

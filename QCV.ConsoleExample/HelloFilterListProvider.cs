@@ -7,7 +7,7 @@ namespace QCV.ConsoleExample {
 
   class MyFilterList : Base.IFilterListProvider {
     
-    public QCV.Base.FilterList CreateFilterList(QCV.Base.Addins.AddinHost h) {
+    public QCV.Base.FilterList CreateFilterList(QCV.Base.AddinHost h) {
       return new QCV.Base.FilterList() {
         h.CreateInstance<Base.IFilter>("QCV.Toolbox.Camera", new object[]{0, 320, 200, "camera1"}),
         h.CreateInstance<Base.IFilter>("QCV.Toolbox.ShowImage", new object[]{"camera1"})
@@ -15,11 +15,11 @@ namespace QCV.ConsoleExample {
     }
   }
 
-  [Base.Addins.Addin]
+  [Base.Addin]
   public class HelloFilterListProvider : IExample {
     public void Run(string[] args) {
 
-      QCV.Base.Addins.AddinHost h = new QCV.Base.Addins.AddinHost();
+      QCV.Base.AddinHost h = new QCV.Base.AddinHost();
       h.DiscoverInDomain();
       h.DiscoverInDirectory(Environment.CurrentDirectory);
 

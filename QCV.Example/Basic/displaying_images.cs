@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 
 using QCV.Base;
-using QCV.Base.Addins;
 using QCV.Base.Extensions; // ease access of bundle
 
 // Image types are Emgu types

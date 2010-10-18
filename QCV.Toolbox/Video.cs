@@ -31,7 +31,7 @@ namespace QCV.Toolbox {
   /// Represents a camera source
   /// </summary>
   [Serializable]
-  [Base.Addins.Addin]
+  [Base.Addin]
   public class Video : Source {
 
     private string _path = null;

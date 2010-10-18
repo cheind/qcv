@@ -10,7 +10,7 @@ namespace QCV.ConsoleExample {
 
   class ScriptingFilterList : Base.IFilterListProvider {
 
-    public QCV.Base.FilterList CreateFilterList(QCV.Base.Addins.AddinHost h) {
+    public QCV.Base.FilterList CreateFilterList(QCV.Base.AddinHost h) {
       return new QCV.Base.FilterList() {
         h.CreateInstance<Base.IFilter>("QCV.Toolbox.Camera", new object[]{0, 320, 200, "source"}),
         h.CreateInstance<Base.IFilter>("Scripts.DrawRectangle"),
@@ -19,7 +19,7 @@ namespace QCV.ConsoleExample {
     }
   }
 
-  [Base.Addins.Addin]
+  [Base.Addin]
   public class HelloScriptingExchange : IExample {
     public void Run(string[] args) {
       Console.WriteLine("Press any key to quit");
@@ -34,7 +34,7 @@ namespace QCV.ConsoleExample {
         "System.dll", "System.Drawing.dll", "System.Xml.dll"},
         false);
 
-      QCV.Base.Addins.AddinHost h = new QCV.Base.Addins.AddinHost();
+      QCV.Base.AddinHost h = new QCV.Base.AddinHost();
       h.DiscoverInDomain();
       h.DiscoverInDirectory(Environment.CurrentDirectory);
 
@@ -48,7 +48,7 @@ namespace QCV.ConsoleExample {
 
       ic.BuildSucceededEvent += (s, ev) => {
         
-        QCV.Base.Addins.AddinHost tmp = new QCV.Base.Addins.AddinHost();
+        QCV.Base.AddinHost tmp = new QCV.Base.AddinHost();
         tmp.DiscoverInAssembly(ev.CompiledAssemblies);
 
         h.MergeByFullName(tmp);
