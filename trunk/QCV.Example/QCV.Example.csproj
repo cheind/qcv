@@ -71,10 +71,10 @@
     <Compile Include="Basic\event_notifications.cs" />
     <Compile Include="Basic\hello_world.cs" />
     <Compile Include="Basic\multiple_image_input.cs" />
+    <Compile Include="Basic\stay_responsive.cs" />
     <Compile Include="Basic\transporting_values.cs" />
     <Compile Include="Basic\variable_query.cs" />
     <Compile Include="calibrate_camera.cs" />
-    <Compile Include="Design\stay_responsive.cs" />
     <Compile Include="detect_marker.cs" />
     <Compile Include="find_faces.cs" />
     <Compile Include="image_decorator.cs" />

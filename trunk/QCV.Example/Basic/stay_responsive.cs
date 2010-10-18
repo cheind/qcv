@@ -1,4 +1,4 @@
-﻿// qcv.exe -s stay_responsive.cs Example.Design.StayResponsive --run
+﻿// qcv.exe -s stay_responsive.cs Example.Basic.StayResponsive --run
 
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using QCV.Base;
 using QCV.Base.Addins;
 using QCV.Base.Extensions;
 
-namespace Example.Design {
+namespace Example.Basic {
 
   [Addin]
   public class StayResponsive : IFilter, IFilterListProvider {
