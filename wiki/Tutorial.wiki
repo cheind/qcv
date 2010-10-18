@@ -43,7 +43,7 @@ namespace Example {
     // On each execution of this filter print a console message.
     public void Execute(Dictionary<string, object> b) {
       Console.WriteLine("Hello World");
-      b["cancel"] = true;
+      b.GetRuntime.RequestStop();
     }
   }
 }
