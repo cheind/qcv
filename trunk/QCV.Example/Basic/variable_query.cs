@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 
 using QCV.Base;
-using QCV.Base.Addins;
 using QCV.Base.Extensions;
 
 namespace Example.Basic {

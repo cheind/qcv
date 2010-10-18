@@ -89,7 +89,6 @@
     <Compile Include="HelloFilterListProvider.cs" />
     <Compile Include="HelloFPS.cs" />
     <Compile Include="HelloImageList.cs" />
-    <Compile Include="HelloLogging.cs" />
     <Compile Include="HelloPersistedState.cs" />
     <Compile Include="HelloRecording.cs" />
     <Compile Include="HelloScripting.cs" />

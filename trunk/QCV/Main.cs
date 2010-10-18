@@ -15,6 +15,7 @@ using log4net.Config;
 using log4net;
 
 using QCV.Extensions;
+using QCV.Base.Extensions;
 
 namespace QCV {
   public partial class Main : Form {
@@ -22,7 +23,7 @@ namespace QCV {
     private static readonly ILog _logger = LogManager.GetLogger(typeof(Main));
     private HookableTextWriter _console_hook = new HookableTextWriter();
     private Base.InstantCompiler _ic = null;
-    private Base.Addins.AddinHost _ah = null;
+    private Base.AddinHost _ah = null;
     private Dictionary<string, object> _env = null;
     private Base.FilterList _fl = null;
     private Base.Runtime _runtime = null;
@@ -130,22 +131,22 @@ namespace QCV {
         _runtime.Stop(true);
       }
 
-      QCV.Base.Addins.AddinHost tmp = new QCV.Base.Addins.AddinHost();
+      QCV.Base.AddinHost tmp = new QCV.Base.AddinHost();
       tmp.DiscoverInAssembly(compiler.CompiledAssemblies);
 
 
       if (_fl == null) {
 
-        _ah = new QCV.Base.Addins.AddinHost();
+        _ah = new QCV.Base.AddinHost();
         _ah.DiscoverInDomain();
         _ah.DiscoverInDirectory(Environment.CurrentDirectory);
         _ah.MergeByFullName(tmp);
 
         // First run
         _fl = new QCV.Base.FilterList();
-        IEnumerable<Base.Addins.AddinInfo> providers = _ah.FindAddins(
+        IEnumerable<Type> providers = _ah.FindAddins(
             typeof(Base.IFilterListProvider),
-            (ai) => (ai.DefaultConstructible && _args.filterlist_providers.Contains(ai.FullName)));
+            (ai) => (ai.IsDefaultConstructible() && _args.filterlist_providers.Contains(ai.FullName)));
 
         int target_prov_count = _args.filterlist_providers.Count;
         int performance_prov_count = providers.Count();
@@ -153,8 +154,8 @@ namespace QCV {
           _logger.Warn("Not all specified IFilterListProvider were found.");
         }
 
-        foreach (Base.Addins.AddinInfo ai in providers) {
-          Base.IFilterListProvider p = _ah.CreateInstance(ai) as Base.IFilterListProvider;
+        foreach (Type addin in providers) {
+          Base.IFilterListProvider p = _ah.CreateInstance(addin) as Base.IFilterListProvider;
           try {
             _fl.AddRange(p.CreateFilterList(_ah));
           } catch (Exception ex) {

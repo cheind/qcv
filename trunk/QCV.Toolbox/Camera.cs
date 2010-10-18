@@ -32,7 +32,7 @@ namespace QCV.Toolbox {
   /// Represents a camera source
   /// </summary>
   [Serializable]
-  [Base.Addins.Addin]
+  [Base.Addin]
   public class Camera : Source {
     private static readonly ILog _logger = LogManager.GetLogger(typeof(Camera));
     private int _device_index = -1;

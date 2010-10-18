@@ -11,7 +11,7 @@ using System.Drawing;
 
 namespace QCV.Toolbox {
 
-  [Base.Addins.Addin]
+  [Base.Addin]
   [Serializable]
   public class RecordVideo : Base.Resource, Base.IFilter, ISerializable {
     private VideoWriter _vw = null;

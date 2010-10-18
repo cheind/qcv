@@ -11,7 +11,7 @@ using System.Reflection;
 
 namespace QCV.ConsoleExample {
 
-  [Base.Addins.Addin]
+  [Base.Addin]
   class HelloEventFilter : QCV.Base.IFilter {
 
     public void OnCancel(Dictionary<string, object> b) {
@@ -24,7 +24,7 @@ namespace QCV.ConsoleExample {
   }
 
 
-  [Base.Addins.Addin]
+  [Base.Addin]
   public class HelloEvents : IExample {
 
     public void Run(string[] args) {

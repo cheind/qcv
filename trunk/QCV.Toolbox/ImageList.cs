@@ -14,7 +14,7 @@ using QCV.Base.Extensions;
 namespace QCV.Toolbox {
 
   [Serializable]
-  [Base.Addins.Addin]
+  [Base.Addin]
   public class ImageList : Source {
     private string _directory_path = null;
     private string _pattern = null;

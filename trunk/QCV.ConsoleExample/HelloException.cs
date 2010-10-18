@@ -10,7 +10,7 @@ using Emgu.CV.Structure;
 
 namespace QCV.ConsoleExample {
 
-  [Base.Addins.Addin]
+  [Base.Addin]
   public class HelloException : IExample {
 
     public void Run(string[] args) {

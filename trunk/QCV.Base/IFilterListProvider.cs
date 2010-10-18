@@ -17,6 +17,6 @@ namespace QCV.Base {
     /// </summary>
     /// <param name="h">The collection of known addins</param>
     /// <returns>A new filter list</returns>
-    FilterList CreateFilterList(Addins.AddinHost h);
+    FilterList CreateFilterList(AddinHost h);
   }
 }

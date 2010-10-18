@@ -7,7 +7,7 @@
 
 using System;
 
-namespace QCV.Base.Addins {
+namespace QCV.Base {
 
   /// <summary>
   /// Flags addins

@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 
 using QCV.Base;
-using QCV.Base.Addins;
 
 namespace Example.Basic {
 

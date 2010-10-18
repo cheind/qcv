@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Drawing;
 
 using QCV.Base;
-using QCV.Base.Addins;
 using QCV.Base.Extensions;
 
 using Emgu.CV;

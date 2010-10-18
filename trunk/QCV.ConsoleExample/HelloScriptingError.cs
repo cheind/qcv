@@ -7,7 +7,7 @@ using log4net;
 
 namespace QCV.ConsoleExample {
 
-  [Base.Addins.Addin]
+  [Base.Addin]
   public class HelloScriptingError : IExample {
     public void Run(string[] args) {
 

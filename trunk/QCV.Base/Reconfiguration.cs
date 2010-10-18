@@ -8,6 +8,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using QCV.Base.Extensions;
 
 namespace QCV.Base {
 
@@ -26,21 +27,21 @@ namespace QCV.Base {
     /// <param name="fl">Current filter list</param>
     /// <param name="h">List of available addins</param>
     /// <returns>The new filter list</returns>
-    public FilterList Update(FilterList fl, Addins.AddinHost h) {
+    public FilterList Update(FilterList fl, AddinHost h) {
 
       FilterList fl_new = new FilterList();
       foreach (IFilter f in fl) {
         Type t = f.GetType();
-        Addins.AddinInfo fai = h.FindAddins(
+        Type addin = h.FindAddins(
           typeof(IFilter),
-          (ai) => { return ai.DefaultConstructible && ai.FullName == t.FullName; }).FirstOrDefault();
+          (ai) => { return ai.IsDefaultConstructible() && ai.FullName == t.FullName; }).FirstOrDefault();
 
-        if (fai == null || t == fai.Type) {
+        if (addin == null || t == addin) {
           // Just move filter over
           fl_new.Add(f);
         } else {
           // Create a new instance
-          fl_new.Add(h.CreateInstance(fai) as IFilter);
+          fl_new.Add(h.CreateInstance(addin) as IFilter);
         }
       }
 
