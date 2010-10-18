@@ -160,8 +160,7 @@ namespace Example.Basic {
   /// </summary>
   /// <remarks>Make sure to flag your addins with the 
   /// <see cref="QCV.Base.Addins.AddinAttribute"/> and provide a 
-  /// public class modifier.
-  /// </remarks>
+  /// public class modifier.</remarks>
   [Addin]
   public class AddinFilter : IFilter {
     public void Execute(Dictionary<string, object> bundle) {
