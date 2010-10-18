@@ -35,7 +35,7 @@ namespace QCV.ConsoleExample {
         {"interactor", new QCV.Base.ConsoleDataInteractor(runtime)}
       };
       runtime.CycleTime.FPS = 1.0;
-      runtime.Run(f, env, -1);
+      runtime.Start(f, env, -1);
       runtime.Shutdown();
     }
   }

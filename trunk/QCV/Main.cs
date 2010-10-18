@@ -124,7 +124,7 @@ namespace QCV {
     }
 
     private void UpdateFilterList(QCV.Base.Compiler compiler) {
-      bool running = _runtime.Running;
+      bool running = _runtime.Started;
       if (running) {
         _query_form.Cancel();
         _runtime.Stop(true);
@@ -182,7 +182,7 @@ namespace QCV {
         _logger.Info(String.Format("Created {0} filters.", _fl.Count));
 
         if (_args.immediate_execute) {
-          _runtime.Run(_fl, _env, 0);
+          _runtime.Start(_fl, _env, 0);
         }
 
       } else {
@@ -197,7 +197,7 @@ namespace QCV {
       _fl_settings.GenerateUI(_fl);
 
       if (running) {
-        _runtime.Run(_fl, _env, 0);
+        _runtime.Start(_fl, _env, 0);
       }
     }
 
@@ -217,11 +217,11 @@ namespace QCV {
     }
 
     private void _btn_play_Click(object sender, EventArgs e) {
-      if (_runtime.Running) {
+      if (_runtime.Started) {
         _query_form.Cancel();
         _runtime.Stop(false);
       } else {
-        _runtime.Run(_fl, _env, 0);
+        _runtime.Start(_fl, _env, 0);
       }
     }
 
@@ -233,7 +233,7 @@ namespace QCV {
     private bool Shutdown() {
       _query_form.Cancel();
       _runtime.Stop(false);
-      return _runtime.Running;
+      return _runtime.Started;
     }
 
     private void _mnu_help_arguments_Click(object sender, EventArgs e) {

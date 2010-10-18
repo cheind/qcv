@@ -24,8 +24,8 @@ namespace Example.Design {
       // to stay responsive cancellation events.
 
       while (true) {
-        // Test if a cancellation request is pending
-        if (bundle.GetRuntime().CancellationPending) {
+        // Test if a stop request is pending
+        if (bundle.GetRuntime().StopRequested) {
           return;
         }
 

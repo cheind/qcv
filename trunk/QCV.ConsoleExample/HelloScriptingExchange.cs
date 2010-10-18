@@ -64,7 +64,7 @@ namespace QCV.ConsoleExample {
           fl = fl_new;
         }
 
-        runtime.Run(fl, env, 0);
+        runtime.Start(fl, env, 0);
       };
 
       ic.Compile();

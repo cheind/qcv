@@ -28,7 +28,7 @@ namespace QCV.Base {
   /// for further processing in the <see cref="Error"/> property.
   /// </para>
   /// </remarks>
-  public class Runtime : Resource {
+  public class Runtime : Resource, IRuntime {
 
     /// <summary>
     /// The logger associated with the <see cref="Runtime"/> class.
@@ -92,7 +92,7 @@ namespace QCV.Base {
     /// <summary>
     /// Gets a value indicating whether the runtime is currently running or not.
     /// </summary>
-    public bool Running {
+    public bool Started {
       get { return _bw.IsBusy; }
     }
 
@@ -106,7 +106,7 @@ namespace QCV.Base {
     /// <summary>
     /// Gets a value indicating whether a cancellation request is currently pending or not.
     /// </summary>
-    public bool CancellationPending {
+    public bool StopRequested {
       get { return _bw.CancellationPending; }
     }
 
@@ -120,13 +120,24 @@ namespace QCV.Base {
     }
 
     /// <summary>
+    /// Start the runtime.
+    /// </summary>
+    /// <param name="fl">Filter list to process in runtime</param>
+    /// <param name="bundle">Bundle to pass to filter list</param>
+    /// <returns>True if request is accepted, false otherwise.</returns>
+    public bool RequestStart(FilterList fl, Dictionary<string, object> bundle) {
+      return Start(fl, bundle, 0);
+    }
+
+    /// <summary>
     /// Start processing the filter list.
     /// </summary>
     /// <remarks>For details on parameters see <see cref="Run"/> overloads.</remarks>
     /// <param name="fl">The filter list to run</param>
-    /// <param name="wait">The waiting mode for the calling thread.</param>
-    public void Run(FilterList fl, int wait) {
-      Run(fl, new Dictionary<string, object>(), wait);
+    /// <param name="wait">The waiting mode for the calling thread</param>
+    /// <returns>True if start command was processed successfully, false otherwise</returns>
+    public bool Start(FilterList fl, int wait) {
+      return Start(fl, new Dictionary<string, object>(), wait);
     }
 
     /// <summary>
@@ -157,7 +168,8 @@ namespace QCV.Base {
     /// <param name="fl">The filter list to process.</param>
     /// <param name="b">The set of parameters to pass to the filter list.</param>
     /// <param name="wait">The waiting mode for the calling thread.</param>
-    public void Run(FilterList fl, Dictionary<string, object> b, int wait)
+    /// <returns>True if start command was processing successfully, false otherwise</returns>
+    public bool Start(FilterList fl, Dictionary<string, object> b, int wait)
     {
       if (!_bw.IsBusy) {
         _stopped.Reset();
@@ -169,7 +181,7 @@ namespace QCV.Base {
 
         b["filterlist"] = fl;
         b["runtime"] = this;
-        
+
         _bw.RunWorkerAsync(b);
         if (wait == -1) {
           _stopped.WaitOne();
@@ -178,7 +190,23 @@ namespace QCV.Base {
             this.Stop(true);
           }
         }
+
+        return true;
+      } else {
+        return false;
       }
+    }
+
+    /// <summary>
+    /// Request a runtime stop.
+    /// </summary>
+    /// <remarks>RequestStop posts a request to the runtime to stop.
+    /// This request, if accepted, should be carried out as soon as possible.
+    /// RequestStop generally does not block until the runtime has stopped.
+    /// Use the <see cref="RuntimeStoppedEvent"/> to get notified.</remarks>
+    /// <returns>True if request is accepted, false otherwise.</returns>
+    public bool RequestStop() {
+      return Stop(false);
     }
 
     /// <summary>
@@ -191,10 +219,17 @@ namespace QCV.Base {
     /// to test the state of the runtime.</remarks>
     /// <param name="wait">When true blocks the calling thread until the 
     /// operation has completed, otherwise returns immediately.</param>
-    public void Stop(bool wait) {
-      _bw.CancelAsync();
-      if (wait) {
-        _stopped.WaitOne();
+    /// <returns>True if stop command was processed successfully, false otherwise.</returns>
+    public bool Stop(bool wait) {
+      if (_bw.IsBusy) {
+        _bw.CancelAsync();
+        if (wait) {
+          _stopped.WaitOne();
+        }
+
+        return true;
+      } else {
+        return false;
       }
     }
 
@@ -249,22 +284,16 @@ namespace QCV.Base {
         return;
       }
 
-      bool stop = bw.CancellationPending;
-      info["cancel"] = false;
       try {
-        while (!stop) {
+        while (!bw.CancellationPending) {
           _fts.UpdateAndWait();
 
           foreach (IFilter f in fl) {
             f.Execute(info);
-            if ((bool)info["cancel"]) {
-              _logger.Info(String.Format("Filter {0} requests stop", f.GetType().FullName));
-              stop = true;
+            if (bw.CancellationPending) {
               break;
             }
           }
-
-          stop |= bw.CancellationPending;
         }
       } catch (TargetInvocationException ex) {
         _logger.Error(String.Format("Runtime catched error {0} {1}", ex.InnerException.Message, ex.InnerException.StackTrace));

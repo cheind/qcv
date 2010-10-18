@@ -23,6 +23,8 @@ using System.Runtime.Serialization;
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
 
+using QCV.Base.Extensions;
+
 namespace QCV.Toolbox {
   
   /// <summary>
@@ -121,7 +123,9 @@ namespace QCV.Toolbox {
     public override void Execute(Dictionary<string, object> b) {
       Image<Bgr, byte> i = this.Frame();
       b[this.Name] = i;
-      b["cancel"] = (i == null);
+      if (i == null) {
+        b.GetRuntime().RequestStop();
+      }
     }
   }
 }
