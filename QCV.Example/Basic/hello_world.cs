@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 using QCV.Base;
 using QCV.Base.Addins;
+using QCV.Base.Extensions;
 
 namespace Example.Basic {
 
@@ -21,7 +22,7 @@ namespace Example.Basic {
     // Execute filter
     public void Execute(Dictionary<string, object> bundle) {
       System.Console.WriteLine("Hello World!");
-      bundle["cancel"] = true;
+      bundle.GetRuntime().RequestStop();
     }
     
   }

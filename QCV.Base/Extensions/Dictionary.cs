@@ -43,8 +43,8 @@ namespace QCV.Base.Extensions {
     /// </summary>
     /// <param name="b">Dictionary to query</param>
     /// <returns>The runtime</returns>
-    public static Runtime GetRuntime(this Dictionary<string, object> b) {
-      return b.Get<Runtime>("runtime");
+    public static IRuntime GetRuntime(this Dictionary<string, object> b) {
+      return b.Get<IRuntime>("runtime");
     }
 
     /// <summary>

@@ -30,7 +30,7 @@ namespace QCV.ConsoleExample {
       };
 
       runtime.CycleTime.FPS = 30.0;
-      runtime.Run(f, env, 5);
+      runtime.Start(f, env, 5);
     }
   }
 }

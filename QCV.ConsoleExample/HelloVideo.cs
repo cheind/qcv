@@ -28,7 +28,7 @@ namespace QCV.ConsoleExample {
         {"interactor", new QCV.Base.ConsoleDataInteractor(runtime)}
       };
 
-      runtime.Run(f, env, 5);
+      runtime.Start(f, env, 5);
       runtime.Shutdown();
     }
   }

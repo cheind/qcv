@@ -22,13 +22,13 @@ namespace QCV.ConsoleExample {
           (b) => {
             ILog l = b.GetDefaultLogger();
             l.Debug("A debugging greeting message!");
-            b["cancel"] = true;
+            b.GetRuntime().RequestStop();
           })
       );
 
       QCV.Base.Runtime runtime = new QCV.Base.Runtime();
       runtime.CycleTime.FPS = 30.0;
-      runtime.Run(f, 10);
+      runtime.Start(f, 10);
     }
   }
 }

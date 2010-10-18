@@ -15,7 +15,7 @@ namespace QCV.ConsoleExample {
   class HelloEventFilter : QCV.Base.IFilter {
 
     public void OnCancel(Dictionary<string, object> b) {
-      b["cancel"] = true;
+      b.GetRuntime().RequestStop();
     }
 
     public void Execute(Dictionary<string, object> b) {
@@ -45,7 +45,7 @@ namespace QCV.ConsoleExample {
       };
 
       runtime.CycleTime.FPS = 30.0;
-      runtime.Run(fl, env, 0);
+      runtime.Start(fl, env, 0);
 
       Console.WriteLine("Press any key to trigger event");
       Console.ReadKey();

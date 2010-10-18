@@ -9,6 +9,7 @@ using Emgu.CV;
 using Emgu.CV.Structure;
 using System.ComponentModel;
 
+using QCV.Base.Extensions;
 
 namespace QCV.Toolbox {
 
@@ -99,7 +100,9 @@ namespace QCV.Toolbox {
     public override void Execute(Dictionary<string, object> b) {
       Image<Bgr, byte> i = this.Frame();
       b[this.Name] = i;
-      b["cancel"] = (i == null);
+      if (i == null) {
+        b.GetRuntime().RequestStop();
+      }
     }
 
 

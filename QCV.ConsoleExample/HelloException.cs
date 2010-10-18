@@ -24,7 +24,7 @@ namespace QCV.ConsoleExample {
       );
 
       QCV.Base.Runtime runtime = new QCV.Base.Runtime();
-      runtime.Run(f, 10);
+      runtime.Start(f, 10);
 
       Console.WriteLine(String.Format("Error was {0}",runtime.Error.Message));
     }
