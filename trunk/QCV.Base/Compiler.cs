@@ -19,24 +19,66 @@ using Microsoft.VisualC;
 
 namespace QCV.Base {
 
+  /// <summary>
+  /// In memory compiler for .NET compliant languages.
+  /// </summary>
   [Serializable]
   public class Compiler {
+    /// <summary>
+    /// Logger for logging purposes.
+    /// </summary>
     private static readonly ILog _logger = LogManager.GetLogger(typeof(Compiler));
+
+    /// <summary>
+    /// List of compiled assemblies.
+    /// </summary>
     private List<CompilerResults> _results = new List<CompilerResults>();
+
+    /// <summary>
+    /// Provides compilation for csharp input.
+    /// </summary>
     private CSharpCodeProvider _csharp;
+
+    /// <summary>
+    /// Provides compilation for vb input.
+    /// </summary>
     private VBCodeProvider _vb;
+
+    /// <summary>
+    /// Provides compilation for cpp input.
+    /// </summary>
     private CppCodeProvider _cpp;
+
+    /// <summary>
+    /// Parameters passed to the compiler.
+    /// </summary>
     private CompilerParameters _cp;
+
+    /// <summary>
+    /// Dictionary of global compiler settings.
+    /// </summary>
     private Dictionary<string, string> _pp;
 
+    /// <summary>
+    /// Initializes a new instance of the Compiler class.
+    /// </summary>
     public Compiler() 
       : this(new string[] {}, false) 
     {}
 
+    /// <summary>
+    /// Initializes a new instance of the Compiler class.
+    /// </summary>
+    /// <param name="debug">True if compilation should support debugging, false otherwise</param>
     public Compiler(bool debug)
       : this(new string[] {}, debug) 
     {}
 
+    /// <summary>
+    /// Initializes a new instance of the Compiler class.
+    /// </summary>
+    /// <param name="references">A list of named assembly references to be used in compilation</param>
+    /// <param name="debug">True if compilation should support debugging, false otherwise</param>
     public Compiler(IEnumerable<string> references, bool debug) {
       _cp = new CompilerParameters(references.ToArray());
       _cp.GenerateExecutable = false;
@@ -53,18 +95,34 @@ namespace QCV.Base {
       _cpp = new CppCodeProvider();
     }
 
+    /// <summary>
+    /// Gets the list of compiler results.
+    /// </summary>
     public IList<CompilerResults> CompilerResults {
       get { return _results; }
     }
 
+    /// <summary>
+    /// Gets the compiled assemblies.
+    /// </summary>
     public IEnumerable<Assembly> CompiledAssemblies {
       get { return _results.Select((cr) => { return cr.CompiledAssembly; }); }
     }
 
+    /// <summary>
+    /// Compile the given source file.
+    /// </summary>
+    /// <param name="source_path">Path to file</param>
+    /// <returns>True if compilation succeeded, false otherwise</returns>
     public bool CompileFromFile(string source_path) {
       return CompileFromFile(new string[] { source_path });
     }
 
+    /// <summary>
+    /// Compile the given source files.
+    /// </summary>
+    /// <param name="source_paths">A list of source files</param>
+    /// <returns>True if compilation succeeded, false otherwise</returns>
     public bool CompileFromFile(IEnumerable<string> source_paths) {
 
       // Split sources into various languages
@@ -114,6 +172,10 @@ namespace QCV.Base {
       }
     }
 
+    /// <summary>
+    /// Format the results of compilation.
+    /// </summary>
+    /// <returns>Formatted results</returns>
     public string FormatCompilerResults() {
       StringBuilder sb = new StringBuilder();
 
@@ -131,6 +193,11 @@ namespace QCV.Base {
       return sb.ToString();
     }
 
+    /// <summary>
+    /// Format compilation errors.
+    /// </summary>
+    /// <param name="cr">Compiler results</param>
+    /// <returns>Formated compilation errors</returns>
     public string FormatErrors(CompilerResults cr) {
       StringBuilder sb = new StringBuilder();
 

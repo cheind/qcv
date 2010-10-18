@@ -79,7 +79,6 @@ namespace QCV.Base.Addins {
     /// Discover addins from the directory path
     /// </summary>
     /// <param name="directory_path">Directory path</param>
-    /// <param name="recursive"></param>
     public void DiscoverInDirectory(string directory_path) {
       if (Directory.Exists(directory_path))
       {
@@ -112,7 +111,7 @@ namespace QCV.Base.Addins {
     /// <summary>
     /// Find addins that are assignable to the provided type.
     /// </summary>
-    /// <param name="type_of">Type</param>
+    /// <param name="type_of">Addin type</param>
     /// <returns>Enumeration of addin infos</returns>
     public IEnumerable<AddinInfo> FindAddins(Type type_of) {
       return this.Select(ai => ai).Where(ai => ai.TypeOf(type_of));
@@ -121,7 +120,8 @@ namespace QCV.Base.Addins {
     /// <summary>
     /// Find addins that are assignable to the provided type.
     /// </summary>
-    /// <param name="type_of">Type</param>
+    /// <param name="type_of">Addin type</param>
+    /// <param name="predicate">Search predicate</param>
     /// <returns>Enumeration of addin infos</returns>
     public IEnumerable<AddinInfo> FindAddins(Type type_of, Func<AddinInfo, bool> predicate) {
       return this.Where(ai => ai.TypeOf(type_of) && predicate(ai));
@@ -130,21 +130,28 @@ namespace QCV.Base.Addins {
     /// <summary>
     /// Create default constructed instance of addin
     /// </summary>
-    /// <param name="ai"></param>
-    /// <returns></returns>
+    /// <param name="ai">Info of addin</param>
+    /// <returns>Initialized addin instance or null</returns>
     public object CreateInstance(AddinInfo ai) {
       return CreateInstance(ai, null);
     }
 
     /// <summary>
-    /// Create default constructed instance of addin
+    /// Create instance of addin.
     /// </summary>
-    /// <param name="ai"></param>
-    /// <returns></returns>
+    /// <param name="ai">Info of addin</param>
+    /// <param name="args">Arguments passed to the addins constructor</param>
+    /// <returns>Initialized addin instance or null</returns>
     public object CreateInstance(AddinInfo ai, object[] args) {
       return Activator.CreateInstance(ai.Type, args);
     }
 
+    /// <summary>
+    /// Create instance of default constructible addin.
+    /// </summary>
+    /// <typeparam name="T">Type of addin</typeparam>
+    /// <param name="full_name">Fullname of addin</param>
+    /// <returns>Created instance on success, null otherwise</returns>
     public T CreateInstance<T>(string full_name) {
       AddinInfo ai = FindAddins(
         typeof(T), 
@@ -157,6 +164,13 @@ namespace QCV.Base.Addins {
       }
     }
 
+    /// <summary>
+    /// Create instance of addin.
+    /// </summary>
+    /// <typeparam name="T">Type of addin</typeparam>
+    /// <param name="full_name">Fullname of addin</param>
+    /// <param name="args">Arguments to be passed to the addins constructor</param>
+    /// <returns>Created instance on success, null otherwise</returns>
     public T CreateInstance<T>(string full_name, object[] args) {
       AddinInfo ai = FindAddins(
         typeof(T),
@@ -172,7 +186,7 @@ namespace QCV.Base.Addins {
     /// <summary>
     /// Test if type is flagged as addin
     /// </summary>
-    /// <param name="t"></param>
+    /// <param name="t">Type to test</param>
     /// <returns>True if type is an addin, false otherwise.</returns>
     private bool IsAddin(Type t) {
       return Attribute.IsDefined(t, typeof(AddinAttribute));
