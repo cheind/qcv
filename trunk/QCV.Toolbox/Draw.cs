@@ -1,14 +1,29 @@
-﻿using System;
+﻿// ----------------------------------------------------------
+// <project>QCV</project>
+// <author>Christoph Heindl</author>
+// <copyright>Copyright (c) Christoph Heindl 2010</copyright>
+// <license>New BSD</license>
+// ----------------------------------------------------------
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Drawing;
 using Emgu.CV;
 using Emgu.CV.Structure;
-using System.Drawing;
 
 namespace QCV.Toolbox {
 
+  /// <summary>
+  /// Easy drawing functionality
+  /// </summary>
   public static class Draw {
+
+    /// <summary>
+    /// Draw a list of ordered points using circles and numbering.
+    /// </summary>
+    /// <param name="image">Image to draw to</param>
+    /// <param name="points">Points to draw</param>
+    /// <param name="color">Color to use</param>
     public static void OrderedPointList(
                        Image<Bgr, byte> image, 
                        IEnumerable<PointF> points, 
@@ -32,7 +47,7 @@ namespace QCV.Toolbox {
     /// <param name="ecp">Extrinsic calibration</param>
     /// <param name="icp">Intrinsic calibration</param>
     public static void DrawExtrinsicFrame(
-                       Emgu.CV.Image<Bgr, Byte> img,
+                       Emgu.CV.Image<Bgr, byte> img,
                        Emgu.CV.ExtrinsicCameraParameters ecp,
                        Emgu.CV.IntrinsicCameraParameters icp) 
     {
@@ -43,8 +58,9 @@ namespace QCV.Toolbox {
           new MCvPoint3D32f(extension, 0, 0),
           new MCvPoint3D32f(0, extension, 0),
           new MCvPoint3D32f(0, 0, extension),
-        },
-        ecp, icp);
+        }, 
+        ecp, 
+        icp);
 
       img.Draw(new LineSegment2DF(coords[0], coords[1]), new Bgr(Color.Red), 2);
       img.Draw(new LineSegment2DF(coords[0], coords[2]), new Bgr(Color.Green), 2);
