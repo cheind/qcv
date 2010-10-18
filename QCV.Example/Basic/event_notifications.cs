@@ -1,4 +1,4 @@
-// qcv.exe -s event_notifications.cs Tutorial.EventNotifications --run
+// qcv.exe -s event_notifications.cs Example.Basic.EventNotifications --run
 
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using QCV.Base;
 using QCV.Base.Addins;
 using QCV.Base.Extensions;
 
-namespace Tutorial {
+namespace Example.Basic {
 
   [Addin]
   public class EventNotifications : IFilter, IFilterListProvider {

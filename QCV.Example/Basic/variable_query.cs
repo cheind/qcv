@@ -1,4 +1,4 @@
-// qcv.exe -s variable_query.cs Tutorial.VariableQuery --run
+// qcv.exe -s variable_query.cs Example.Basic.VariableQuery --run
 
 using System;
 using System.ComponentModel;
@@ -9,7 +9,7 @@ using QCV.Base;
 using QCV.Base.Addins;
 using QCV.Base.Extensions;
 
-namespace Tutorial {
+namespace Example.Basic {
 
   [Addin]
   public class VariableQuery : IFilter, IFilterListProvider {

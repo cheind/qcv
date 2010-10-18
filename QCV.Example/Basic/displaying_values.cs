@@ -1,4 +1,4 @@
-// qcv.exe -s displaying_values.cs Tutorial.DisplayingValues --run
+// qcv.exe -s displaying_values.cs Example.Basic.DisplayingValues --run
 
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using QCV.Base;
 using QCV.Base.Addins;
 using QCV.Base.Extensions;
 
-namespace Tutorial {
+namespace Example.Basic {
 
   [Addin]
   public class DisplayingValues : IFilter, IFilterListProvider {

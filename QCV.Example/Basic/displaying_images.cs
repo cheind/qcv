@@ -1,4 +1,4 @@
-// qcv.exe -s displaying_images.cs Tutorial.DisplayingImages --run
+// qcv.exe -s displaying_images.cs Example.Basic.DisplayingImages --run
 
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using QCV.Base.Extensions; // ease access of bundle
 using Emgu.CV;
 using Emgu.CV.Structure;
 
-namespace Tutorial {
+namespace Example.Basic {
 
   [Addin]
   public class DisplayingImages : IFilter, IFilterListProvider {
