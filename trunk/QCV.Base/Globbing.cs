@@ -20,7 +20,8 @@ namespace QCV.Base {
     /// Find all files matching the glob pattern.
     /// </summary>
     /// <remarks>The implementation is currently limited to the most simple globbing expression
-    /// of the form 'x/y/*.cs'.</remarks>
+    /// of the form 'x/y/*.cs'. An improved implementation can be provided once QCV is moved
+    /// to .NET 4.0 using the DirectoryInfo.GetFileSystemInfos method and overloads.</remarks>
     /// <param name="glob">The globbing pattern</param>
     /// <returns>File paths matching the globbing expression</returns>
     public static IEnumerable<string> Glob(string glob) {
