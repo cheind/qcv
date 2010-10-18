@@ -81,7 +81,8 @@ namespace QCV.Base.Addins {
     /// <summary>
     /// Fetch the first attribute of the given type
     /// </summary>
-    /// <returns>The attribute or null if not found.</returns>
+    /// <typeparam name="T">Attribute type</typeparam>
+    /// <returns>The attribute or null if not found</returns>
     public T Attribute<T>() where T : System.Attribute {
       System.Attribute a = System.Attribute.GetCustomAttribute(this.Type, typeof(T));
       if (a != null) {
@@ -92,10 +93,10 @@ namespace QCV.Base.Addins {
     }
 
     /// <summary>
-    /// Test if addin is of given type
+    /// Test if type is assignable from stored type.
     /// </summary>
-    /// <param name="t"></param>
-    /// <returns></returns>
+    /// <param name="t">Type to test</param>
+    /// <returns>True if stored type implements or inherits given type, false otherwise</returns>
     public bool TypeOf(Type t) {
       return t.IsAssignableFrom(_type);
     }
