@@ -182,3 +182,7 @@ namespace Example.Basic {
   }
 }
 }}}
+
+By default <tt>qcv.exe</tt> scans the working directory for assemblies containing addins and all loaded assemblies in the current application domain.
+
+|| *Tip* If your target assemblies reside in other directories, you can pass those directories as command line arguments to <tt>qcv.exe</tt> via the <tt>-a</tt> parameter. ||
