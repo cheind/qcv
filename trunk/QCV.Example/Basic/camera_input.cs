@@ -1,4 +1,4 @@
-// qcv.exe -s camera_input.cs Tutorial.CameraInput --run
+// qcv.exe -s camera_input.cs Example.Basic.CameraInput --run
 
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using QCV.Base;
 using QCV.Base.Addins;
 
-namespace Tutorial {
+namespace Example.Basic {
 
   [Addin]
   public class CameraInput : IFilterListProvider {

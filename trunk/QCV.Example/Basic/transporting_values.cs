@@ -1,4 +1,4 @@
-﻿// qcv.exe -s transporting_values.cs Tutorial.TransportingValues --run
+﻿// qcv.exe -s transporting_values.cs Example.Basic.TransportingValues --run
 
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using QCV.Base;
 using QCV.Base.Addins;
 using QCV.Base.Extensions;
 
-namespace Tutorial {
+namespace Example.Basic {
 
   class AFilter : IFilter {
     

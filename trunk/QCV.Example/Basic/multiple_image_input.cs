@@ -1,11 +1,11 @@
-// qcv.exe -s multiple_image_input.cs Tutorial.MultipleImageInput --run
+// qcv.exe -s multiple_image_input.cs Example.Basic.MultipleImageInput --run
 using System;
 using System.Collections.Generic;
 
 using QCV.Base;
 using QCV.Base.Addins;
 
-namespace Tutorial {
+namespace Example.Basic {
 
   [Addin]
   public class MultipleImageInput : IFilterListProvider {

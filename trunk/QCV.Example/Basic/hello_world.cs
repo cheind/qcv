@@ -1,4 +1,4 @@
-// qcv.exe -s hello_world.cs Tutorial.HelloWorld --run
+// qcv.exe -s hello_world.cs Example.Basic.HelloWorld --run
 
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using QCV.Base;
 using QCV.Base.Addins;
 
-namespace Tutorial {
+namespace Example.Basic {
 
   [Addin]
   public class HelloWorld : IFilter, IFilterListProvider {
