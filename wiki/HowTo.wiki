@@ -126,13 +126,13 @@ namespace Example.Basic {
     }
 
     public void Execute(Dictionary<string, object> bundle) {
-      // The bundle contains a default logger for filters.
-      bundle.GetDefaultLogger().Info("Hello World!");
-      // Optionally you might want to use your own custom logger.
-      // Check the _logger definition at the beginning of the class.
-      _logger.Info("Another Greeting!");
+      _logger.Info("Hello World!");
+
+      bundle.GetRuntime().RequestStop();
     }
 
   }
 }
 }}}
+
+The logging output is printed to the Console Tab in <tt>qcv.exe</tt>. What is being printed to the console is currently configured globally in the <tt>qcv.log4net</tt> file that resides in the applications binary folder.
