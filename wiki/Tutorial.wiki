@@ -22,7 +22,6 @@ using System.Drawing;
 
 // QCV namespaces
 using QCV.Base;
-using QCV.Base.Addins;
 using QCV.Base.Extensions;
 
 // Emgu namespaces
@@ -81,7 +80,6 @@ using System.Collections.Generic;
 using System.Drawing;
 
 using QCV.Base;
-using QCV.Base.Addins;
 using QCV.Base.Extensions;
 
 using Emgu.CV;
@@ -131,7 +129,6 @@ using System.Collections.Generic;
 using System.Drawing;
 
 using QCV.Base;
-using QCV.Base.Addins;
 using QCV.Base.Extensions;
 
 using Emgu.CV;
@@ -184,7 +181,6 @@ using System.Collections.Generic;
 using System.Drawing;
 
 using QCV.Base;
-using QCV.Base.Addins;
 using QCV.Base.Extensions;
 
 using Emgu.CV;
@@ -229,7 +225,6 @@ using System.Collections.Generic;
 using System.Drawing;
 
 using QCV.Base;
-using QCV.Base.Addins;
 using QCV.Base.Extensions;
 
 using Emgu.CV;
@@ -295,7 +290,6 @@ using System.Collections.Generic;
 using System.Drawing;
 
 using QCV.Base;
-using QCV.Base.Addins;
 using QCV.Base.Extensions;
 
 using Emgu.CV;
@@ -361,7 +355,6 @@ using System.Collections.Generic;
 using System.Drawing;
 
 using QCV.Base;
-using QCV.Base.Addins;
 using QCV.Base.Extensions;
 
 using Emgu.CV;
@@ -431,7 +424,6 @@ using System.Collections.Generic;
 using System.Drawing;
 
 using QCV.Base;
-using QCV.Base.Addins;
 using QCV.Base.Extensions;
 
 using Emgu.CV;
