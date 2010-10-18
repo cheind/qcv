@@ -58,7 +58,7 @@ namespace QCV {
         _args.source_paths,
         _args.compile_references.Union(new string[] { 
             "mscorlib.dll", "System.dll", "System.Drawing.dll", "System.Design.dll", "System.Xml.dll",
-            "QCV.Base.dll", "QCV.Toolbox.dll", "Emgu.CV.dll", "Emgu.Util.dll"}).Distinct(),
+            "QCV.Base.dll", "QCV.Toolbox.dll", "Emgu.CV.dll", "Emgu.Util.dll", "log4net.dll"}).Distinct(),
         _args.enable_debugger
       );
       _ic.BuildSucceededEvent += new QCV.Base.InstantCompiler.BuildEventHandler(BuildSucceededEvent);
