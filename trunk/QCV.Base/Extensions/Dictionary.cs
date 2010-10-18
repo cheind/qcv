@@ -64,15 +64,6 @@ namespace QCV.Base.Extensions {
     public static IDataInteractor GetInteractor(this Dictionary<string, object> b) {
       return b.Get<IDataInteractor>("interactor");
     }
-
-    /// <summary>
-    /// Retrieve the default logger for filter objects.
-    /// </summary>
-    /// <param name="b">Dictionary to query</param>
-    /// <returns>The default logger</returns>
-    public static ILog GetDefaultLogger(this Dictionary<string, object> b) {
-      return b.Get<ILog>("filter_logger");
-    }
   }
 
 }

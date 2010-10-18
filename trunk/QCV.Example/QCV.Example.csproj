@@ -49,6 +49,7 @@
   <ItemGroup>
     <Reference Include="Emgu.CV, Version=2.0.1.0, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL" />
     <Reference Include="Emgu.Util, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL" />
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -72,12 +73,14 @@
     <Compile Include="Basic\hello_world.cs" />
     <Compile Include="Basic\multiple_image_input.cs" />
     <Compile Include="Basic\stay_responsive.cs" />
+    <Compile Include="Basic\stop_runtime.cs" />
     <Compile Include="Basic\transporting_values.cs" />
     <Compile Include="Basic\variable_query.cs" />
     <Compile Include="calibrate_camera.cs" />
     <Compile Include="detect_marker.cs" />
     <Compile Include="find_faces.cs" />
     <Compile Include="image_decorator.cs" />
+    <Compile Include="Basic\logging.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
