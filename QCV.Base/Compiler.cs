@@ -15,7 +15,6 @@ using System.Text;
 using log4net;
 using Microsoft.CSharp;
 using Microsoft.VisualBasic;
-using Microsoft.VisualC;
 
 namespace QCV.Base {
 
@@ -43,11 +42,6 @@ namespace QCV.Base {
     /// Provides compilation for vb input.
     /// </summary>
     private VBCodeProvider _vb;
-
-    /// <summary>
-    /// Provides compilation for cpp input.
-    /// </summary>
-    private CppCodeProvider _cpp;
 
     /// <summary>
     /// Parameters passed to the compiler.
@@ -92,7 +86,6 @@ namespace QCV.Base {
 
       _csharp = new CSharpCodeProvider(_pp);
       _vb = new VBCodeProvider(_pp);
-      _cpp = new CppCodeProvider();
     }
 
     /// <summary>
@@ -134,10 +127,6 @@ namespace QCV.Base {
         (s) => { return s.EndsWith(_vb.FileExtension, StringComparison.InvariantCultureIgnoreCase); }
       );
 
-      IEnumerable<string> cpp = source_paths.Where(
-        (s) => { return s.EndsWith(_cpp.FileExtension, StringComparison.InvariantCultureIgnoreCase); }
-      );
-
       try {
         _results = new List<CompilerResults>();
 
@@ -147,10 +136,6 @@ namespace QCV.Base {
 
         if (vb.Count() > 0) {
           _results.Add(_vb.CompileAssemblyFromFile(_cp, vb.ToArray()));
-        }
-
-        if (cpp.Count() > 0) {
-          _results.Add(_cpp.CompileAssemblyFromFile(_cp, cpp.ToArray()));
         }
 
         bool success = _results.All((cr) => { return !cr.Errors.HasErrors; });
