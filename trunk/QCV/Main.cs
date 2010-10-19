@@ -39,12 +39,14 @@ namespace QCV {
 
       _fl_settings.EventCache = _ev_cache;
 
+      string qcv_path = Path.GetDirectoryName(Application.ExecutablePath);
+
       // Redirect console output
       _console_hook.StringAppendedEvent += new HookableTextWriter.StringAppendedEventHandler(ConsoleStringAppendedEvent);
       Console.SetOut(_console_hook);
 
       // Configure logging
-      XmlConfigurator.Configure(new System.IO.FileInfo("QCV.log4net"));
+      XmlConfigurator.Configure(new System.IO.FileInfo(Path.Combine(qcv_path, "QCV.log4net")));
 
       // Parse command line
       CommandLine cl = new CommandLine();
@@ -59,7 +61,11 @@ namespace QCV {
         _args.source_paths,
         _args.compile_references.Union(new string[] { 
             "mscorlib.dll", "System.dll", "System.Drawing.dll", "System.Design.dll", "System.Xml.dll",
-            "QCV.Base.dll", "QCV.Toolbox.dll", "Emgu.CV.dll", "Emgu.Util.dll", "log4net.dll"}).Distinct(),
+            Path.Combine(qcv_path, "QCV.Base.dll"), 
+            Path.Combine(qcv_path, "QCV.Toolbox.dll"), 
+            Path.Combine(qcv_path, "Emgu.CV.dll"), 
+            Path.Combine(qcv_path, "Emgu.Util.dll"), 
+            Path.Combine(qcv_path, "log4net.dll")}).Distinct(),
         _args.enable_debugger
       );
       _ic.BuildSucceededEvent += new QCV.Base.InstantCompiler.BuildEventHandler(BuildSucceededEvent);
@@ -140,6 +146,7 @@ namespace QCV {
 
         _ah = new QCV.Base.AddinHost();
         _ah.DiscoverInDomain();
+        _ah.DiscoverInDirectory(Path.GetDirectoryName(Application.ExecutablePath));
         _ah.DiscoverInDirectory(Environment.CurrentDirectory);
         _ah.MergeByFullName(tmp);
 
