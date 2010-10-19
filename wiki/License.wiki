@@ -1,7 +1,5 @@
 #summary QCV licensing.
 
-=License=
-
 QCV is released under the new BSD license terms.
 
 {{{
