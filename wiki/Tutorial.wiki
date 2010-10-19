@@ -2,7 +2,7 @@
 
 The following tutorial will incrementally build an application clalled <tt>ImageDecorator</tt> in eight steps in QCV. Each step will introduce new concepts supported in QCV.
 
-After completing the 8th step <tt>ImageDecorator</tt> will process images from camera and draw a user defined border around these images. These images will be visualized to provide a user feedback. Optionally, the user has the ability to save images to disk.
+Having completed all eight steps the <tt>ImageDecorator</tt> application will be able to process images from a camera and draw a user defined border around these images. These images will be visualized to provide a user feedback. Optionally, the user has the ability to save images to disk.
 
 <wiki:toc max_depth="3" />
 
