@@ -1,6 +1,6 @@
 #summary QCV licensing.
 
-QCV is released under the new BSD license terms.
+QCV is released under the modified [http://creativecommons.org/licenses/BSD/ BSD] license terms.
 
 {{{
 QCV, Quick Computer Vision
