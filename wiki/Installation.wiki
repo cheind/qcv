@@ -1,6 +1,6 @@
 #summary Getting started with QCV.
 
-QCV can either be installed via a binary setup or compiled from source.
+QCV can be obtained either via a binary setup or compiled from source.
 
 = Installing the Binaries =
 
