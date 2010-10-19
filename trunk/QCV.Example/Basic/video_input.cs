@@ -19,7 +19,8 @@ namespace Example.Basic {
 
       return new FilterList() {
         new QCV.Toolbox.Video(@"..\..\etc\videos\a.avi", "source"),
-        this
+        this,
+        new QCV.Toolbox.ShowFPS()
       };
     }
 
