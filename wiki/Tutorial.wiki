@@ -170,7 +170,7 @@ Showing requires a name to pass along, 'camera input' in our case. Since our fil
 
 =Implementing the Algorithm=
 
-The next step will add code to modify the cameras image to draw fixed border around it, that is the color of the border and its thickness will be modifiable.
+The next step will add code to modify the image to draw a fixed border around it.
 
 {{{
 // qcv.exe -s image_decorator.cs Example.ImageDecorator --run
