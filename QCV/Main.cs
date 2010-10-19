@@ -96,7 +96,7 @@ namespace QCV {
     private Color ColorFromText(string text) {
       if (text.StartsWith("INFO")) {
         return Color.DarkGreen;
-      } else if (text.StartsWith("ERROR")) {
+      } else if (text.StartsWith("ERROR") || text.StartsWith("FATAL")) {
         return Color.DarkRed;
       } else if (text.StartsWith("WARN")) {
         return Color.DarkOrange;
