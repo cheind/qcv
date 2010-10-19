@@ -2,7 +2,8 @@
 
  * [http://code.google.com/p/qcv/ Home]
  * [Introduction]
- * [Motivation]
+  * [HostingEnvironment]
+  * [Motivation]
  * [License]
  * [Installation]
  * [Design]
