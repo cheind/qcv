@@ -90,6 +90,33 @@
               <File Id='ndeskoptionsDLL' Name='ndesk.options.dll' DiskId='1' Source='..\bin\x86\ndesk.options.dll' KeyPath='yes' />
               <File Id='licensendeskoptionsTXT' Name='license.ndesk.options.txt' DiskId='1' Source='..\bin\x86\license.ndesk.options.txt' />
             </Component>
+
+            <Directory Id='EXAMPLEDIR' Name='Examples'>
+              <Directory Id='EXAMPLEDIRBASIC' Name='Basic'>
+                <Component Id='BasicExamples' Guid='0C84336F-4FB0-4273-96C5-8E8ACEE98F61'>
+                  <File Id='camera_input' Name='camera_input.cs' DiskId='1' Source='..\QCV.Example\Basic\camera_input.cs' KeyPath='yes' />
+                  <File Id='displaying_images' Name='displaying_images.cs' DiskId='1' Source='..\QCV.Example\Basic\displaying_images.cs' />
+                  <File Id='displaying_values.cs' Name='displaying_values.cs' DiskId='1' Source='..\QCV.Example\Basic\displaying_values.cs' />
+                  <File Id='event_notifications.cs' Name='event_notifications.cs' DiskId='1' Source='..\QCV.Example\Basic\event_notifications.cs' />
+                  <File Id='logging.cs' Name='logging.cs' DiskId='1' Source='..\QCV.Example\Basic\logging.cs' />
+                  <File Id='multiple_image_input.cs' Name='multiple_image_input.cs' DiskId='1' Source='..\QCV.Example\Basic\multiple_image_input.cs' />
+                  <File Id='stay_responsive.cs' Name='stay_responsive.cs' DiskId='1' Source='..\QCV.Example\Basic\stay_responsive.cs' />
+                  <File Id='stop_runtime.cs' Name='stop_runtime.cs' DiskId='1' Source='..\QCV.Example\Basic\stop_runtime.cs' />
+                  <File Id='transporting_values.cs' Name='transporting_values.cs' DiskId='1' Source='..\QCV.Example\Basic\transporting_values.cs' />
+                  <File Id='using_addins.cs' Name='using_addins.cs' DiskId='1' Source='..\QCV.Example\Basic\using_addins.cs' />
+                  <File Id='variable_query.cs' Name='variable_query.cs' DiskId='1' Source='..\QCV.Example\Basic\variable_query.cs' />
+                  <File Id='video_input.cs' Name='video_input.cs' DiskId='1' Source='..\QCV.Example\Basic\video_input.cs' />
+                </Component>
+              </Directory>
+              <Directory Id='EXAMPLEDIRADV' Name='Advanced'>
+                <Component Id='AdvancedExamples' Guid='926D0F2D-1029-4892-91A7-21F067D67592'>
+                  <File Id='calibrate_camera.cs' Name='calibrate_camera.cs' DiskId='1' Source='..\QCV.Example\calibrate_camera.cs' KeyPath='yes' />
+                  <File Id='detect_marker.cs' Name='detect_marker.cs' DiskId='1' Source='..\QCV.Example\detect_marker.cs' />
+                  <File Id='find_faces.cs' Name='find_faces.cs' DiskId='1' Source='..\QCV.Example\find_faces.cs' />
+                  <File Id='image_decorator.cs' Name='image_decorator.cs' DiskId='1' Source='..\QCV.Example\image_decorator.cs' />
+                </Component>
+              </Directory>
+            </Directory>
             
           </Directory>
       </Directory>
@@ -97,11 +124,16 @@
     
     <Feature Id='Complete' Title='$(var.FullProductName)' Description='The complete $(var.FullProductName) package.'
       Display='expand' Level='1' ConfigurableDirectory='INSTALLDIR'>
-      <Feature Id='MainProgram' Title='$(var.FullProductName)' Description='The core libraries and executable' Level='1'>
+      <Feature Id='MainProgram' Title='$(var.FullProductName)' Description='The core libraries and executable.' Level='1'>
         <ComponentRef Id='MainExecutable' />
         <ComponentRef Id='CoreLibraries' />
         <ComponentRef Id='NDeskOptions' />
         <ComponentRef Id='Log4Net' />
+      </Feature>
+
+      <Feature Id='Examples' Title='QCV Examples' Description='QCV basic and advanced examples.' Level='1'>
+        <ComponentRef Id='BasicExamples' />
+        <ComponentRef Id='AdvancedExamples' />
       </Feature>
       
       <Feature Id='Emgu' Title='$(var.EmguName)' Description='The Emgu libraries.' Level='1'>
