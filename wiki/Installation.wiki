@@ -22,4 +22,4 @@ To compile QCV you need to
 
 In case you intend to contribute to QCV you may want to optionally install [http://stylecop.codeplex.com/ StyleCop] in order to verify QCVs documentation and coding guidelines.
 
-QCV may upgrade to Visual Studio 2010 and .Net Framework 4.0 in the near future. This move is motivated by the fact that Visual Studio 2008 Express editions are not available for download anymore.
+QCV will upgrade to Visual Studio 2010 and .Net Framework 4.0 in the near future. This move is motivated by the fact that Visual Studio 2008 Express editions are not available for download anymore.
