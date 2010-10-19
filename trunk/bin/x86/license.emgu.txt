@@ -1,0 +1,29 @@
+Licensing:
+
+From Emgu CV: OpenCV in .NET (C#, VB, C++ and more)
+
+A Quick Overview
+
+Emgu CV use a Dual License business model for its software development library and offers licenses for two distinct purposes - open source and commercial development
+
+If you wish to use the open source license of an EMGU product, you must contribute all your source code to the open source community and you must give them the right to share it with everyone too.
+If you derive a commercial advantage by having a closed source solution, you must purchase an appropriate commercial licenses from EMGU. By purchasing commercial license, you are no longer obligated to publish your source code.
+Open Source License
+
+EMGU is an avid supporter of open source software. This is the appropriate option if you are creating an open source application with a license compatible with the GNU GPL license v3.
+
+A quick guide to GPL v3 can be found here
+
+Commercial License
+
+If you wish to derive a commercial advantage by not releasing your application under an open source license, you must purchase a commercial license from EMGU. By purchasing commercial license, you are no longer obligated to publish your source code.
+
+Commercial licenses:
+
+Are perpetual and include upgrades to all minor revisions. For example: a 2.0 license includes all 2.x releases including 2.0, 2.0.2, 2.1, 2.2.1, etc.
+Are royalty-free
+Remove any obligations to release any source code.
+Are backward compatible. For example: a 2.0 license includes all 1.x release as well. Commercial licenses are not forward compatible, meaning that if you have a 1.0 license and you need to deploy 2.x release in your commercial product, a 2.0 license upgrade purchase is required.
+Terms of Commercial License
+
+Retrieved from "http://www.emgu.com/wiki/index.php/Licensing:"

@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='windows-1252'?>
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+
+  <?define var.ProductVersion =1.0.0?>
+  <?define var.FullProductName =QCV 1.0.0?>
+  <?define var.EmguName =Emgu 2.0.1?>
+  <?define var.OpenCVName =OpenCV 2.0?>
+  <?define var.Manufacturer =Christoph Heindl?>
+
+  <Product 
+    Id='B9246D0F-568E-47b8-852B-118758E17B44'
+    UpgradeCode='8DE86B41-D8D8-4fb3-BD1C-C03F76837247'
+    Name='$(var.FullProductName)' 
+    Language='1033' 
+    Codepage='1252' 
+    Version='$(var.ProductVersion)' 
+    Manufacturer='$(var.Manufacturer)'>
+
+    <Package 
+      Id='*' 
+      Keywords='Installer' 
+      Description="$(var.FullProductName) Installer"
+      Comments='Installs $(var.FullProductName)' 
+      Manufacturer='$(var.Manufacturer)'
+      InstallerVersion='100' 
+      Languages='1033' 
+      Compressed='yes' 
+      SummaryCodepage='1252' />
+
+    <Media 
+      Id='1' 
+      Cabinet='QCV.cab' 
+      EmbedCab='yes' 
+      DiskPrompt="CD-ROM #1" />
+      
+    <Property 
+      Id='DiskPrompt' 
+      Value='Insert disc one' />
+
+    <Directory Id='TARGETDIR' Name='SourceDir'>
+      <Directory Id='ProgramFilesFolder' Name='PFiles'>
+          <Directory Id='INSTALLDIR' Name='QCV'>
+
+            <Component Id='MainExecutable' Guid='22AD7F27-3D23-4af8-9C52-B6B70586E923'>
+              <File Id='qcvEXE' Name='qcv.exe' DiskId='1' Source='..\bin\x86\qcv.exe' KeyPath='yes' />
+              <File Id='qcvLOG4NET' Name='qcv.log4net' DiskId='1' Source='..\bin\x86\qcv.log4net' />
+              <File Id='License' Name='qcv.license.txt' DiskId='1' Source='..\License' />
+              <RemoveFile Id='qcvExeLog' On='uninstall' Name='qcv.log.txt' />
+            </Component>
+            
+            <Component Id='UpdateEnvironment' Guid='F7EE84A5-B121-4da7-B48A-A30B1A2AD064'>
+              <CreateFolder/>
+              <Environment Id='UpdatePath' Name='PATH' Value='[INSTALLDIR]' Permanent='no' Part='last' Action='set' System='yes' />
+            </Component>
+
+            <Component Id='CoreLibraries' Guid='F8F2F1C2-EDCE-43a8-9A36-7E822D698B3A'>
+              <File Id='QCVBaseDLL' Name='QCV.Base.dll' DiskId='1' Source='..\bin\x86\QCV.Base.dll' KeyPath='yes' />
+              <File Id='QCVToolboxDLL' Name='QCV.Toolbox.dll' DiskId='1' Source='..\bin\x86\QCV.Toolbox.dll' />
+            </Component>
+            
+             <Component Id='Emgu' Guid='C55A69C8-AAE9-4ee9-9B53-518C51BFDD98'>
+              <File Id='EmguCvDLL' Name='Emgu.CV.dll' DiskId='1' Source='..\bin\x86\Emgu.CV.dll' KeyPath='yes' />
+              <File Id='EmguCvUiDLL' Name='Emgu.CV.UI.dll' DiskId='1' Source='..\bin\x86\Emgu.CV.UI.dll' />
+              <File Id='EmguUtilDLL' Name='Emgu.Util.dll' DiskId='1' Source='..\bin\x86\Emgu.Util.dll' />
+              <File Id='licenseemguTXT' Name='license.emgu.txt' DiskId='1' Source='..\bin\x86\license.emgu.txt' />
+            </Component>
+            
+            <Component Id='OpenCV' Guid='3F2EDC55-F15A-47db-B7AA-C6C669772F1D'>
+              <File Id='cv200DLL' Name='cv200.dll' DiskId='1' Source='..\bin\x86\cv200.dll' KeyPath='yes' />
+              <File Id='cvaux200DLL' Name='cvaux200.dll' DiskId='1' Source='..\bin\x86\cvaux200.dll'/>
+              <File Id='cvexternDLL' Name='cvextern.dll' DiskId='1' Source='..\bin\x86\cvextern.dll' />
+              <File Id='cxcore200DLL' Name='cxcore200.dll' DiskId='1' Source='..\bin\x86\cxcore200.dll' />
+              <File Id='highgui200DLL' Name='highgui200.dll' DiskId='1' Source='..\bin\x86\highgui200.dll' />
+              <File Id='ml200DLL' Name='ml200.dll' DiskId='1' Source='..\bin\x86\ml200.dll' />
+              <File Id='opencv_ffmpeg200DLL' Name='opencv_ffmpeg200.dll' DiskId='1' Source='..\bin\x86\opencv_ffmpeg200.dll' />
+              <File Id='licenseopencvTXT' Name='license.opencv.txt' DiskId='1' Source='..\bin\x86\license.opencv.txt' />
+            </Component>
+            
+            <Component Id='Zlib' Guid='108A3BCD-6F80-40e1-BACA-D20C693BEB79'>
+              <File Id='zlibnetDLL' Name='zlib.net.dll' DiskId='1' Source='..\bin\x86\zlib.net.dll' KeyPath='yes'/>
+              <File Id='licensezlibnetTXT' Name='license.zlib.net.txt' DiskId='1' Source='..\bin\x86\license.zlib.net.txt' />
+            </Component>
+            
+            <Component Id='Log4Net' Guid='BDD6FA8F-B411-467a-A72E-D6A297F984B6'>
+              <File Id='log4netDLL' Name='log4net.dll' DiskId='1' Source='..\bin\x86\log4net.dll' KeyPath='yes' />
+              <File Id='licenselog4netTXT' Name='license.log4net.txt' DiskId='1' Source='..\bin\x86\license.log4net.txt' />
+            </Component>
+            
+            <Component Id='NDeskOptions' Guid='8101AF5E-F01B-4d42-9DEE-C70427EB7CF2'>
+              <File Id='ndeskoptionsDLL' Name='ndesk.options.dll' DiskId='1' Source='..\bin\x86\ndesk.options.dll' KeyPath='yes' />
+              <File Id='licensendeskoptionsTXT' Name='license.ndesk.options.txt' DiskId='1' Source='..\bin\x86\license.ndesk.options.txt' />
+            </Component>
+            
+          </Directory>
+      </Directory>
+    </Directory>
+    
+    <Feature Id='Complete' Title='$(var.FullProductName)' Description='The complete $(var.FullProductName) package.'
+      Display='expand' Level='1' ConfigurableDirectory='INSTALLDIR'>
+      <Feature Id='MainProgram' Title='$(var.FullProductName)' Description='The core libraries and executable' Level='1'>
+        <ComponentRef Id='MainExecutable' />
+        <ComponentRef Id='CoreLibraries' />
+        <ComponentRef Id='NDeskOptions' />
+        <ComponentRef Id='Log4Net' />
+      </Feature>
+      
+      <Feature Id='Emgu' Title='$(var.EmguName)' Description='The Emgu libraries.' Level='1'>
+        <ComponentRef Id='Emgu' />
+      </Feature>
+      
+      <Feature Id='OpenCV' Title='$(var.OpenCVName)' Description='The OpenCV libraries.' Level='1'>
+        <ComponentRef Id='OpenCV' />
+        <ComponentRef Id='Zlib' />
+      </Feature>
+      
+      <Feature Id='AddPath' Title='Update PATH'  Description='If selected the PATH environment variable will be updated to contain QCVs binary directory.' Level='1'>
+        <ComponentRef Id='UpdateEnvironment' />
+      </Feature>
+    </Feature>
+    
+    <UIRef Id="WixUI_Mondo" />
+    <UIRef Id="WixUI_ErrorProgressText" />
+    
+    <WixVariable Id='WixUILicenseRtf' Value='..\License.rtf' />
+    <WixVariable Id="WixUIBannerBmp" Value='..\etc\logos\wix_banner.bmp' />
+    <WixVariable Id="WixUIDialogBmp" Value="..\etc\logos\wix_ui_dialog.bmp" />
+    
+  </Product>
+</Wix>
+
+<!--
+compile with: 
+candle.exe qcv_installer_x86.wxs
+light -ext WixUIExtension qcv_installer_x86.wixobj
+-->
