@@ -26,7 +26,7 @@ namespace QCV.Base {
     /// <summary>
     /// Number of nanosecs per machine tick.
     /// </summary>
-    private long _ns_per_tick;
+    private double _ns_per_tick;
 
     /// <summary>
     /// Target cycle time to achieve (frames-per-second).
@@ -54,7 +54,7 @@ namespace QCV.Base {
     /// <param name="fps">The target cycle time in cycles per second</param>
     public FixedTimeStep(double fps) {
       _sw = new Stopwatch();
-      _ns_per_tick = 1000000000 / Stopwatch.Frequency;
+      _ns_per_tick = 1000000000.0 / Stopwatch.Frequency;
       this.FPS = fps;
       this.PauseMode = EPauseMode.Adaptive;
       _enabled = true;
@@ -140,7 +140,8 @@ namespace QCV.Base {
         long elapsed_ticks = _sw.ElapsedTicks;
 
         long wait_time_ticks = _cycle_time_ticks - elapsed_ticks;
-        long wait_time_ms = (wait_time_ticks * _ns_per_tick) / 1000000;
+        long wait_time_ms = (long)((wait_time_ticks * _ns_per_tick) / 1000000);
+
         if (wait_time_ticks > 0) {
           switch (_pause_mode) {
             case EPauseMode.Sleep:
