@@ -73,6 +73,7 @@ namespace QCV {
       _runtime.RuntimeStoppedEvent += new EventHandler(RuntimeStoppedEvent);
       
       _nrc_fps.Value = (Decimal)_args.target_fps;
+      SetCycleTime(_args.target_fps);
 
       _ic.Compile();
     }
@@ -265,9 +266,7 @@ namespace QCV {
     private void SetCycleTime(double fps) {
       if (fps == 0) {
         _runtime.CycleTime.Enabled = false;
-        _logger.Info("Cycle time control disabled");
       } else {
-        _logger.Info("Cycle time control enabled");
         _runtime.CycleTime.Enabled = true;
         _runtime.CycleTime.FPS = fps;
       }
