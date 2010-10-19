@@ -1,12 +1,13 @@
 #summary Table of content
 
  * [http://code.google.com/p/qcv/ Home]
+ 
  * [Introduction]
-  * [HostingEnvironment]
   * [Motivation]
+  * [Installation]
  * [License]
- * [Installation]
  * Documenation
   * [Design] 
+  * [HostingEnvironment]
   * [Tutorial]
   * [HowTo]
