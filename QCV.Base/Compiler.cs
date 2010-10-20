@@ -81,7 +81,7 @@ namespace QCV.Base {
       _cp.TempFiles.KeepFiles = debug;
 
       _pp = new Dictionary<string, string>() {
-        { "CompilerVersion", "v3.5" } 
+        { "CompilerVersion", String.Format("v{0}.{1}", TargetFramework.Version.Major, TargetFramework.Version.Minor)} 
       };
 
       _csharp = new CSharpCodeProvider(_pp);
@@ -164,17 +164,21 @@ namespace QCV.Base {
     public string FormatCompilerResults() {
       StringBuilder sb = new StringBuilder();
 
-      bool success = _results.All((cr) => { return !cr.Errors.HasErrors; });
-
-      if (success) {
-        sb.Append("Success");
+      bool empty = _results.Count == 0;
+      if (empty) {
+        sb.Append("Nothing to compile");
       } else {
-        sb.AppendLine("Failed");
-        foreach (CompilerResults cr in _results) {
-          sb.Append(FormatErrors(cr));
+        bool success = _results.All((cr) => { return !cr.Errors.HasErrors; });
+
+        if (success) {
+          sb.Append("Success");
+        } else {
+          sb.AppendLine("Failed");
+          foreach (CompilerResults cr in _results) {
+            sb.Append(FormatErrors(cr));
+          }
         }
       }
-
       return sb.ToString();
     }
 
