@@ -44,6 +44,7 @@
             <Component Id='MainExecutable' Guid='22AD7F27-3D23-4af8-9C52-B6B70586E923'>
               <File Id='qcvEXE' Name='qcv.exe' DiskId='1' Source='..\bin\x86\qcv.exe' KeyPath='yes' />
               <File Id='qcvLOG4NET' Name='qcv.log4net' DiskId='1' Source='..\bin\x86\qcv.log4net' />
+              <File Id='qcvEXECONFIG' Name='qcv.exe.config' DiskId='1' Source='..\bin\x86\qcv.exe.config' />
               <File Id='License' Name='qcv.license.txt' DiskId='1' Source='..\License' />
               <RemoveFile Id='qcvExeLog' On='uninstall' Name='qcv.log.txt' />
             </Component>
