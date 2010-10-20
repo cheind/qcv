@@ -50,6 +50,8 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\bin\x86\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFrameworkVersion)' == 'v4.0' ">NETTARGETFRAMEWORK_40</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFrameworkVersion)' == 'v3.5' ">NETTARGETFRAMEWORK_35</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -57,6 +59,8 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>..\bin\x86\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFrameworkVersion)' == 'v4.0' ">NETTARGETFRAMEWORK_40</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFrameworkVersion)' == 'v3.5' ">NETTARGETFRAMEWORK_35</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -104,6 +108,7 @@
     <Compile Include="Reconfiguration.cs" />
     <Compile Include="Resource.cs" />
     <Compile Include="Runtime.cs" />
+    <Compile Include="TargetFramework.cs" />
     <Compile Include="ThreadedWorker.cs" />
     <Compile Include="TypeFullNameComparer.cs" />
   </ItemGroup>

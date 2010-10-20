@@ -23,6 +23,7 @@ using log4net;
 
 using QCV.Extensions;
 using QCV.Base.Extensions;
+using System.Reflection;
 
 namespace QCV {
   public partial class Main : Form {
@@ -54,6 +55,9 @@ namespace QCV {
 
       // Configure logging
       XmlConfigurator.Configure(new System.IO.FileInfo(Path.Combine(qcv_path, "QCV.log4net")));
+
+      // Write informative startup info
+      DisplayStartupMessage();
 
       // Parse command line
       CommandLine cl = new CommandLine();
@@ -89,6 +93,16 @@ namespace QCV {
       SetCycleTime(_args.target_fps);
 
       _ic.Compile();
+    }
+
+    private void DisplayStartupMessage() {
+      Version qcv_version = Assembly.GetExecutingAssembly().GetName().Version;
+      Version net_version = Base.TargetFramework.Version;
+      _logger.Info(
+        String.Format(
+          "QCV v{0}.{1} built for .NET v{2}.{3} is starting", 
+          new object[]{qcv_version.Major, qcv_version.Minor, net_version.Major, net_version.Minor}
+      ));
     }
 
     void ConsoleStringAppendedEvent(object sender, string text) {
