@@ -179,6 +179,7 @@ namespace QCV.Base {
           }
         }
       }
+
       return sb.ToString();
     }
 
