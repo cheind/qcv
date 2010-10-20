@@ -34,7 +34,6 @@ The source code can grabbed from the projects [http://code.google.com/p/qcv/sour
 Once you have your local checkout of the source, build QCV by 
  * opening <tt>qcv.sln</tt>,
  * selecting <tt>x86</tt> platform, and
- * build in either release or debug mode.
+ * build either in release or debug mode.
 
 Optionally you can invoke the build via <tt>msbuild</tt> scripts that can be found in the <tt>etc/msbuild</tt> directory.
-
