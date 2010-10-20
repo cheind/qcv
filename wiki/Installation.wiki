@@ -28,3 +28,13 @@ To compiling QCV from source make sure your system meets the following prerequis
 In case you intend to contribute to QCV you might want to install
  * StyleCop v4.4 ([http://stylecop.codeplex.com/ download link]) to verify compliance with QCVs coding and documentation standards
  * WiX v3.5 ([http://wix.sourceforge.net/releases/3.5.2215.0/ download link]) or higher to build the installers.
+
+The source code can grabbed from the projects [http://code.google.com/p/qcv/source/checkout subversion repository]. The main development happens on the trunk.
+
+Once you have your local checkout of the source, build QCV by 
+ * opening <tt>qcv.sln</tt>,
+ * selecting <tt>x86</tt> platform, and
+ * build in either release or debug mode.
+
+Optionally you can invoke the build via <tt>msbuild</tt> scripts that can be found in the <tt>etc/msbuild</tt> directory.
+
