@@ -36,4 +36,4 @@ Once you have your local checkout of the source, build QCV by
  * selecting <tt>x86</tt> platform, and
  * build either in <tt>Release</tt> or <tt>Debug</tt> mode.
 
-Optionally you can invoke the build via <tt>msbuild</tt> scripts that can be found in the <tt>etc/msbuild</tt> directory.
+Optionally you can invoke the build via <tt>msbuild</tt> scripts that can be found in the <tt>etc/msbuild</tt> directory. Note that these scripts will build the entire solution including the installer projects.
