@@ -13,4 +13,4 @@
  * [QCVForDevelopers Documentation for Developers]
   * [CompilingFromSource Compiling from Source]
   * [Design] 
-  * [DevelopmentNotes]
+  * [DevelopmentNotes Notes for Developers]
