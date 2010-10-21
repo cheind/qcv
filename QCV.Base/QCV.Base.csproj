@@ -123,6 +123,7 @@
     <Compile Include="IRuntime.cs" />
     <Compile Include="MethodInfoScanner.cs" />
     <Compile Include="EventInvocationCache.cs" />
+    <Compile Include="MultipleFileWatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reconfiguration.cs" />
     <Compile Include="Resource.cs" />
