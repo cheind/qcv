@@ -24,8 +24,33 @@ namespace QCV.Base.Extensions {
     /// <param name="b">Dictionary to query</param>
     /// <param name="key">The name of the element</param>
     /// <returns>The requested element</returns>
+    /// <exception cref="ArgumentException">Key is null</exception>
+    /// <exception cref="KeyNotFoundException">Key not contained in dictionary</exception>
+    /// <exception cref="InvalidCastException">Value cannot be casted to destination type</exception>
     public static T Get<T>(this Dictionary<string, object> b, string key) {
       return (T)b[key];
+    }
+
+    /// <summary>
+    /// Try to receive a typed element by name
+    /// </summary>
+    /// <typeparam name="T">Type of value</typeparam>
+    /// <param name="b">Dictionary to query</param>
+    /// <param name="key">The name of the element</param>
+    /// <param name="value">The object receiving the value</param>
+    /// <exception cref="ArgumentException">Key is null</exception>
+    /// <exception cref="InvalidCastException">Value cannot be casted to destination type</exception>
+    /// <returns>True if operation completed successfully, false otherwise</returns>
+    public static bool Get<T>(this Dictionary<string, object> b, string key, out T value) {
+      object fetched = null;
+      bool success = b.TryGetValue(key, out fetched);
+      if (success) {
+        value = (T)fetched;
+      } else {
+        value = default(T);
+      }
+
+      return success;
     }
 
     /// <summary>

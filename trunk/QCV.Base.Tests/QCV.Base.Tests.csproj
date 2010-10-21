@@ -61,8 +61,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddinAttributeTest.cs" />
+    <Compile Include="DictionaryExtensionsTest.cs" />
     <Compile Include="EqualReferencesComparerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypeExtensionsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QCV.Base\QCV.Base.csproj">
