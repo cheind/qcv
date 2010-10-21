@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+# Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QCV.Base", "QCV.Base\QCV.Base.csproj", "{3B845908-9A44-4907-81C2-BCA17C462A19}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QCV", "QCV\QCV.csproj", "{CB11BFF8-626E-4B4D-BEC5-00C313DE553A}"
