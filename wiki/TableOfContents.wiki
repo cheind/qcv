@@ -11,6 +11,6 @@
   * [Tutorial]
   * [HowTo]
  * [QCVForDevelopers Documentation for Developers]
-  * [CompilingFromSource]
+  * [CompilingFromSource Compiling from Source]
   * [Design] 
   * [DevelopmentNotes]
