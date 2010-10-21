@@ -7,7 +7,6 @@
  * [QCVForUsers Documentation for Users]
   * [Installation]
   * [HostingEnvironment]
-  * [Design]
   * [Tutorial]
   * [HowTo]
  * [QCVForDevelopers Documentation for Developers]
