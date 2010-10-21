@@ -2,6 +2,8 @@
 
 QCV can be obtained either via a binary setup or compiled from source.
 
+<wiki:toc max_depth="3" />
+
 = Installers =
 
 Installers are provided targeting either .NET v3.5 or .NET v4.0. Head over to the [http://code.google.com/p/qcv/downloads/list download section] to grab your favorite version.
