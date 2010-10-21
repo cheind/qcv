@@ -1,5 +1,0 @@
-#summary Random notes improving the comfort with Visual Studio Express.
-
-=== Enabling Platform and Configuration Selection Toolbar ===
-
-To enable the toolbar you need to switch to the [http://blogs.msdn.com/b/nicgrave/archive/2010/06/19/platform-and-configuration-selection-in-visual-studio-2010-express-for-windows-phone.aspx expert mode].
