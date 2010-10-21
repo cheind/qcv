@@ -1,5 +1,9 @@
 #summary Notes for QCV developers.
 
+This page contains notes for developers of QCV.
+
+<wiki:toc max_depth="3" />
+
 = Visual Studio Express Notes =
 
 == Enabling Platform and Configuration Selection Toolbar ==
