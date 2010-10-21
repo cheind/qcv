@@ -20,6 +20,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QCV.Base.Tests", "QCV.Base.Tests\QCV.Base.Tests.csproj", "{1EC0F124-3079-48D5-B64D-4C4CA2D9D829}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QCV.TestRunner", "QCV.TestRunner\QCV.TestRunner.csproj", "{4831BC0E-4EBD-4CF0-B871-84A0A6D719CE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1EC0F124-3079-48D5-B64D-4C4CA2D9D829} = {1EC0F124-3079-48D5-B64D-4C4CA2D9D829}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
