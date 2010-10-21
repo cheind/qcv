@@ -32,7 +32,7 @@ namespace QCV.Base {
     /// <summary>
     /// Gets a value indicating whether the runtime has started or not.
     /// </summary>
-    bool Started { get; }
+    bool Running { get; }
 
     /// <summary>
     /// Gets a value indicating whether a stop request is pending or not.

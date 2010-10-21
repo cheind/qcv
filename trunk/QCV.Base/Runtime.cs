@@ -92,7 +92,7 @@ namespace QCV.Base {
     /// <summary>
     /// Gets a value indicating whether the runtime is currently running or not.
     /// </summary>
-    public bool Started {
+    public bool Running {
       get { return _bw.IsBusy; }
     }
 

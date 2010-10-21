@@ -153,7 +153,7 @@ namespace QCV {
     }
 
     private void UpdateFilterList(QCV.Base.Compiler compiler) {
-      bool running = _runtime.Started;
+      bool running = _runtime.Running;
       if (running) {
         _query_form.Cancel();
         _runtime.Stop(true);
@@ -247,7 +247,7 @@ namespace QCV {
     }
 
     private void _btn_play_Click(object sender, EventArgs e) {
-      if (_runtime.Started) {
+      if (_runtime.Running) {
         _query_form.Cancel();
         _runtime.Stop(false);
       } else {
@@ -263,7 +263,7 @@ namespace QCV {
     private bool Shutdown() {
       _query_form.Cancel();
       _runtime.Stop(false);
-      return _runtime.Started;
+      return _runtime.Running;
     }
 
     private void _mnu_help_arguments_Click(object sender, EventArgs e) {

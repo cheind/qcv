@@ -68,6 +68,7 @@
     <Compile Include="FixedTimeStepTest.cs" />
     <Compile Include="MethodInfoScannerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestbedTest.cs" />
     <Compile Include="TypeExtensionsTest.cs" />
     <Compile Include="TypeFullNameComparerTest.cs" />
   </ItemGroup>
