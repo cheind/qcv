@@ -1,0 +1,3 @@
+#summary Documentation for QCV users.
+
+This page is the main entry point for QCV users. The term user refers to someone who uses QCV to combine and execute existing or self-developed filters.
