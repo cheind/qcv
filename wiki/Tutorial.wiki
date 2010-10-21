@@ -4,6 +4,8 @@ The following tutorial will incrementally build an application clalled <tt>Image
 
 Having completed all eight steps the <tt>ImageDecorator</tt> application will be able to process images from a camera and draw a user defined border around these images. These images will be visualized to provide a user feedback. Optionally, the user has the ability to save images to disk.
 
+You might want to read the [Design] page to get an overview of QCV before continuing with the tutorial.
+
 <wiki:toc max_depth="3" />
 
 =Hello World=
