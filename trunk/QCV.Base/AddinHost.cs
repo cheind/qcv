@@ -101,10 +101,8 @@ namespace QCV.Base {
       } catch (System.BadImageFormatException) {
         // _logger.Debug(String.Format("'{0}' is not a valid assembly.", assembly_path));
       } catch (System.IO.FileLoadException) {
-
         // _logger.Debug(String.Format("'{0}' already loaded.", assembly_path));
       } catch (System.TypeLoadException) {
-
         // _logger.Warn(String.Format("Type load exception during loading of '{0}' occurred.", assembly_path));
       }
     }
