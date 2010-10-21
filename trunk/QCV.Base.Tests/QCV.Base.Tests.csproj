@@ -65,8 +65,10 @@
     <Compile Include="AddinHostTest.cs" />
     <Compile Include="DictionaryExtensionsTest.cs" />
     <Compile Include="EqualReferencesComparerTest.cs" />
+    <Compile Include="MethodInfoScannerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TypeExtensionsTest.cs" />
+    <Compile Include="TypeFullNameComparerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QCV.Base\QCV.Base.csproj">
