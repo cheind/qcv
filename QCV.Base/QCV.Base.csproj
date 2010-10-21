@@ -110,7 +110,6 @@
     <Compile Include="AddinHost.cs" />
     <Compile Include="AnonymousFilter.cs" />
     <Compile Include="Compiler.cs" />
-    <Compile Include="ConsoleDataInteractor.cs" />
     <Compile Include="EqualReferencesComparer.cs" />
     <Compile Include="Extensions\Dictionary.cs" />
     <Compile Include="Extensions\Type.cs" />
@@ -129,7 +128,6 @@
     <Compile Include="Resource.cs" />
     <Compile Include="Runtime.cs" />
     <Compile Include="TargetFramework.cs" />
-    <Compile Include="ThreadedWorker.cs" />
     <Compile Include="TypeFullNameComparer.cs" />
   </ItemGroup>
   <ItemGroup>
