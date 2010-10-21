@@ -128,6 +128,9 @@
     <Compile Include="Resource.cs" />
     <Compile Include="Runtime.cs" />
     <Compile Include="TargetFramework.cs" />
+    <Compile Include="Testing\Testbed.cs" />
+    <Compile Include="Testing\TestInteractor.cs" />
+    <Compile Include="Testing\TestRuntime.cs" />
     <Compile Include="TypeFullNameComparer.cs" />
   </ItemGroup>
   <ItemGroup>
