@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 
 namespace QCV.Base {
+
   /// <summary>
   /// Watches multiple files for changes.
   /// </summary>
