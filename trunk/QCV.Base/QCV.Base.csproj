@@ -109,6 +109,11 @@
     <Compile Include="AddinAttribute.cs" />
     <Compile Include="AddinHost.cs" />
     <Compile Include="AnonymousFilter.cs" />
+    <Compile Include="Compilation\AggregateCompiler.cs" />
+    <Compile Include="Compilation\AggregateCompilerResults.cs" />
+    <Compile Include="Compilation\CSharpCompiler.cs" />
+    <Compile Include="Compilation\DefaultCompilerResults.cs" />
+    <Compile Include="Compilation\VBCompiler.cs" />
     <Compile Include="Compiler.cs" />
     <Compile Include="EqualReferencesComparer.cs" />
     <Compile Include="Extensions\Dictionary.cs" />
@@ -116,6 +121,9 @@
     <Compile Include="FixedTimeStep.cs" />
     <Compile Include="FilterList.cs" />
     <Compile Include="Globbing.cs" />
+    <Compile Include="Compilation\CompilerBase.cs" />
+    <Compile Include="Compilation\ICompilerResults.cs" />
+    <Compile Include="Compilation\CompilerSettings.cs" />
     <Compile Include="IDataInteractor.cs" />
     <Compile Include="IFilter.cs" />
     <Compile Include="IFilterListProvider.cs" />
