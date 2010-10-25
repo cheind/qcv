@@ -9,6 +9,7 @@ using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
+using log4net;
 using Microsoft.CSharp;
 
 namespace QCV.Base.Compilation {
@@ -17,6 +18,11 @@ namespace QCV.Base.Compilation {
   /// Provides compilation for the c-sharp language.
   /// </summary>
   public class CSharpCompiler : CompilerBase {
+
+    /// <summary>
+    /// Logger object used to log messages.
+    /// </summary>
+    private static readonly ILog _logger = LogManager.GetLogger(typeof(CSharpCompiler));
 
     /// <summary>
     /// Parameters passed to the compiler.
@@ -66,7 +72,15 @@ namespace QCV.Base.Compilation {
     /// <returns>The result of compilation</returns>
     public override ICompilerResults CompileFiles(IEnumerable<string> paths) {
       CompilerResults cr = _csharp.CompileAssemblyFromFile(_cp, paths.ToArray());
-      return new DefaultCompilerResults(cr);
+      DefaultCompilerResults dcr = new DefaultCompilerResults(cr);
+
+      if (dcr.Success) {
+        _logger.Info("Success");
+      } else {
+        _logger.Error(dcr.GetFormattedErrors());
+      }
+
+      return dcr;
     }
   }
 }

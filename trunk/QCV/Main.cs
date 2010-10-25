@@ -30,7 +30,8 @@ namespace QCV {
 
     private static readonly ILog _logger = LogManager.GetLogger(typeof(Main));
     private HookableTextWriter _console_hook = new HookableTextWriter();
-    private Base.InstantCompiler _ic = null;
+    private Base.MultipleFileWatcher _watcher = new Base.MultipleFileWatcher();
+    private Base.Compilation.AggregateCompiler _aggregate_compiler = null;
     private Base.AddinHost _ah = null;
     private Dictionary<string, object> _env = null;
     private Base.FilterList _fl = null;
@@ -67,19 +68,33 @@ namespace QCV {
         Console.WriteLine(cl.GetHelp());
       }
 
-      // Compile all scripts
-      _ic = new QCV.Base.InstantCompiler(
-        _args.source_paths,
-        _args.compile_references.Union(new string[] { 
+      // Register all script paths for change events
+      _watcher.Changed += new FileSystemEventHandler(SourceFileChanged);
+      _watcher.AddFilePaths(_args.source_paths);
+
+      // Setup the aggregate compiler
+      Base.Compilation.CompilerSettings cs = new Base.Compilation.CompilerSettings();
+      cs.AssemblyReferences = _args.compile_references.Union(new string[] { 
             "mscorlib.dll", "System.dll", "System.Drawing.dll", "System.Design.dll", "System.Xml.dll",
             Path.Combine(qcv_path, "QCV.Base.dll"), 
             Path.Combine(qcv_path, "QCV.Toolbox.dll"), 
             Path.Combine(qcv_path, "Emgu.CV.dll"), 
             Path.Combine(qcv_path, "Emgu.Util.dll"), 
-            Path.Combine(qcv_path, "log4net.dll")}).Distinct(),
-        _args.enable_debugger
-      );
-      _ic.BuildSucceededEvent += new QCV.Base.InstantCompiler.BuildEventHandler(BuildSucceededEvent);
+            Path.Combine(qcv_path, "log4net.dll")}).Distinct();
+
+      cs.FrameworkVersion = Base.TargetFramework.Version;
+      cs.DebugInformation = _args.enable_debugger;
+
+      _aggregate_compiler = new Base.Compilation.AggregateCompiler(cs);
+      _aggregate_compiler.AddCompiler(typeof(Base.Compilation.CSharpCompiler));
+      _aggregate_compiler.AddCompiler(typeof(Base.Compilation.VBCompiler));
+
+      IEnumerable<string> cannot_compile = _args.source_paths.Where((s) => !_aggregate_compiler.CanCompileFile(s));
+      if (cannot_compile.Any()) {
+        _logger.Warn(String.Format("The following files cannot be compiled {0}", String.Join(",", cannot_compile)));
+      }
+
+      // Setup runtime
 
       _env = new Dictionary<string, object>() {
         {"interactor", this}
@@ -92,7 +107,8 @@ namespace QCV {
       _nrc_fps.Value = (Decimal)_args.target_fps;
       SetCycleTime(_args.target_fps);
 
-      _ic.Compile();
+      // Initial compilation
+      CompileAndUpdate();
     }
 
     private void DisplayStartupMessage() {
@@ -100,8 +116,8 @@ namespace QCV {
       Version net_version = Base.TargetFramework.Version;
       _logger.Info(
         String.Format(
-          "QCV v{0}.{1} built for .NET v{2}.{3} is starting", 
-          new object[]{qcv_version.Major, qcv_version.Minor, net_version.Major, net_version.Minor}
+          "QCV v{0}.{1} built for .NET v{2}.{3} is starting",
+          new object[] { qcv_version.Major, qcv_version.Minor, net_version.Major, net_version.Minor }
       ));
     }
 
@@ -144,15 +160,24 @@ namespace QCV {
       });
     }
 
-    void BuildSucceededEvent(object sender, QCV.Base.Compiler compiler) {
-      try {
-        UpdateFilterList(compiler);
-      } catch (Exception ex) {
-        _logger.Error(String.Format("Failed to update/create filter list - {0}", ex.Message));
+    private void SourceFileChanged(object sender, FileSystemEventArgs e) {
+      CompileAndUpdate();
+    }
+
+    private void CompileAndUpdate() {
+      lock (_aggregate_compiler) {
+        Base.Compilation.ICompilerResults results = _aggregate_compiler.CompileFiles(_args.source_paths);
+        if (results.Success) {
+          try {
+            UpdateFilterList(results);
+          } catch (Exception ex) {
+            _logger.Error(String.Format("Failed to update/create filter list - {0}", ex.Message));
+          }
+        }
       }
     }
 
-    private void UpdateFilterList(QCV.Base.Compiler compiler) {
+    private void UpdateFilterList(QCV.Base.Compilation.ICompilerResults results) {
       bool running = _runtime.Running;
       if (running) {
         _query_form.Cancel();
@@ -160,7 +185,7 @@ namespace QCV {
       }
 
       QCV.Base.AddinHost tmp = new QCV.Base.AddinHost();
-      tmp.DiscoverInAssembly(compiler.CompiledAssemblies);
+      tmp.DiscoverInAssembly(results.GetCompiledAssemblies());
 
 
       if (_fl == null) {

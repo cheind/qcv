@@ -65,22 +65,20 @@ namespace QCV.Base.Compilation {
     /// <summary>
     /// Compile the given file paths
     /// </summary>
+    /// <remarks>Files that cannot be compiled are skipped from the compilation process.</remarks>
     /// <param name="paths">Paths to files to compile</param>
     /// <returns>The result of compilation</returns>
-    /// <exception cref="ArgumentException">Path cannot be compiled.</exception>
     public override ICompilerResults CompileFiles(IEnumerable<string> paths) {
       // groups is IEnumerable<IGrouping<CompilerBase, string>>
       var groups = paths.GroupBy((p) => _compilers.FirstOrDefault((c) => c.CanCompileFile(p)));
-
-      if (groups.FirstOrDefault((g) => g.Key == null) != null) {
-        throw new ArgumentException("Not all file paths can be compiled.");
-      }
 
       List<ICompilerResults> results = new List<ICompilerResults>();
 
       foreach (IGrouping<CompilerBase, string> group in groups) {
         CompilerBase c = group.Key;
-        results.Add(c.CompileFiles(group));
+        if (c != null) {
+          results.Add(c.CompileFiles(group));
+        }
       }
 
       return new AggregateCompilerResults(results);
