@@ -59,7 +59,12 @@ namespace QCV.Base.Compilation {
     /// </summary>
     /// <returns>The compiled assemblies.</returns>
     public IEnumerable<Assembly> GetCompiledAssemblies() {
-      return new Assembly[] { _results.CompiledAssembly };
+      if (this.Success) {
+        return new Assembly[] { _results.CompiledAssembly };
+      } else {
+        return new Assembly[] {};
+      }
+      
     }
   }
 }

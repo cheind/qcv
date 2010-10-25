@@ -14,6 +14,13 @@ namespace QCV.Base.Compilation {
   /// <summary>
   /// Provides compilation for multiple languages.
   /// </summary>
+  /// <remarks>The aggregate compiler splits multiple language input
+  /// into groups of equal source language. For each such group the designated
+  /// compiler is invoked.
+  /// <para>You should not mix different inputs written in different languages 
+  /// that depend on each other, because it is unknown which language compiler is
+  /// invoked first.</para>
+  /// </remarks>
   public class AggregateCompiler : CompilerBase {
 
     /// <summary>
@@ -60,17 +67,20 @@ namespace QCV.Base.Compilation {
     /// </summary>
     /// <param name="paths">Paths to files to compile</param>
     /// <returns>The result of compilation</returns>
+    /// <exception cref="ArgumentException">Path cannot be compiled.</exception>
     public override ICompilerResults CompileFiles(IEnumerable<string> paths) {
       // groups is IEnumerable<IGrouping<CompilerBase, string>>
       var groups = paths.GroupBy((p) => _compilers.FirstOrDefault((c) => c.CanCompileFile(p)));
+
+      if (groups.FirstOrDefault((g) => g.Key == null) != null) {
+        throw new ArgumentException("Not all file paths can be compiled.");
+      }
 
       List<ICompilerResults> results = new List<ICompilerResults>();
 
       foreach (IGrouping<CompilerBase, string> group in groups) {
         CompilerBase c = group.Key;
-        if (c != null) {
-          results.Add(c.CompileFiles(group));
-        }
+        results.Add(c.CompileFiles(group));
       }
 
       return new AggregateCompilerResults(results);
