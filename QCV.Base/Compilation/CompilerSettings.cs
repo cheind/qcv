@@ -28,7 +28,7 @@ namespace QCV.Base.Compilation {
     /// <summary>
     /// Assemblies to reference in compilation
     /// </summary>
-    private List<string> _assembly_reference_paths = new List<string>();
+    private IEnumerable<string> _assembly_reference_paths = new string[] {};
 
     /// <summary>
     /// Gets or sets the target .NET framework version to compile for.
@@ -47,10 +47,11 @@ namespace QCV.Base.Compilation {
     }
 
     /// <summary>
-    /// Gets the list of assemblies to reference in compilation.
+    /// Gets or sets the list of assemblies to reference in compilation.
     /// </summary>
-    public IList<string> AssemblyReferences {
+    public IEnumerable<string> AssemblyReferences {
       get { return _assembly_reference_paths; }
+      set { _assembly_reference_paths = value; }
     }
 
   }

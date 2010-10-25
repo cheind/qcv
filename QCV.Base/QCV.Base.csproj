@@ -114,7 +114,6 @@
     <Compile Include="Compilation\CSharpCompiler.cs" />
     <Compile Include="Compilation\DefaultCompilerResults.cs" />
     <Compile Include="Compilation\VBCompiler.cs" />
-    <Compile Include="Compiler.cs" />
     <Compile Include="EqualReferencesComparer.cs" />
     <Compile Include="Extensions\Dictionary.cs" />
     <Compile Include="Extensions\Type.cs" />
@@ -127,7 +126,6 @@
     <Compile Include="IDataInteractor.cs" />
     <Compile Include="IFilter.cs" />
     <Compile Include="IFilterListProvider.cs" />
-    <Compile Include="InstantCompiler.cs" />
     <Compile Include="IRuntime.cs" />
     <Compile Include="MethodInfoScanner.cs" />
     <Compile Include="EventInvocationCache.cs" />
