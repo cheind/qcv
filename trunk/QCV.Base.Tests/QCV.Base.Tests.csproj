@@ -64,11 +64,13 @@
     <Compile Include="AddinAttributeTest.cs" />
     <Compile Include="AddinHostTest.cs" />
     <Compile Include="AggregateCompilerTest.cs" />
+    <Compile Include="CountdownLatch.cs" />
     <Compile Include="CSharpCompilerTest.cs" />
     <Compile Include="DictionaryExtensionsTest.cs" />
     <Compile Include="EqualReferencesComparerTest.cs" />
     <Compile Include="FixedTimeStepTest.cs" />
     <Compile Include="MethodInfoScannerTest.cs" />
+    <Compile Include="MultipleFileWatcherTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestbedTest.cs" />
     <Compile Include="TypeExtensionsTest.cs" />
