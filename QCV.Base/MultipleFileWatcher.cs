@@ -71,6 +71,7 @@ namespace QCV.Base {
       watch.NotifyFilter = System.IO.NotifyFilters.LastWrite;
       watch.IncludeSubdirectories = false;
       watch.Changed += new FileSystemEventHandler(FileChanged);
+      watch.EnableRaisingEvents = true;
 
       _watchers.Add(watch);
       _files.Add(abs_path);
@@ -101,7 +102,8 @@ namespace QCV.Base {
     private void FileChanged(object sender, FileSystemEventArgs e) {
       // Since file modifications can trigger multiple events,
       // we only deal with one such event per second.
-      if ((DateTime.Now - _last_update).TotalSeconds > 1.0) {
+      if ((DateTime.Now - _last_update).TotalSeconds > 0.5) {
+
         // Sleep a bit to let open file handles come to rest.
         // Todo: A better idea is to start a countdown timer once
         // a change event is detected and restart the countdown each time
@@ -115,6 +117,7 @@ namespace QCV.Base {
         }
 
         _last_update = DateTime.Now;
+
       }
     }
 
