@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="AddinAttributeTest.cs" />
     <Compile Include="AddinHostTest.cs" />
+    <Compile Include="AggregateCompilerTest.cs" />
     <Compile Include="CSharpCompilerTest.cs" />
     <Compile Include="DictionaryExtensionsTest.cs" />
     <Compile Include="EqualReferencesComparerTest.cs" />
