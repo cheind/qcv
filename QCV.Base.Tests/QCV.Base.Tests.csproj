@@ -72,6 +72,7 @@
     <Compile Include="TestbedTest.cs" />
     <Compile Include="TypeExtensionsTest.cs" />
     <Compile Include="TypeFullNameComparerTest.cs" />
+    <Compile Include="VBCompilerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QCV.Base\QCV.Base.csproj">
