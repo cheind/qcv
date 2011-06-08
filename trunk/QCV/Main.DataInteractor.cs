@@ -25,8 +25,8 @@ namespace QCV {
         return;
       }
 
-      if (o is Image<Bgr, byte>) {
-        Image<Bgr, byte> img = o as Image<Bgr, byte>;
+      if (o is IImage) {
+        IImage img = o as IImage;
         this.Invoke(new MethodInvoker(delegate {
           ShowImageForm f = null;
           if (!_show_forms.ContainsKey(id)) {
@@ -37,6 +37,29 @@ namespace QCV {
             f.Show();
             _show_forms.Add(id, f);
           } else {
+            f = _show_forms[id];
+          }
+          Rectangle r = f.ClientRectangle;
+          if (img is Image<Bgr, byte>) {
+            f.Image = (img as Image<Bgr, byte>).Resize(r.Width, r.Height, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR, true);
+          } else if (img is Image<Gray, byte>) {
+            f.Image = (img as Image<Gray, byte>).Resize(r.Width, r.Height, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR, true);
+          }
+          
+        }));
+      } else if( o is Image<Gray, byte>) {
+        Image<Bgr, byte> img = o as Image<Bgr, byte>;
+        this.Invoke(new MethodInvoker(delegate {
+          ShowImageForm f = null;
+          if (!_show_forms.ContainsKey(id)) {
+            f = new ShowImageForm();
+            f.Text = id;
+            this.AddOwnedForm(f);
+            f.FormClosing += new FormClosingEventHandler(AnyFormClosing);
+            f.Show();
+            _show_forms.Add(id, f);
+          }
+          else {
             f = _show_forms[id];
           }
           Rectangle r = f.ClientRectangle;

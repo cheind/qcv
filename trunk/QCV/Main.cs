@@ -75,7 +75,9 @@ namespace QCV {
       // Setup the aggregate compiler
       Base.Compilation.CompilerSettings cs = new Base.Compilation.CompilerSettings();
       cs.AssemblyReferences = _args.compile_references.Union(new string[] { 
-            "mscorlib.dll", "System.dll", "System.Drawing.dll", "System.Design.dll", "System.Xml.dll",
+            "mscorlib.dll", "System.dll", 
+            "System.Drawing.dll", "System.Design.dll", 
+            "System.Xml.dll",
             Path.Combine(qcv_path, "QCV.Base.dll"), 
             Path.Combine(qcv_path, "QCV.Toolbox.dll"), 
             Path.Combine(qcv_path, "Emgu.CV.dll"), 
