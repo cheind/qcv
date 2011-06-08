@@ -99,6 +99,7 @@
     <Compile Include="Basic\variable_query.cs" />
     <Compile Include="Basic\video_input.cs" />
     <Compile Include="calibrate_camera.cs" />
+    <Compile Include="change_detection.cs" />
     <Compile Include="detect_marker.cs" />
     <Compile Include="find_faces.cs" />
     <Compile Include="image_decorator.cs" />
