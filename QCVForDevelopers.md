@@ -1,0 +1,1 @@
+The term developer refers to someone who contributes code to the QCV framework to either extend QCVs functionality or fix open issues.

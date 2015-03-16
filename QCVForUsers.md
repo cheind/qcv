@@ -1,0 +1,1 @@
+The term user refers to someone who uses QCV to combine and execute existing or self-developed filters.
