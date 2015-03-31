@@ -1,5 +1,3 @@
-<img src='http://qcv.googlecode.com/svn/trunk/etc/logos/qcv_logo.png' width='350'>
-
 QCV is an acronym and stands for "Quick Computer Vision". QCV is a framework for rapid development of computer vision algorithms.<br>
 <br>
 Does the following paragraph sound familiar to you?<br>
@@ -17,4 +15,3 @@ Head over to <a href='Introduction.md'>Wiki</a> for more information.<br>
 <br>
 Below is screenshot running <tt>qcv.exe</tt> hosting a simple algorithm.<br>
 <br>
-<img src='http://qcv.googlecode.com/svn/trunk/etc/logos/qcv_screenshot.png' width='450'>
