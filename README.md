@@ -1,6 +1,4 @@
-QCV is an acronym and stands for "Quick Computer Vision". QCV is a framework for rapid development of computer vision algorithms.<br>
-<br>
-Does the following paragraph sound familiar to you?<br>
+QCV is an acronym and stands for "Quick Computer Vision". QCV is a framework for rapid development of computer vision algorithms. Does the following paragraph sound familiar to you?<br>
 <br>
 <blockquote>Have you ever had a great idea for an algorithm but failed to implement it because setting up the environment took to much time? Have you ever felt frustrated setting up projects, managing dependencies, closing your application for a rebuilt to see the effects of the algorithm?</blockquote>
 
@@ -11,7 +9,4 @@ QCV<br>
 </li><li>frees your mind from <b>user interface</b> questions and designing forms,<br>
 </li><li>enforces a class design that encourages <b>reusability</b> of algorithms.</li></ul>
 
-Head over to <a href='Introduction.md'>Wiki</a> for more information.<br>
-<br>
-Below is screenshot running <tt>qcv.exe</tt> hosting a simple algorithm.<br>
-<br>
+Head over to <a href='https://github.com/cheind/qcv/wiki/Tutorial'>Wiki</a> for more information.<br>
